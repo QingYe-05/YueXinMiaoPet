@@ -1,0 +1,71 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# NuGet
+packages/
+*.nupkg
+.nuget/
+
+# Logs
+*.log
+logs/
+
+# App runtime config / local user data
+config.json
+*.local.json
+
+# Installer output
+installer/output/
+*.Setup.exe
+*_Setup.exe
+
+# .NET Framework redistributable
+installer/redist/*.exe
+
+# Windows temporary files
+Thumbs.db
+Desktop.ini
+
+# Test results
+TestResults/
+*.trx
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+
+# User-specific publish profiles
+*.pubxml.user
+
+# Generated installer temporary files
+installer/*.tmp
+installer/*.bak
+
+# Local test classified output at repo root
+classified_gifs/
+
+# Do not ignore source assets
+!src/YueXinMiaoPet/PetAssets/
+!src/YueXinMiaoPet/PetAssets/classified_gifs/
+!src/YueXinMiaoPet/PetAssets/**/*.gif
+!src/YueXinMiaoPet/Assets/
+!src/YueXinMiaoPet/Data/

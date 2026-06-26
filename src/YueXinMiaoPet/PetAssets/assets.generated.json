@@ -1,0 +1,3203 @@
+[
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/biu.gif",
+    "id": "gif_001",
+    "name": "biu",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/ok.gif",
+    "id": "gif_002",
+    "name": "ok",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/按摩.gif",
+    "id": "gif_003",
+    "name": "按摩",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/摆手.gif",
+    "id": "gif_004",
+    "name": "摆手",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/拜拜.gif",
+    "id": "gif_005",
+    "name": "拜拜",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/便便.gif",
+    "id": "gif_006",
+    "name": "便便",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/布.gif",
+    "id": "gif_007",
+    "name": "布",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/撤回.gif",
+    "id": "gif_008",
+    "name": "撤回",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/池塘.gif",
+    "id": "gif_009",
+    "name": "池塘",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/臭.gif",
+    "id": "gif_010",
+    "name": "臭",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/出现.gif",
+    "id": "gif_011",
+    "name": "出现",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/吹浮毛.gif",
+    "id": "gif_012",
+    "name": "吹浮毛",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/搓背.gif",
+    "id": "gif_013",
+    "name": "搓背",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/打理.gif",
+    "id": "gif_014",
+    "name": "打理",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/逮捕.gif",
+    "id": "gif_015",
+    "name": "逮捕",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/点头.gif",
+    "id": "gif_016",
+    "name": "点头",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/发红包.gif",
+    "id": "gif_017",
+    "name": "发红包",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/飞机.gif",
+    "id": "gif_018",
+    "name": "飞机",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/浮云.gif",
+    "id": "gif_019",
+    "name": "浮云",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "cloudy",
+      "cat_01",
+      "idle",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/关起来.gif",
+    "id": "gif_020",
+    "name": "关起来",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/好的.gif",
+    "id": "gif_021",
+    "name": "好的",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/化毛膏.gif",
+    "id": "gif_022",
+    "name": "化毛膏",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/黄.gif",
+    "id": "gif_023",
+    "name": "黄",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/加油.gif",
+    "id": "gif_024",
+    "name": "加油",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/加载中.gif",
+    "id": "gif_025",
+    "name": "加载中",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/剪刀.gif",
+    "id": "gif_026",
+    "name": "剪刀",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/浇水.gif",
+    "id": "gif_027",
+    "name": "浇水",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/拉屎.gif",
+    "id": "gif_028",
+    "name": "拉屎",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "drag",
+      "cat_01",
+      "idle",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/撸猫.gif",
+    "id": "gif_029",
+    "name": "撸猫",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "touch",
+      "cat_01",
+      "idle",
+      "neutral",
+      "greet"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/埋猫砂.gif",
+    "id": "gif_030",
+    "name": "埋猫砂",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/猫猫祟祟.gif",
+    "id": "gif_031",
+    "name": "猫猫祟祟",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/冒泡.gif",
+    "id": "gif_032",
+    "name": "冒泡",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/摸耳朵.gif",
+    "id": "gif_033",
+    "name": "摸耳朵",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "touch",
+      "cat_01",
+      "idle",
+      "neutral",
+      "greet"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/膜拜.gif",
+    "id": "gif_034",
+    "name": "膜拜",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/挠痒.gif",
+    "id": "gif_035",
+    "name": "挠痒",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/挠痒1.gif",
+    "id": "gif_036",
+    "name": "挠痒1",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/你醒啦.gif",
+    "id": "gif_037",
+    "name": "你醒啦",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/爬.gif",
+    "id": "gif_038",
+    "name": "爬",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/拍一拍.gif",
+    "id": "gif_039",
+    "name": "拍一拍",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/飘过.gif",
+    "id": "gif_040",
+    "name": "飘过",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/气球.gif",
+    "id": "gif_041",
+    "name": "气球",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "angry",
+      "cat_01",
+      "idle",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/梳毛.gif",
+    "id": "gif_042",
+    "name": "梳毛",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/刷牙.gif",
+    "id": "gif_043",
+    "name": "刷牙",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/套走.gif",
+    "id": "gif_044",
+    "name": "套走",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/舔毛.gif",
+    "id": "gif_045",
+    "name": "舔毛",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/偷偷摸摸.gif",
+    "id": "gif_046",
+    "name": "偷偷摸摸",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "touch",
+      "cat_01",
+      "idle",
+      "neutral",
+      "greet"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/兔子蹬.gif",
+    "id": "gif_047",
+    "name": "兔子蹬",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/洗澡.gif",
+    "id": "gif_048",
+    "name": "洗澡",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/咬.gif",
+    "id": "gif_049",
+    "name": "咬",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/已读.gif",
+    "id": "gif_050",
+    "name": "已读",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/已截图.gif",
+    "id": "gif_051",
+    "name": "已截图",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/再见.gif",
+    "id": "gif_052",
+    "name": "再见",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/粘毛.gif",
+    "id": "gif_053",
+    "name": "粘毛",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/粘住.gif",
+    "id": "gif_054",
+    "name": "粘住",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "01_普通",
+    "categoryPath": "01_普通",
+    "categoryTag": "cat_01",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/01_普通\/真棒.gif",
+    "id": "gif_055",
+    "name": "真棒",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_01",
+      "neutral",
+      "greet",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/xswl.gif",
+    "id": "gif_056",
+    "name": "xswl",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_02",
+      "happy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/得意.gif",
+    "id": "gif_057",
+    "name": "得意",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_02",
+      "happy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/哈哈.gif",
+    "id": "gif_058",
+    "name": "哈哈",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "happy",
+      "cat_02"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/开心.gif",
+    "id": "gif_059",
+    "name": "开心",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "happy",
+      "cat_02"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/开心1.gif",
+    "id": "gif_060",
+    "name": "开心1",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "happy",
+      "cat_02"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/偷笑.gif",
+    "id": "gif_061",
+    "name": "偷笑",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "happy",
+      "cat_02"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/有猫饼.gif",
+    "id": "gif_062",
+    "name": "有猫饼",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_02",
+      "happy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "02_开心",
+    "categoryPath": "02_开心",
+    "categoryTag": "cat_02",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/02_开心\/自信.gif",
+    "id": "gif_063",
+    "name": "自信",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_02",
+      "happy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/爱你.gif",
+    "id": "gif_064",
+    "name": "爱你",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/爱意.gif",
+    "id": "gif_065",
+    "name": "爱意",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/放电.gif",
+    "id": "gif_066",
+    "name": "放电",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/飞吻.gif",
+    "id": "gif_067",
+    "name": "飞吻",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/渴望爱.gif",
+    "id": "gif_068",
+    "name": "渴望爱",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/迷恋.gif",
+    "id": "gif_069",
+    "name": "迷恋",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/日思夜想.gif",
+    "id": "gif_070",
+    "name": "日思夜想",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "evening",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/撒爱心.gif",
+    "id": "gif_071",
+    "name": "撒爱心",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/舔屏.gif",
+    "id": "gif_072",
+    "name": "舔屏",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/偷心.gif",
+    "id": "gif_073",
+    "name": "偷心",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/喜欢.gif",
+    "id": "gif_074",
+    "name": "喜欢",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "03_喜欢",
+    "categoryPath": "03_喜欢",
+    "categoryTag": "cat_03",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/03_喜欢\/心动.gif",
+    "id": "gif_075",
+    "name": "心动",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_03",
+      "love",
+      "happy",
+      "touch"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "04_害羞",
+    "categoryPath": "04_害羞",
+    "categoryTag": "cat_04",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/04_害羞\/乖.gif",
+    "id": "gif_076",
+    "name": "乖",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_04",
+      "shy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "04_害羞",
+    "categoryPath": "04_害羞",
+    "categoryTag": "cat_04",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/04_害羞\/害羞.gif",
+    "id": "gif_077",
+    "name": "害羞",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "shy",
+      "cat_04"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "04_害羞",
+    "categoryPath": "04_害羞",
+    "categoryTag": "cat_04",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/04_害羞\/卖萌.gif",
+    "id": "gif_078",
+    "name": "卖萌",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_04",
+      "shy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "04_害羞",
+    "categoryPath": "04_害羞",
+    "categoryTag": "cat_04",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/04_害羞\/腼腆.gif",
+    "id": "gif_079",
+    "name": "腼腆",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_04",
+      "shy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "04_害羞",
+    "categoryPath": "04_害羞",
+    "categoryTag": "cat_04",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/04_害羞\/三好宝宝.gif",
+    "id": "gif_080",
+    "name": "三好宝宝",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_04",
+      "shy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/闭嘴.gif",
+    "id": "gif_081",
+    "name": "闭嘴",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/别闹.gif",
+    "id": "gif_082",
+    "name": "别闹",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/不满路过.gif",
+    "id": "gif_083",
+    "name": "不满路过",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/不屑.gif",
+    "id": "gif_084",
+    "name": "不屑",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/不行.gif",
+    "id": "gif_085",
+    "name": "不行",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/红温.gif",
+    "id": "gif_086",
+    "name": "红温",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/可恶.gif",
+    "id": "gif_087",
+    "name": "可恶",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/辣眼睛.gif",
+    "id": "gif_088",
+    "name": "辣眼睛",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/赖皮.gif",
+    "id": "gif_089",
+    "name": "赖皮",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/略略略.gif",
+    "id": "gif_090",
+    "name": "略略略",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/蛐蛐.gif",
+    "id": "gif_091",
+    "name": "蛐蛐",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/生气.gif",
+    "id": "gif_092",
+    "name": "生气",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "angry",
+      "cat_05"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/一边去.gif",
+    "id": "gif_093",
+    "name": "一边去",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "05_生气",
+    "categoryPath": "05_生气",
+    "categoryTag": "cat_05",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/05_生气\/走开.gif",
+    "id": "gif_094",
+    "name": "走开",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_05",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "06_难过",
+    "categoryPath": "06_难过",
+    "categoryTag": "cat_06",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/06_难过\/安慰.gif",
+    "id": "gif_095",
+    "name": "安慰",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_06",
+      "sad",
+      "lonely"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "06_难过",
+    "categoryPath": "06_难过",
+    "categoryTag": "cat_06",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/06_难过\/大哭.gif",
+    "id": "gif_096",
+    "name": "大哭",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "sad",
+      "cat_06",
+      "lonely"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "06_难过",
+    "categoryPath": "06_难过",
+    "categoryTag": "cat_06",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/06_难过\/感动.gif",
+    "id": "gif_097",
+    "name": "感动",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_06",
+      "sad",
+      "lonely"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "06_难过",
+    "categoryPath": "06_难过",
+    "categoryTag": "cat_06",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/06_难过\/哭唧唧.gif",
+    "id": "gif_098",
+    "name": "哭唧唧",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "sad",
+      "cat_06",
+      "lonely"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "06_难过",
+    "categoryPath": "06_难过",
+    "categoryTag": "cat_06",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/06_难过\/流泪.gif",
+    "id": "gif_099",
+    "name": "流泪",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "sad",
+      "cat_06",
+      "lonely"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "06_难过",
+    "categoryPath": "06_难过",
+    "categoryTag": "cat_06",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/06_难过\/呜呜.gif",
+    "id": "gif_100",
+    "name": "呜呜",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_06",
+      "sad",
+      "lonely"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/被迫加班.gif",
+    "id": "gif_101",
+    "name": "被迫加班",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "work_start",
+      "tired",
+      "cat_07",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/擦汗.gif",
+    "id": "gif_102",
+    "name": "擦汗",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hot",
+      "cat_07",
+      "tired",
+      "work_start",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/擦汗1.gif",
+    "id": "gif_103",
+    "name": "擦汗1",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hot",
+      "cat_07",
+      "tired",
+      "work_start",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/吃药.gif",
+    "id": "gif_104",
+    "name": "吃药",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/打喷嚏.gif",
+    "id": "gif_105",
+    "name": "打喷嚏",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/多喝水.gif",
+    "id": "gif_106",
+    "name": "多喝水",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/画图.gif",
+    "id": "gif_107",
+    "name": "画图",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/降温.gif",
+    "id": "gif_108",
+    "name": "降温",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/流鼻血.gif",
+    "id": "gif_109",
+    "name": "流鼻血",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/没电.gif",
+    "id": "gif_110",
+    "name": "没电",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/没空.gif",
+    "id": "gif_111",
+    "name": "没空",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/敲键盘.gif",
+    "id": "gif_112",
+    "name": "敲键盘",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/热.gif",
+    "id": "gif_113",
+    "name": "热",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hot",
+      "cat_07",
+      "tired",
+      "work_start",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/晒.gif",
+    "id": "gif_114",
+    "name": "晒",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "sunny",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/上班.gif",
+    "id": "gif_115",
+    "name": "上班",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "work_start",
+      "cat_07",
+      "tired",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/写笔记.gif",
+    "id": "gif_116",
+    "name": "写笔记",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "07_累了",
+    "categoryPath": "07_累了",
+    "categoryTag": "cat_07",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/07_累了\/在忙.gif",
+    "id": "gif_117",
+    "name": "在忙",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_07",
+      "tired",
+      "work_start",
+      "hot",
+      "cold"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/熬夜.gif",
+    "id": "gif_118",
+    "name": "熬夜",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "evening",
+      "night",
+      "cat_08",
+      "sleepy",
+      "sleep"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/熬夜冠军.gif",
+    "id": "gif_119",
+    "name": "熬夜冠军",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "evening",
+      "night",
+      "cat_08",
+      "sleepy",
+      "sleep"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/催眠.gif",
+    "id": "gif_120",
+    "name": "催眠",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_08",
+      "sleepy",
+      "sleep",
+      "night"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/刚醒.gif",
+    "id": "gif_121",
+    "name": "刚醒",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_08",
+      "sleepy",
+      "sleep",
+      "night"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/看迷糊.gif",
+    "id": "gif_122",
+    "name": "看迷糊",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "sleepy",
+      "cat_08",
+      "sleep",
+      "night"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/眯一会.gif",
+    "id": "gif_123",
+    "name": "眯一会",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_08",
+      "sleepy",
+      "sleep",
+      "night"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/起不来.gif",
+    "id": "gif_124",
+    "name": "起不来",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_08",
+      "sleepy",
+      "sleep",
+      "night"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/起床.gif",
+    "id": "gif_125",
+    "name": "起床",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "morning",
+      "cat_08",
+      "sleepy",
+      "sleep",
+      "night"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "08_困了",
+    "categoryPath": "08_困了",
+    "categoryTag": "cat_08",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/08_困了\/晚安.gif",
+    "id": "gif_126",
+    "name": "晚安",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "evening",
+      "night",
+      "sleep",
+      "cat_08",
+      "sleepy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/不想干.gif",
+    "id": "gif_127",
+    "name": "不想干",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/吃瓜看戏.gif",
+    "id": "gif_128",
+    "name": "吃瓜看戏",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_09",
+      "lazy",
+      "idle"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/打游戏.gif",
+    "id": "gif_129",
+    "name": "打游戏",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/看戏.gif",
+    "id": "gif_130",
+    "name": "看戏",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/摸鱼.gif",
+    "id": "gif_131",
+    "name": "摸鱼",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "lazy",
+      "touch",
+      "cat_09",
+      "idle"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/上号.gif",
+    "id": "gif_132",
+    "name": "上号",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/刷手机.gif",
+    "id": "gif_133",
+    "name": "刷手机",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/躺平.gif",
+    "id": "gif_134",
+    "name": "躺平",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "lazy",
+      "cat_09",
+      "idle"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/听歌.gif",
+    "id": "gif_135",
+    "name": "听歌",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/偷表情.gif",
+    "id": "gif_136",
+    "name": "偷表情",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/无聊.gif",
+    "id": "gif_137",
+    "name": "无聊",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/找表情.gif",
+    "id": "gif_138",
+    "name": "找表情",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "09_想摸鱼",
+    "categoryPath": "09_想摸鱼",
+    "categoryTag": "cat_09",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/09_想摸鱼\/追剧.gif",
+    "id": "gif_139",
+    "name": "追剧",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_09",
+      "lazy"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/饱了.gif",
+    "id": "gif_140",
+    "name": "饱了",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_10",
+      "hungry",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/吃吃吃.gif",
+    "id": "gif_141",
+    "name": "吃吃吃",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/吃鸡块.gif",
+    "id": "gif_142",
+    "name": "吃鸡块",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/吃香蕉.gif",
+    "id": "gif_143",
+    "name": "吃香蕉",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/吃小强.gif",
+    "id": "gif_144",
+    "name": "吃小强",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/大吃特吃.gif",
+    "id": "gif_145",
+    "name": "大吃特吃",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/点外卖.gif",
+    "id": "gif_146",
+    "name": "点外卖",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_10",
+      "hungry",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/饭呢.gif",
+    "id": "gif_147",
+    "name": "饭呢",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/干饭.gif",
+    "id": "gif_148",
+    "name": "干饭",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/喝奶茶.gif",
+    "id": "gif_149",
+    "name": "喝奶茶",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/棉花糖.gif",
+    "id": "gif_150",
+    "name": "棉花糖",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_10",
+      "hungry",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/嗦粉.gif",
+    "id": "gif_151",
+    "name": "嗦粉",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_10",
+      "hungry",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/喂冰激凌.gif",
+    "id": "gif_152",
+    "name": "喂冰激凌",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_10",
+      "hungry",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/想吃零食.gif",
+    "id": "gif_153",
+    "name": "想吃零食",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/想吃糖.gif",
+    "id": "gif_154",
+    "name": "想吃糖",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "10_饿了",
+    "categoryPath": "10_饿了",
+    "categoryTag": "cat_10",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/10_饿了\/想喝奶茶.gif",
+    "id": "gif_155",
+    "name": "想喝奶茶",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "hungry",
+      "cat_10",
+      "noon"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/踩奶跳.gif",
+    "id": "gif_156",
+    "name": "踩奶跳",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "excited",
+      "cat_11",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/冲.gif",
+    "id": "gif_157",
+    "name": "冲",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "excited",
+      "cat_11",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/冲呀.gif",
+    "id": "gif_158",
+    "name": "冲呀",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "excited",
+      "cat_11",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/弓背横跳.gif",
+    "id": "gif_159",
+    "name": "弓背横跳",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "excited",
+      "cat_11",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/扭屁股.gif",
+    "id": "gif_160",
+    "name": "扭屁股",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_11",
+      "excited",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/期待.gif",
+    "id": "gif_161",
+    "name": "期待",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "excited",
+      "cat_11",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/甩头.gif",
+    "id": "gif_162",
+    "name": "甩头",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_11",
+      "excited",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/跳舞.gif",
+    "id": "gif_163",
+    "name": "跳舞",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "excited",
+      "cat_11",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/下班.gif",
+    "id": "gif_164",
+    "name": "下班",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "work_end",
+      "cat_11",
+      "excited"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/摇摆.gif",
+    "id": "gif_165",
+    "name": "摇摆",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_11",
+      "excited",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/摇摆1.gif",
+    "id": "gif_166",
+    "name": "摇摆1",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_11",
+      "excited",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/耶.gif",
+    "id": "gif_167",
+    "name": "耶",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_11",
+      "excited",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "11_兴奋",
+    "categoryPath": "11_兴奋",
+    "categoryTag": "cat_11",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/11_兴奋\/转圈.gif",
+    "id": "gif_168",
+    "name": "转圈",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_11",
+      "excited",
+      "work_end"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/emm.gif",
+    "id": "gif_169",
+    "name": "emm",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/不知道.gif",
+    "id": "gif_170",
+    "name": "不知道",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/额.gif",
+    "id": "gif_171",
+    "name": "额",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/好方.gif",
+    "id": "gif_172",
+    "name": "好方",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/惊呆.gif",
+    "id": "gif_173",
+    "name": "惊呆",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/惊吓.gif",
+    "id": "gif_174",
+    "name": "惊吓",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/挠头.gif",
+    "id": "gif_175",
+    "name": "挠头",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/瞧瞧.gif",
+    "id": "gif_176",
+    "name": "瞧瞧",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/让我想想.gif",
+    "id": "gif_177",
+    "name": "让我想想",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/啥.gif",
+    "id": "gif_178",
+    "name": "啥",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/什么.gif",
+    "id": "gif_179",
+    "name": "什么",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/哇.gif",
+    "id": "gif_180",
+    "name": "哇",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "12_思考",
+    "categoryPath": "12_思考",
+    "categoryTag": "cat_12",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/12_思考\/意念回复.gif",
+    "id": "gif_181",
+    "name": "意念回复",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_12",
+      "thinking"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "13_崩溃",
+    "categoryPath": "13_崩溃",
+    "categoryTag": "cat_13",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/13_崩溃\/麻了.gif",
+    "id": "gif_182",
+    "name": "麻了",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_13",
+      "collapse",
+      "tired",
+      "sad",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "13_崩溃",
+    "categoryPath": "13_崩溃",
+    "categoryTag": "cat_13",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/13_崩溃\/没钱.gif",
+    "id": "gif_183",
+    "name": "没钱",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_13",
+      "collapse",
+      "tired",
+      "sad",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "13_崩溃",
+    "categoryPath": "13_崩溃",
+    "categoryTag": "cat_13",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/13_崩溃\/去世.gif",
+    "id": "gif_184",
+    "name": "去世",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_13",
+      "collapse",
+      "tired",
+      "sad",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "13_崩溃",
+    "categoryPath": "13_崩溃",
+    "categoryTag": "cat_13",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/13_崩溃\/完了.gif",
+    "id": "gif_185",
+    "name": "完了",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_13",
+      "collapse",
+      "tired",
+      "sad",
+      "angry"
+    ],
+    "weight": 8
+  },
+  {
+    "categoryName": "13_崩溃",
+    "categoryPath": "13_崩溃",
+    "categoryTag": "cat_13",
+    "enabled": true,
+    "file": "PetAssets\/classified_gifs\/13_崩溃\/殉职.gif",
+    "id": "gif_186",
+    "name": "殉职",
+    "sourceMode": "BuiltInClassified",
+    "tags": [
+      "idle",
+      "cat_13",
+      "collapse",
+      "tired",
+      "sad",
+      "angry"
+    ],
+    "weight": 8
+  }
+]
