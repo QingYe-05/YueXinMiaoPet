@@ -1,5 +1,9 @@
 # 月薪喵桌宠
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)](#windows-7--10--11-兼容性)
+[![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-purple.svg)](#开发运行)
+
 「月薪喵桌宠」是一个基于 C# / WPF / .NET Framework 4.8 的 Windows 桌宠应用，目标兼容 Windows 7 SP1、Windows 10、Windows 11。
 
 它会扫描中文命名的 GIF，根据天气、时间段、上下班、心情和鼠标互动自动切换月薪喵动画。
@@ -18,6 +22,15 @@
 - 心情窗口：心情、有效期、保存、取消；保存后立即切换 GIF
 - 配置保存到 `%AppData%\YueXinMiaoPet\config.json`
 - 日志保存到 `%AppData%\YueXinMiaoPet\logs\app.log`
+
+## 下载与发布
+
+稳定版安装包建议从 GitHub Releases 下载：
+
+- Releases 页面：`https://github.com/QingYe-05/YueXinMiaoPet/releases`
+- 推荐安装包名称：`YueXinMiaoPet_Setup.exe`
+
+源码仓库不会提交 `installer/output/` 下的安装包，也不会提交 `.NET Framework 4.8` 离线安装包。安装包和压缩包请作为 Release 附件发布。
 
 ## 如何放入 186 个 GIF
 
@@ -194,3 +207,25 @@ E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe
 - 当前标签来源
 - 当前候选 GIF 前 5 名及分数
 - 当前省市、经纬度、缩放、透明度
+
+## 参与贡献
+
+欢迎提交 Issue 或 Pull Request。贡献前请阅读：
+
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [CHANGELOG.md](CHANGELOG.md)
+- [SECURITY.md](SECURITY.md)
+
+建议贡献方向：
+
+- GIF 分类优化
+- 天气表现优化
+- Win7 / Win10 / Win11 兼容性测试
+- 桌宠交互优化
+- 安装脚本和文档改进
+
+## 许可证
+
+本项目代码使用 [MIT License](LICENSE)。
+
+请确保提交的 GIF、图片、图标等素材拥有合法使用和分发权限。若未来对素材采用单独授权，请在对应目录补充说明文件。
