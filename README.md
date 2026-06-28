@@ -19,6 +19,43 @@
 - 配置保存到 `%AppData%\YueXinMiaoPet\config.json`
 - 日志保存到 `%AppData%\YueXinMiaoPet\logs\app.log`
 
+## 运行环境
+
+- Windows 7 SP1、Windows 10、Windows 11
+- .NET Framework 4.8 Runtime
+- 推荐 64 位 Windows；项目使用 Any CPU 构建
+
+Windows 7 必须安装 SP1 和 .NET Framework 4.8。安装包会检测 .NET Framework 4.8 Release Key，缺失时会提示并尝试调用随安装包携带的离线安装器。
+
+## 下载方式
+
+正式安装包不提交到 Git 仓库，请从 GitHub Releases 下载：
+
+```text
+https://github.com/QingYe-05/YueXinMiaoPet/releases
+```
+
+下载文件名：
+
+```text
+YueXinMiaoPet_Setup.exe
+```
+
+## 安装说明
+
+1. 从 GitHub Releases 下载 `YueXinMiaoPet_Setup.exe`
+2. 双击运行安装程序
+3. 如果系统提示缺少 .NET Framework 4.8，请按安装器提示完成 Runtime 安装
+4. 安装完成后可通过桌面快捷方式或开始菜单启动“月薪喵桌宠”
+5. 运行后可通过托盘菜单打开设置、切换心情或退出
+
+用户配置和日志不会写入安装目录：
+
+```text
+配置路径：%AppData%\YueXinMiaoPet\config.json
+日志路径：%AppData%\YueXinMiaoPet\logs\app.log
+```
+
 ## 如何放入 186 个 GIF
 
 推荐的内置分类 GIF 目录是：
@@ -65,6 +102,33 @@ src/YueXinMiaoPet/PetAssets/classified_gifs/
 - 一键切回内置月薪喵分类 GIF：恢复分类内置资源
 
 如果自定义目录不存在，或目录里没有可用 GIF，程序会回退到内置分类资源，避免桌宠没有动画。
+
+## 天气功能
+
+天气服务使用 Open-Meteo 免费公开接口，通过设置窗口选择省市或手动填写经纬度后刷新天气。内部天气标签包括：
+
+- `sunny`
+- `cloudy`
+- `rain`
+- `thunder`
+- `snow`
+- `hot`
+- `cold`
+- `unknown`
+
+网络失败、断网或城市信息不可用时不会导致程序崩溃，程序会使用上一次天气缓存或回退到 `unknown`。
+
+## 设置窗口
+
+设置窗口提供：
+
+- GIF 来源选择：内置分类 GIF、原始内置 GIF、自定义 GIF 目录
+- 一键切回内置月薪喵分类 GIF
+- 省份 / 城市选择与经纬度高级选项
+- 上下班时间、午休、晚间和睡觉时间配置
+- 开机启动、始终置顶
+- 缩放比例 Slider、透明度 Slider
+- 资源调试面板，用于查看当前状态、候选 GIF 分数、分类计数和标签来源
 
 ## 心情与分类强绑定
 
@@ -179,6 +243,22 @@ E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe
 - 缺少 .NET 4.8 时，会调用 `installer/redist/NDP48-x86-x64-AllOS-ENU.exe`
 - 用户配置、日志、天气缓存都写入 AppData，不写入安装目录
 - 断网、GIF 缺失、配置损坏、`assets.json` 格式错误都会安全回退
+
+## 贡献说明
+
+欢迎通过 Issue 和 Pull Request 参与改进：
+
+- Bug 请附带复现步骤、系统版本和 `%AppData%\YueXinMiaoPet\logs\app.log`
+- 新功能建议请说明使用场景和预期效果
+- 提交 PR 前请运行 Release 构建和 `--smoke-test`
+- 修改心情分类、GIF 选择逻辑时请运行 `--mood-click-test`
+- 不要提交 `bin/`、`obj/`、`installer/output/`、`.NET Framework` 离线安装包或本地配置文件
+
+更多细节见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## License
+
+本项目使用 MIT License，见 [LICENSE](LICENSE)。
 
 ## 调试面板
 

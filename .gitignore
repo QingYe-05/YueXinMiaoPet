@@ -47,6 +47,9 @@ Desktop.ini
 # Test results
 TestResults/
 *.trx
+.install-test-app/
+.install-test-appdata/
+.smoke-appdata/
 
 # Backup files
 *.bak
