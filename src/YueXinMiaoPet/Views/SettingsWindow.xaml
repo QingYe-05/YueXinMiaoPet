@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="月薪喵设置"
         Icon="pack://siteoforigin:,,,/Assets/Icons/app.ico"
-        Width="820"
-        Height="780"
-        MinWidth="760"
+        Width="860"
+        Height="800"
+        MinWidth="780"
         MinHeight="680"
         WindowStartupLocation="CenterScreen">
     <DockPanel Margin="12">
@@ -33,6 +33,7 @@
                                 </DockPanel>
                                 <StackPanel Orientation="Horizontal" Margin="18,8,0,0">
                                     <Button Content="一键切回内置月薪喵分类 GIF" Margin="0,0,8,0" Click="OnUseBuiltInClick" />
+                                    <Button Content="GIF 轮播设置" Margin="0,0,8,0" Click="OnOpenPlaylistSettingsClick" />
                                     <Button x:Name="OpenGifDirButton" Content="打开当前资源目录" Click="OnOpenCurrentResourceDirectoryClick" />
                                 </StackPanel>
                                 <TextBlock x:Name="CurrentGifPathText" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="#555" />
@@ -44,12 +45,22 @@
 
                         <GroupBox Header="天气与城市" Margin="0,0,0,12">
                             <StackPanel Margin="10">
-                                <CheckBox x:Name="EnableWeatherBox" Content="启用天气" Margin="0,0,0,6" />
-                                <CheckBox x:Name="WeatherBubbleBox" Content="天气更新时显示小气泡，并短暂切换天气相关 GIF" Margin="0,0,0,6" />
+                                <CheckBox x:Name="EnableWeatherBox"
+                                          Content="显示天气挂件（默认关闭，显示在 GIF 正上方）"
+                                          Margin="0,0,0,6"
+                                          Checked="OnWeatherEnabledChanged"
+                                          Unchecked="OnWeatherEnabledChanged" />
+                                <CheckBox x:Name="WeatherBubbleBox"
+                                          Content="保留天气挂件显示（兼容旧配置）"
+                                          Margin="0,0,0,6"
+                                          Visibility="Collapsed" />
+                                <CheckBox x:Name="WeatherAffectsGifBox"
+                                          Content="天气影响 GIF 选择（轻量提示，不打断当前心情/自定义轮播）"
+                                          Margin="0,0,0,6" />
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                                     <TextBlock Text="刷新间隔（分钟）" VerticalAlignment="Center" Margin="0,0,8,0" />
                                     <TextBox x:Name="WeatherIntervalBox" Width="60" />
-                                    <Button Content="立即刷新天气" Margin="12,0,0,0" Click="OnRefreshWeatherClick" />
+                                    <Button x:Name="RefreshWeatherButton" Content="立即刷新天气" Margin="12,0,0,0" Click="OnRefreshWeatherClick" />
                                 </StackPanel>
                                 <TextBlock x:Name="CurrentWeatherInfoText" TextWrapping="Wrap" Foreground="#555" Margin="0,0,0,8" />
                                 <Grid>
@@ -72,7 +83,7 @@
                                     <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="经度（高级）" Margin="0,3" />
                                     <TextBox x:Name="LongitudeBox" Grid.Row="3" Grid.Column="1" Margin="0,3" />
                                 </Grid>
-                                <TextBlock Text="选择城市会自动填入经纬度；你也可以手动修改经纬度。保存后会立即刷新天气。"
+                                <TextBlock Text="关闭天气挂件时不会主动刷新天气，也不会影响 GIF。开启后可选择城市或手动输入经纬度。"
                                            TextWrapping="Wrap"
                                            Foreground="#666"
                                            Margin="0,8,0,0" />
@@ -145,7 +156,7 @@
             <TabItem Header="资源调试面板">
                 <DockPanel Margin="8">
                     <TextBlock DockPanel.Dock="Top"
-                               Text="这里显示当前状态、资源来源、分类数量以及候选 GIF 分数 TOP 5，方便后续调整 assets.json 或 assets.tags.override.json。"
+                               Text="这里显示当前状态、资源来源、播放列表来源、天气挂件与候选 GIF，方便后续调整 assets.json 或轮播设置。"
                                Margin="0,0,0,8"
                                Foreground="#666" />
                     <TextBox x:Name="DebugTextBox"

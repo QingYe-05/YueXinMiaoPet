@@ -2,7 +2,7 @@
 
 「月薪喵桌宠」是一个基于 C# / WPF / .NET Framework 4.8 的 Windows 桌宠应用，目标兼容 Windows 7 SP1、Windows 10、Windows 11。
 
-它会扫描中文命名的 GIF，根据天气、时间段、上下班、心情和鼠标互动自动切换月薪喵动画。
+它会扫描中文命名的 GIF，并按当前心情分类顺序轮播月薪喵动画；天气功能作为可选小挂件保留，默认不干扰 GIF 播放。
 
 ## 主要功能
 
@@ -12,9 +12,10 @@
 - 支持自定义 GIF 目录，并可一键切回内置月薪喵
 - 自动扫描 GIF 并生成 `PetAssets/assets.generated.json`
 - 支持 `assets.json` 人工标签和 `assets.tags.override.json` 覆盖标签
+- 默认按当前心情分类顺序轮播，支持当前心情自定义轮播和全局自定义轮播
 - 单击互动、双击打开心情窗口、右键快捷菜单、拖动保存位置
 - 托盘菜单：显示/隐藏、今日心情、设置、重新扫描 GIF、退出
-- 设置窗口：省市选择、天气经纬度、缩放 Slider、透明度 Slider、开机启动、置顶、时间段、调试面板
+- 设置窗口：省市选择、天气经纬度、天气挂件开关、GIF 轮播设置、缩放 Slider、透明度 Slider、开机启动、置顶、时间段、调试面板
 - 心情窗口：心情、有效期、保存、取消；保存后立即切换 GIF
 - 配置保存到 `%AppData%\YueXinMiaoPet\config.json`
 - 日志保存到 `%AppData%\YueXinMiaoPet\logs\app.log`
@@ -105,7 +106,13 @@ src/YueXinMiaoPet/PetAssets/classified_gifs/
 
 ## 天气功能
 
-天气服务使用 Open-Meteo 免费公开接口，通过设置窗口选择省市或手动填写经纬度后刷新天气。内部天气标签包括：
+天气服务使用 Open-Meteo 免费公开接口，通过设置窗口选择省市或手动填写经纬度后刷新天气。v2.0.0 起天气是可选弱干扰模块：
+
+- `WeatherEnabled=false`：默认不显示天气挂件、不主动刷新天气、不影响 GIF。
+- `WeatherAffectsGif=false`：即使显示天气挂件，默认也只作为提示，不参与主 GIF 轮播。
+- 天气挂件显示在 GIF 正上方，只显示天气状况和温度，例如 `晴 28℃`。
+
+内部天气标签包括：
 
 - `sunny`
 - `cloudy`
@@ -155,7 +162,7 @@ src/YueXinMiaoPet/PetAssets/classified_gifs/
 - `thinking / 思考` → `12_思考`
 - `collapse / 崩溃` → `13_崩溃`
 
-单击桌宠时会严格在当前心情对应分类里随机选择 GIF；只有该分类为空时才回退到 `neutral / 01_普通`，最后才回退到全部 enabled GIF。这样例如 `angry` 状态点击桌宠只会播放 `05_生气`。
+单击桌宠时会推进当前播放列表的下一张，不再随机跳转。默认播放列表来自当前心情对应分类，按文件顺序循环；只有该分类为空时才回退到 `neutral / 01_普通`，最后才回退到全部 enabled GIF。这样例如 `angry` 状态点击桌宠只会在 `05_生气` 的顺序轮播中前进。
 
 ## 如何修改标签
 
@@ -274,3 +281,14 @@ E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe
 - 当前标签来源
 - 当前候选 GIF 前 5 名及分数
 - 当前省市、经纬度、缩放、透明度
+- 当前播放模式、播放列表来源、播放列表数量、播放索引
+- WeatherEnabled、WeatherAffectsGif、WeatherBadgeText
+
+## 2026-06 播放与天气行为更新
+
+- 天气功能已改为可选模块，`WeatherEnabled` 默认 `false`：不开启时不显示天气挂件、不主动刷新天气、不影响 GIF。
+- `WeatherAffectsGif` 默认 `false`：开启天气挂件后，天气默认只作为 GIF 正上方的小提示展示；即使打开该选项，也不会打断当前心情顺序轮播或用户自定义轮播。
+- 默认播放逻辑已取消随机/权重/偏好 GIF，改为按当前 `MoodTag` 对应的 13 类目录顺序循环。
+- 设置窗口中新增“GIF 轮播设置”入口，可从“当前心情 GIF”或“全部 GIF”中多选，保存为当前心情自定义轮播或全局自定义轮播。
+- 播放优先级为：当前心情自定义轮播 → 全局自定义轮播 → 当前心情分类顺序轮播 → 普通分类兜底 → 全部 GIF 兜底。
+- 自定义轮播保存到 `%AppData%\YueXinMiaoPet\config.json`，字段包括 `UseGlobalCustomPlaylist`、`GlobalCustomPlaylist`、`MoodCustomPlaylists`。

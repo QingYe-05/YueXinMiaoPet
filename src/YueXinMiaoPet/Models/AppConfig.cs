@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace YueXinMiaoPet.Models
@@ -45,6 +46,9 @@ namespace YueXinMiaoPet.Models
         [DataMember(Name = "WeatherBubbleEnabled")]
         public bool WeatherBubbleEnabled { get; set; }
 
+        [DataMember(Name = "WeatherAffectsGif")]
+        public bool WeatherAffectsGif { get; set; }
+
         [DataMember(Name = "LastWeatherTag")]
         public string LastWeatherTag { get; set; }
 
@@ -83,6 +87,15 @@ namespace YueXinMiaoPet.Models
 
         [DataMember(Name = "LastWeatherCache")]
         public WeatherInfo LastWeatherCache { get; set; }
+
+        [DataMember(Name = "UseGlobalCustomPlaylist")]
+        public bool UseGlobalCustomPlaylist { get; set; }
+
+        [DataMember(Name = "GlobalCustomPlaylist")]
+        public List<string> GlobalCustomPlaylist { get; set; }
+
+        [DataMember(Name = "MoodCustomPlaylists")]
+        public Dictionary<string, List<string>> MoodCustomPlaylists { get; set; }
 
         // 兼容旧版配置字段。保留这些字段可以让旧 config.json 自动升级。
         [DataMember(Name = "windowLeft")]
@@ -139,12 +152,16 @@ namespace YueXinMiaoPet.Models
         public AppConfig()
         {
             AlwaysOnTop = true;
-            WeatherEnabled = true;
-            EnableWeather = true;
-            WeatherUpdateIntervalMinutes = 10;
-            WeatherBubbleEnabled = true;
+            WeatherEnabled = false;
+            EnableWeather = false;
+            WeatherUpdateIntervalMinutes = 30;
+            WeatherBubbleEnabled = false;
+            WeatherAffectsGif = false;
             UseBuiltInGifLibrary = true;
             PreferClassifiedGifs = true;
+            UseGlobalCustomPlaylist = false;
+            GlobalCustomPlaylist = new List<string>();
+            MoodCustomPlaylists = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
             GifSourceMode = "BuiltInClassified";
             ScalePercent = 100;
             OpacityPercent = 100;
@@ -173,6 +190,7 @@ namespace YueXinMiaoPet.Models
             SyncWeather();
             SyncLocation();
             SyncGifSource();
+            SyncPlaylists();
             SyncTimes();
         }
 
@@ -207,7 +225,9 @@ namespace YueXinMiaoPet.Models
                 MoodTag = string.IsNullOrWhiteSpace(CurrentMood) ? "neutral" : CurrentMood;
             }
 
+            MoodTag = YueXinMiaoPet.Services.MoodCategoryService.NormalizeMood(MoodTag);
             if (string.IsNullOrWhiteSpace(CurrentMood)) CurrentMood = MoodTag;
+            CurrentMood = YueXinMiaoPet.Services.MoodCategoryService.NormalizeMood(CurrentMood);
             if (string.IsNullOrWhiteSpace(MoodExpireMode)) MoodExpireMode = "forever";
 
             if (string.IsNullOrWhiteSpace(MoodExpireAt) && !string.IsNullOrWhiteSpace(MoodExpiresAtUtc))
@@ -230,10 +250,13 @@ namespace YueXinMiaoPet.Models
 
         private void SyncWeather()
         {
-            if (EnableWeather) WeatherEnabled = true;
-            else EnableWeather = WeatherEnabled;
+            EnableWeather = WeatherEnabled;
+            if (!WeatherEnabled)
+            {
+                WeatherBubbleEnabled = false;
+            }
 
-            if (WeatherUpdateIntervalMinutes <= 0) WeatherUpdateIntervalMinutes = 10;
+            if (WeatherUpdateIntervalMinutes <= 0) WeatherUpdateIntervalMinutes = 30;
             WeatherUpdateIntervalMinutes = Clamp(WeatherUpdateIntervalMinutes, 1, 120);
 
             if (LastWeatherCache == null && LastWeather != null) LastWeatherCache = LastWeather;
@@ -292,6 +315,30 @@ namespace YueXinMiaoPet.Models
 
             if (string.IsNullOrWhiteSpace(CustomGifDirectory)) CustomGifDirectory = string.Empty;
             if (GifDirectory == null) GifDirectory = string.Empty;
+        }
+
+        private void SyncPlaylists()
+        {
+            if (GlobalCustomPlaylist == null)
+            {
+                GlobalCustomPlaylist = new List<string>();
+            }
+
+            if (MoodCustomPlaylists == null)
+            {
+                MoodCustomPlaylists = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+                return;
+            }
+
+            Dictionary<string, List<string>> normalized = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+            foreach (KeyValuePair<string, List<string>> pair in MoodCustomPlaylists)
+            {
+                string mood = YueXinMiaoPet.Services.MoodCategoryService.NormalizeMood(pair.Key);
+                List<string> list = pair.Value == null ? new List<string>() : pair.Value;
+                normalized[mood] = list;
+            }
+
+            MoodCustomPlaylists = normalized;
         }
 
         private void SyncTimes()

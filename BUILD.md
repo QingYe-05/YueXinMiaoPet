@@ -114,3 +114,11 @@ installer/redist/NDP48-x86-x64-AllOS-ENU.exe
 9. Inno Setup 打包成功
 10. 安装包包含主程序、PetAssets、Assets、Data、.NET 4.8 redist
 11. 安装和卸载正常
+
+## v2.0.0 构建验证重点
+
+- Release 构建后请运行 `YueXinMiaoPet.exe --smoke-test`，验证 GIF 扫描与顺序轮播能选出 GIF。
+- 运行 `YueXinMiaoPet.exe --mood-click-test`，验证 13 类心情目录顺序轮播不越界。
+- 默认天气关闭：`WeatherEnabled=false`、`WeatherAffectsGif=false`。
+- 打包命令固定使用 `D:\Setting\InnoSetup\Inno Setup 6\ISCC.exe`。
+- 最终输出应为 `E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe`。

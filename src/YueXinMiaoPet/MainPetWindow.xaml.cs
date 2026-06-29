@@ -16,7 +16,7 @@ namespace YueXinMiaoPet
     {
         private readonly ConfigService _configService;
         private readonly GifAssetService _assetService;
-        private readonly GifPicker _gifPicker;
+        private readonly GifPlaylistService _playlistService;
         private readonly WeatherService _weatherService;
         private readonly TimeStateService _timeStateService;
         private readonly MoodService _moodService;
@@ -24,14 +24,13 @@ namespace YueXinMiaoPet
         private readonly DispatcherTimer _stateTimer;
         private readonly DispatcherTimer _weatherTimer;
         private readonly DispatcherTimer _singleClickTimer;
-        private readonly DispatcherTimer _weatherBubbleTimer;
 
         private TrayService _trayService;
         private PetState _state;
         private DateTime _actionLockUntil;
-        private DateTime _weatherReactionUntil;
         private DateTime _lastGifChange;
         private string _currentGifPath;
+        private string _weatherBadgeText;
         private bool _allowClose;
         private bool _mouseDown;
         private bool _isDragging;
@@ -42,7 +41,7 @@ namespace YueXinMiaoPet
         public MainPetWindow(
             ConfigService configService,
             GifAssetService assetService,
-            GifPicker gifPicker,
+            GifPlaylistService playlistService,
             WeatherService weatherService,
             TimeStateService timeStateService,
             MoodService moodService,
@@ -52,15 +51,15 @@ namespace YueXinMiaoPet
 
             _configService = configService;
             _assetService = assetService;
-            _gifPicker = gifPicker;
+            _playlistService = playlistService;
             _weatherService = weatherService;
             _timeStateService = timeStateService;
             _moodService = moodService;
             _debugStateService = debugStateService;
             _state = new PetState();
             _currentGifPath = string.Empty;
+            _weatherBadgeText = string.Empty;
             _actionLockUntil = DateTime.MinValue;
-            _weatherReactionUntil = DateTime.MinValue;
             _lastGifChange = DateTime.MinValue;
 
             _stateTimer = new DispatcherTimer();
@@ -69,28 +68,24 @@ namespace YueXinMiaoPet
 
             _weatherTimer = new DispatcherTimer();
             _weatherTimer.Interval = TimeSpan.FromMinutes(10);
-            _weatherTimer.Tick += async delegate { await RefreshWeatherAsync(true); };
+            _weatherTimer.Tick += async delegate { await RefreshWeatherAsync(false); };
 
             _singleClickTimer = new DispatcherTimer();
             _singleClickTimer.Interval = TimeSpan.FromMilliseconds(260);
             _singleClickTimer.Tick += OnSingleClickTimerTick;
 
-            _weatherBubbleTimer = new DispatcherTimer();
-            _weatherBubbleTimer.Interval = TimeSpan.FromSeconds(6);
-            _weatherBubbleTimer.Tick += delegate
-            {
-                _weatherBubbleTimer.Stop();
-                WeatherBubble.Visibility = Visibility.Collapsed;
-            };
-
             BuildPetContextMenu();
             ApplyConfig();
             Loaded += async delegate
             {
-                RefreshNow(true);
-                await RefreshWeatherAsync(true);
+                UpdateWeatherBadgeFromCache();
+                RefreshNow(true, true);
                 _stateTimer.Start();
-                _weatherTimer.Start();
+                if (_configService.Current.WeatherEnabled)
+                {
+                    _weatherTimer.Start();
+                    await RefreshWeatherAsync(false);
+                }
             };
         }
 
@@ -107,6 +102,19 @@ namespace YueXinMiaoPet
 
             int interval = Math.Max(1, Math.Min(120, config.WeatherUpdateIntervalMinutes));
             _weatherTimer.Interval = TimeSpan.FromMinutes(interval);
+            if (config.WeatherEnabled)
+            {
+                UpdateWeatherBadgeFromCache();
+                if (IsLoaded && !_weatherTimer.IsEnabled)
+                {
+                    _weatherTimer.Start();
+                }
+            }
+            else
+            {
+                _weatherTimer.Stop();
+                UpdateWeatherBadge(null, false);
+            }
 
             double? left = config.WindowPositionX.HasValue ? config.WindowPositionX : config.WindowLeft;
             double? top = config.WindowPositionY.HasValue ? config.WindowPositionY : config.WindowTop;
@@ -133,11 +141,20 @@ namespace YueXinMiaoPet
             _actionLockUntil = DateTime.MinValue;
             _state.ActionTag = "idle";
             _lastGifChange = DateTime.MinValue;
-            RefreshNow(true);
+            _playlistService.ResetMoodIndex(_moodService.GetCurrentMood());
+            RefreshNow(true, true);
             if (_trayService != null)
             {
                 _trayService.RefreshMoodChecks();
             }
+        }
+
+        public void RefreshPlaylistNow()
+        {
+            _actionLockUntil = DateTime.MinValue;
+            _lastGifChange = DateTime.MinValue;
+            _playlistService.ResetAll();
+            RefreshNow(true, true);
         }
 
         public void RefreshWeatherNow()
@@ -150,6 +167,11 @@ namespace YueXinMiaoPet
 
         public void RefreshNow(bool force)
         {
+            RefreshNow(force, false);
+        }
+
+        private void RefreshNow(bool force, bool resetPlaylist)
+        {
             try
             {
                 string previousMood = _state == null ? string.Empty : _state.MoodTag;
@@ -157,6 +179,8 @@ namespace YueXinMiaoPet
                 if (!string.Equals(previousMood, _state.MoodTag, StringComparison.OrdinalIgnoreCase))
                 {
                     force = true;
+                    resetPlaylist = true;
+                    _playlistService.ResetMoodIndex(_state.MoodTag);
                     if (_trayService != null)
                     {
                         _trayService.RefreshMoodChecks();
@@ -175,18 +199,18 @@ namespace YueXinMiaoPet
                 }
 
                 List<GifAsset> assets = _assetService.GetEnabledExistingAssets(_configService.Current);
-                GifPickResult pick = _gifPicker.Pick(_state, assets);
+                GifPlaylistResult pick = _playlistService.NextGif(_state, assets, _configService.Current, resetPlaylist);
                 if (pick.Selected == null)
                 {
-                    _debugStateService.Update(_state, "(没有可用 GIF)", pick);
+                    UpdateDebug("(没有可用 GIF)", pick);
                     return;
                 }
 
                 string path = _assetService.ResolveAssetPath(pick.Selected, _configService.Current);
                 if (!File.Exists(path))
                 {
-                    LogService.Warn("选择到的 GIF 不存在：" + path);
-                    _debugStateService.Update(_state, path, pick);
+                    LogService.Warn("播放列表选中的 GIF 不存在：" + path);
+                    UpdateDebug(path, pick);
                     return;
                 }
 
@@ -197,7 +221,7 @@ namespace YueXinMiaoPet
                     _lastGifChange = DateTime.Now;
                 }
 
-                _debugStateService.Update(_state, Path.GetFileName(path), pick);
+                UpdateDebug(Path.GetFileName(path), pick);
             }
             catch (Exception ex)
             {
@@ -207,102 +231,19 @@ namespace YueXinMiaoPet
 
         public void PlayInteraction(string action)
         {
-            if (string.Equals(action, "touch", StringComparison.OrdinalIgnoreCase) ||
-                string.IsNullOrWhiteSpace(action))
+            _state.LastInteractionTime = DateTime.Now;
+            _state.ActionTag = string.IsNullOrWhiteSpace(action) ? "touch" : action;
+
+            // 单击/双击/问候不再随机抢 GIF，只推进当前心情或自定义播放列表的下一张。
+            if (string.Equals(_state.ActionTag, "drag", StringComparison.OrdinalIgnoreCase))
             {
-                PlayMoodClickInteraction();
+                _actionLockUntil = DateTime.Now.AddSeconds(2);
                 return;
             }
 
-            _state.LastInteractionTime = DateTime.Now;
-            _state.ActionTag = string.IsNullOrWhiteSpace(action) ? "touch" : action;
-            RefreshNow(true);
-
+            RefreshNow(true, false);
             double milliseconds = Math.Max(1800, Math.Min(8000, PetImage.CurrentCycleDuration.TotalMilliseconds));
             _actionLockUntil = DateTime.Now.AddMilliseconds(milliseconds);
-        }
-
-        private void PlayMoodClickInteraction()
-        {
-            try
-            {
-                bool expiredBeforeClick = _moodService.IsMoodExpired();
-                _state.LastInteractionTime = DateTime.Now;
-                UpdateState();
-                _state.ActionTag = "touch";
-
-                List<GifAsset> assets = _assetService.GetEnabledExistingAssets(_configService.Current);
-                string mood = MoodCategoryService.NormalizeMood(_state.MoodTag);
-                IList<string> categories = MoodCategoryService.GetPrimaryCategories(mood);
-                int candidateCount = CountAssetsInCategories(assets, categories);
-
-                GifPickResult pick = _gifPicker.PickForCurrentMoodInteraction(_state, assets);
-                if (pick.Selected == null)
-                {
-                    _debugStateService.Update(_state, "(没有可用 GIF)", pick);
-                    LogService.Warn("点击桌宠未选出 GIF：MoodTag=" + mood +
-                        "，expired=" + expiredBeforeClick +
-                        "，categories=" + MoodCategoryService.FormatCategories(categories) +
-                        "，candidateCount=" + candidateCount);
-                    return;
-                }
-
-                string path = _assetService.ResolveAssetPath(pick.Selected, _configService.Current);
-                if (!File.Exists(path))
-                {
-                    LogService.Warn("点击桌宠选中的 GIF 不存在：" + path);
-                    _debugStateService.Update(_state, path, pick);
-                    return;
-                }
-
-                _currentGifPath = path;
-                PetImage.GifPath = path;
-                _lastGifChange = DateTime.Now;
-                _debugStateService.Update(_state, Path.GetFileName(path), pick);
-
-                double milliseconds = Math.Max(1800, Math.Min(8000, PetImage.CurrentCycleDuration.TotalMilliseconds));
-                _actionLockUntil = DateTime.Now.AddMilliseconds(milliseconds);
-
-                LogService.Info("点击桌宠：MoodTag=" + mood +
-                    "，expired=" + expiredBeforeClick +
-                    "，categories=" + MoodCategoryService.FormatCategories(categories) +
-                    "，candidateCount=" + candidateCount +
-                    "，selectedGif=" + Path.GetFileName(path) +
-                    "，selectedCategory=" + pick.Selected.CategoryName);
-            }
-            catch (Exception ex)
-            {
-                LogService.Error("点击桌宠切换 GIF 失败。", ex);
-            }
-        }
-
-        private int CountAssetsInCategories(IList<GifAsset> assets, IList<string> categories)
-        {
-            if (assets == null || categories == null)
-            {
-                return 0;
-            }
-
-            int count = 0;
-            for (int i = 0; i < assets.Count; i++)
-            {
-                GifAsset asset = assets[i];
-                if (asset == null || !asset.Enabled)
-                {
-                    continue;
-                }
-
-                for (int c = 0; c < categories.Count; c++)
-                {
-                    if (asset.HasCategory(categories[c]))
-                    {
-                        count++;
-                        break;
-                    }
-                }
-            }
-
-            return count;
         }
 
         public void SaveWindowPosition()
@@ -356,58 +297,86 @@ namespace YueXinMiaoPet
         private void ApplyAppearance(double scale, double opacity)
         {
             double safeScale = Math.Max(0.5, Math.Min(2.0, scale));
-            double size = Math.Max(80, 220 * safeScale);
-            Width = size;
-            Height = size;
+            double gifSize = Math.Max(80, 220 * safeScale);
+            bool showWeather = _configService != null && _configService.Current != null && _configService.Current.WeatherEnabled;
+            PetImage.Width = gifSize;
+            PetImage.Height = gifSize;
+            Width = gifSize;
+            Height = gifSize + (showWeather ? 34 : 0);
             Opacity = Math.Max(0.3, Math.Min(1.0, opacity));
         }
 
-        private async System.Threading.Tasks.Task RefreshWeatherAsync(bool showBubble)
+        private async System.Threading.Tasks.Task RefreshWeatherAsync(bool userRequested)
         {
-            WeatherInfo info = await _weatherService.UpdateWeatherAsync(_configService.Current);
-            bool success = info != null && string.Equals(info.Source, "open-meteo", StringComparison.OrdinalIgnoreCase);
-            info = info ?? WeatherInfo.Unknown();
-
-            _configService.Update(config =>
+            AppConfig config = _configService.Current;
+            if (config == null || !config.WeatherEnabled)
             {
-                config.LastWeatherCache = info;
-                config.LastWeather = info;
-                config.LastWeatherTag = info.WeatherTag;
-                config.LastTemperature = info.Temperature;
-                config.LastWeatherUpdateAt = info.UpdatedAtUtc;
-            });
-
-            if (!string.Equals(info.WeatherTag, "unknown", StringComparison.OrdinalIgnoreCase))
-            {
-                _weatherReactionUntil = DateTime.Now.AddSeconds(12);
-            }
-
-            if (showBubble)
-            {
-                ShowWeatherBubble(info, success);
-            }
-
-            RefreshNow(success);
-        }
-
-        private void ShowWeatherBubble(WeatherInfo info, bool success)
-        {
-            if (!_configService.Current.WeatherBubbleEnabled)
-            {
+                UpdateWeatherBadge(null, false);
+                UpdateState();
+                UpdateDebugFromLastResult();
                 return;
             }
 
+            WeatherInfo info = await _weatherService.UpdateWeatherAsync(config);
+            bool success = info != null && string.Equals(info.Source, "open-meteo", StringComparison.OrdinalIgnoreCase);
+            info = info ?? WeatherInfo.Unknown();
+
+            _configService.Update(c =>
+            {
+                c.LastWeatherCache = info;
+                c.LastWeather = info;
+                c.LastWeatherTag = info.WeatherTag;
+                c.LastTemperature = info.Temperature;
+                c.LastWeatherUpdateAt = info.UpdatedAtUtc;
+            });
+
+            UpdateWeatherBadge(info, success);
+            UpdateState();
+            UpdateDebugFromLastResult();
+
+            if (userRequested)
+            {
+                LogService.Info("用户手动刷新天气：" + _weatherBadgeText);
+            }
+
+            // 天气默认只更新上方挂件；即使允许 WeatherAffectsGif，也不突破当前顺序轮播/自定义轮播。
+        }
+
+        private void UpdateWeatherBadgeFromCache()
+        {
+            AppConfig config = _configService.Current;
+            WeatherInfo info = config == null ? null : (config.LastWeatherCache ?? config.LastWeather);
+            UpdateWeatherBadge(info, false);
+        }
+
+        private void UpdateWeatherBadge(WeatherInfo info, bool fresh)
+        {
+            AppConfig config = _configService.Current;
+            if (config == null || !config.WeatherEnabled)
+            {
+                _weatherBadgeText = string.Empty;
+                WeatherBadge.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            info = info ?? WeatherInfo.Unknown();
             string weatherName = GetWeatherDisplayName(info.WeatherTag);
-            string prefix = success ? "天气更新" : "天气缓存";
-            WeatherBubbleText.Text = prefix + "：" + weatherName + "  " + info.Temperature.ToString("0.#", CultureInfo.InvariantCulture) + "℃";
-            WeatherBubble.Visibility = Visibility.Visible;
-            _weatherBubbleTimer.Stop();
-            _weatherBubbleTimer.Start();
+            if (string.Equals(info.WeatherTag, "unknown", StringComparison.OrdinalIgnoreCase))
+            {
+                _weatherBadgeText = "天气不可用";
+            }
+            else
+            {
+                _weatherBadgeText = weatherName + " " + info.Temperature.ToString("0.#", CultureInfo.InvariantCulture) + "℃";
+            }
+
+            WeatherBadgeText.Text = _weatherBadgeText;
+            WeatherBadge.Visibility = Visibility.Visible;
         }
 
         private string GetWeatherDisplayName(string weatherTag)
         {
-            if (string.Equals(weatherTag, "sunny", StringComparison.OrdinalIgnoreCase)) return "晴天";
+            if (string.Equals(weatherTag, "sunny", StringComparison.OrdinalIgnoreCase)) return "晴";
             if (string.Equals(weatherTag, "cloudy", StringComparison.OrdinalIgnoreCase)) return "多云";
             if (string.Equals(weatherTag, "rain", StringComparison.OrdinalIgnoreCase)) return "下雨";
             if (string.Equals(weatherTag, "thunder", StringComparison.OrdinalIgnoreCase)) return "雷雨";
@@ -423,9 +392,9 @@ namespace YueXinMiaoPet
             WeatherInfo weather = config.LastWeatherCache ?? config.LastWeather ?? WeatherInfo.Unknown();
             DateTime now = DateTime.Now;
 
-            _state.WeatherTag = string.IsNullOrWhiteSpace(weather.WeatherTag) ? "unknown" : weather.WeatherTag;
-            _state.Temperature = weather.Temperature;
-            _state.WeatherCode = weather.WeatherCode;
+            _state.WeatherTag = config.WeatherEnabled ? (string.IsNullOrWhiteSpace(weather.WeatherTag) ? "unknown" : weather.WeatherTag) : "unknown";
+            _state.Temperature = config.WeatherEnabled ? weather.Temperature : 0;
+            _state.WeatherCode = config.WeatherEnabled ? weather.WeatherCode : 0;
             _state.TimeTag = _timeStateService.GetTimeTag(config, now);
             _state.MoodTag = _moodService.GetCurrentMood();
             _state.IsWorkingTime = _timeStateService.IsWorkingTime(config, now);
@@ -434,7 +403,7 @@ namespace YueXinMiaoPet
             _state.IsMoodLocked = !string.Equals(_state.MoodTag, "neutral", StringComparison.OrdinalIgnoreCase) &&
                 _state.LastMoodChangedAt != DateTime.MinValue &&
                 DateTime.UtcNow - _state.LastMoodChangedAt.ToUniversalTime() < TimeSpan.FromSeconds(60);
-            _state.IsWeatherReactionActive = DateTime.Now < _weatherReactionUntil;
+            _state.IsWeatherReactionActive = config.WeatherEnabled && config.WeatherAffectsGif;
 
             if (DateTime.Now >= _actionLockUntil)
             {
@@ -448,6 +417,25 @@ namespace YueXinMiaoPet
                     _state.ActionTag = "idle";
                 }
             }
+        }
+
+        private void UpdateDebug(string currentGifFile, GifPlaylistResult result)
+        {
+            string mood = _state == null ? "neutral" : _state.MoodTag;
+            _debugStateService.UpdatePlaylist(
+                _state,
+                currentGifFile,
+                result,
+                _configService.Current,
+                _weatherBadgeText,
+                _playlistService.GetMoodCustomPlaylistCount(_configService.Current, mood),
+                _playlistService.GetGlobalCustomPlaylistCount(_configService.Current));
+        }
+
+        private void UpdateDebugFromLastResult()
+        {
+            string current = string.IsNullOrWhiteSpace(_currentGifPath) ? string.Empty : Path.GetFileName(_currentGifPath);
+            UpdateDebug(current, _playlistService.LastResult);
         }
 
         private DateTime ParseUtcDate(string text)
@@ -488,11 +476,14 @@ namespace YueXinMiaoPet
             mood.Click += delegate { App.Instance.ShowMoodWindow(); };
             MenuItem settings = new MenuItem { Header = "设置" };
             settings.Click += delegate { App.Instance.ShowSettingsWindow(); };
+            MenuItem playlist = new MenuItem { Header = "GIF 轮播设置" };
+            playlist.Click += delegate { App.Instance.ShowPlaylistWindow(); };
             MenuItem rescan = new MenuItem { Header = "重新扫描 GIF" };
             rescan.Click += delegate { App.Instance.RescanAssets(); };
             MenuItem exit = new MenuItem { Header = "退出" };
             exit.Click += delegate { App.Instance.ExitApplication(); };
             menu.Items.Add(mood);
+            menu.Items.Add(playlist);
             menu.Items.Add(settings);
             menu.Items.Add(rescan);
             menu.Items.Add(new Separator());

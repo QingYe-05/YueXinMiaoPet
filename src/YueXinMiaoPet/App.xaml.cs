@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using YueXinMiaoPet.Models;
 using YueXinMiaoPet.Services;
 using YueXinMiaoPet.Views;
 
@@ -9,6 +10,7 @@ namespace YueXinMiaoPet
     {
         private SettingsWindow _settingsWindow;
         private MoodWindow _moodWindow;
+        private PlaylistWindow _playlistWindow;
 
         public static App Instance
         {
@@ -18,7 +20,7 @@ namespace YueXinMiaoPet
         public ConfigService ConfigService { get; private set; }
         public GifTagInferenceService GifTagInferenceService { get; private set; }
         public GifAssetService GifAssetService { get; private set; }
-        public GifPicker GifPicker { get; private set; }
+        public GifPlaylistService GifPlaylistService { get; private set; }
         public WeatherService WeatherService { get; private set; }
         public TimeStateService TimeStateService { get; private set; }
         public MoodService MoodService { get; private set; }
@@ -56,7 +58,7 @@ namespace YueXinMiaoPet
                 PetWindow = new MainPetWindow(
                     ConfigService,
                     GifAssetService,
-                    GifPicker,
+                    GifPlaylistService,
                     WeatherService,
                     TimeStateService,
                     MoodService,
@@ -91,7 +93,7 @@ namespace YueXinMiaoPet
             ConfigService = new ConfigService();
             GifTagInferenceService = new GifTagInferenceService();
             GifAssetService = new GifAssetService(GifTagInferenceService);
-            GifPicker = new GifPicker();
+            GifPlaylistService = new GifPlaylistService();
             WeatherService = new WeatherService();
             TimeStateService = new TimeStateService();
             MoodService = new MoodService(ConfigService);
@@ -131,7 +133,8 @@ namespace YueXinMiaoPet
             {
                 ShowSettingsWindow();
                 ShowMoodWindow();
-                LogService.Info("UI smoke test 已打开设置窗口和心情窗口。");
+                ShowPlaylistWindow();
+                LogService.Info("UI smoke test 已打开设置、心情和轮播窗口。");
             }));
 
             System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
@@ -156,43 +159,46 @@ namespace YueXinMiaoPet
                 throw new InvalidOperationException("Smoke test 失败：没有扫描到 GIF 资源。");
             }
 
-            Models.PetState state = new Models.PetState();
+            PetState state = new PetState();
             state.TimeTag = TimeStateService.GetTimeTag(ConfigService.Current, DateTime.Now);
             state.MoodTag = MoodService.GetCurrentMood();
-            state.WeatherTag = ConfigService.Current.LastWeatherCache == null ? "unknown" : ConfigService.Current.LastWeatherCache.WeatherTag;
+            state.WeatherTag = ConfigService.Current.WeatherEnabled && ConfigService.Current.LastWeatherCache != null
+                ? ConfigService.Current.LastWeatherCache.WeatherTag
+                : "unknown";
             state.IsWorkingTime = TimeStateService.IsWorkingTime(ConfigService.Current, DateTime.Now);
             state.IsAfterWork = TimeStateService.IsAfterWork(ConfigService.Current, DateTime.Now);
 
-            Models.GifPickResult result = GifPicker.Pick(state, GifAssetService.GetEnabledExistingAssets(ConfigService.Current));
+            GifPlaylistResult result = GifPlaylistService.NextGif(state, GifAssetService.GetEnabledExistingAssets(ConfigService.Current), ConfigService.Current, true);
             if (result.Selected == null)
             {
-                throw new InvalidOperationException("Smoke test 失败：规则引擎没有选出 GIF。");
+                throw new InvalidOperationException("Smoke test 失败：顺序轮播服务没有选出 GIF。");
             }
 
-            LogService.Info("Smoke test 成功，资源数：" + GifAssetService.Assets.Count + "，分类数：" + GifAssetService.CategoryCount + "，选中：" + result.Selected.Name);
+            LogService.Info("Smoke test 成功，资源数：" + GifAssetService.Assets.Count +
+                "，分类数：" + GifAssetService.CategoryCount +
+                "，播放来源：" + result.Source +
+                "，选中：" + result.Selected.Name);
         }
 
         private void RunMoodClickTest()
         {
-            LogService.Info("开始心情点击分类自测。");
+            LogService.Info("开始心情顺序轮播分类自测。");
             BuildServices();
             GifAssetService.LoadAssets(ConfigService.Current);
 
-            string[][] cases = new[]
+            string[] moods = new[] { "angry", "happy", "hungry", "sleepy", "neutral", "love", "shy", "tired", "lazy", "excited", "thinking", "collapse" };
+            System.Collections.Generic.List<GifAsset> assets = GifAssetService.GetEnabledExistingAssets(ConfigService.Current);
+            for (int i = 0; i < moods.Length; i++)
             {
-                new[] { "angry", "05_生气" },
-                new[] { "happy", "02_开心" },
-                new[] { "hungry", "10_饿了" },
-                new[] { "sleepy", "08_困了" },
-                new[] { "neutral", "01_普通" }
-            };
+                string mood = moods[i];
+                System.Collections.Generic.IList<string> categories = MoodCategoryService.GetPrimaryCategories(mood);
+                if (categories.Count == 0)
+                {
+                    continue;
+                }
 
-            System.Collections.Generic.List<Models.GifAsset> assets = GifAssetService.GetEnabledExistingAssets(ConfigService.Current);
-            for (int i = 0; i < cases.Length; i++)
-            {
-                string mood = cases[i][0];
-                string expectedCategory = cases[i][1];
-                Models.PetState state = new Models.PetState
+                GifPlaylistService.ResetMoodIndex(mood);
+                PetState state = new PetState
                 {
                     MoodTag = mood,
                     ActionTag = "touch",
@@ -203,16 +209,16 @@ namespace YueXinMiaoPet
 
                 for (int c = 0; c < 10; c++)
                 {
-                    Models.GifPickResult pick = GifPicker.PickForCurrentMoodInteraction(state, assets);
+                    GifPlaylistResult pick = GifPlaylistService.NextGif(state, assets, ConfigService.Current, c == 0);
                     if (pick.Selected == null)
                     {
-                        throw new InvalidOperationException("心情点击自测失败：" + mood + " 没有选出 GIF。");
+                        throw new InvalidOperationException("心情轮播自测失败：" + mood + " 没有选出 GIF。");
                     }
 
-                    if (!pick.Selected.HasCategory(expectedCategory))
+                    if (!pick.Selected.HasCategory(categories[0]))
                     {
-                        throw new InvalidOperationException("心情点击自测失败：" + mood +
-                            " 期望分类 " + expectedCategory +
+                        throw new InvalidOperationException("心情轮播自测失败：" + mood +
+                            " 期望分类 " + categories[0] +
                             "，实际 " + pick.Selected.CategoryName +
                             "，文件 " + pick.Selected.Name);
                     }
@@ -256,7 +262,7 @@ namespace YueXinMiaoPet
                 });
             }
 
-            LogService.Info("心情点击分类自测成功：angry/happy/hungry/sleepy/neutral 各点击 10 次均命中目标分类，过期恢复 neutral 正常。");
+            LogService.Info("心情顺序轮播分类自测成功，过期恢复 neutral 正常。");
         }
 
         public void ShowSettingsWindow()
@@ -289,7 +295,8 @@ namespace YueXinMiaoPet
                 },
                 ApplyConfigChanged,
                 RescanAssets,
-                RefreshWeatherNow);
+                RefreshWeatherNow,
+                ShowPlaylistWindow);
             _settingsWindow.Owner = PetWindow;
             _settingsWindow.Show();
         }
@@ -313,6 +320,25 @@ namespace YueXinMiaoPet
             _moodWindow.Show();
         }
 
+        public void ShowPlaylistWindow()
+        {
+            if (_playlistWindow != null && _playlistWindow.IsVisible)
+            {
+                _playlistWindow.Activate();
+                return;
+            }
+
+            _playlistWindow = new PlaylistWindow(ConfigService, GifAssetService, GifPlaylistService, delegate
+            {
+                if (PetWindow != null)
+                {
+                    PetWindow.RefreshPlaylistNow();
+                }
+            });
+            _playlistWindow.Owner = PetWindow;
+            _playlistWindow.Show();
+        }
+
         public void ApplyConfigChanged()
         {
             if (PetWindow != null)
@@ -332,7 +358,7 @@ namespace YueXinMiaoPet
             GifAssetService.LoadAssets(ConfigService.Current);
             if (PetWindow != null)
             {
-                PetWindow.RefreshNow(true);
+                PetWindow.RefreshPlaylistNow();
             }
         }
 

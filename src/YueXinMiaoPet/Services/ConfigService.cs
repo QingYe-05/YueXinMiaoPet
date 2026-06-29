@@ -74,10 +74,14 @@ namespace YueXinMiaoPet.Services
             config.LegacyCity = "上海市";
             config.Latitude = 31.2304;
             config.Longitude = 121.4737;
-            config.WeatherEnabled = true;
-            config.EnableWeather = true;
-            config.WeatherUpdateIntervalMinutes = 10;
-            config.WeatherBubbleEnabled = true;
+            config.WeatherEnabled = false;
+            config.EnableWeather = false;
+            config.WeatherUpdateIntervalMinutes = 30;
+            config.WeatherBubbleEnabled = false;
+            config.WeatherAffectsGif = false;
+            config.UseGlobalCustomPlaylist = false;
+            config.GlobalCustomPlaylist = new System.Collections.Generic.List<string>();
+            config.MoodCustomPlaylists = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<string>>(StringComparer.OrdinalIgnoreCase);
             config.ApplyDefaults();
             return config;
         }
@@ -96,8 +100,7 @@ namespace YueXinMiaoPet.Services
             }
             else if (string.Equals(config.GifSourceMode, "BuiltIn", StringComparison.OrdinalIgnoreCase))
             {
-                // 兼容旧版配置：旧版只有 BuiltIn/Gifs，没有分类资源模式。
-                // 如果没有写入过 BuiltInClassifiedGifDirectory，说明用户还没在新版里主动选择“原始内置 Gifs”，自动升级到分类内置库。
+                // 兼容旧版 BuiltIn/Gifs。如果用户没有主动选择旧 Gifs，优先升级到分类内置库。
                 if (string.IsNullOrWhiteSpace(config.BuiltInClassifiedGifDirectory) &&
                     FilePathHelper.GetPreferredBuiltInGifDirectory().IndexOf("classified_gifs", StringComparison.OrdinalIgnoreCase) >= 0)
                 {

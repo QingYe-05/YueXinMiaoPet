@@ -69,6 +69,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\PlaylistWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -93,6 +97,7 @@
     <Compile Include="Services\DebugStateService.cs" />
     <Compile Include="Services\GifAssetService.cs" />
     <Compile Include="Services\GifPicker.cs" />
+    <Compile Include="Services\GifPlaylistService.cs" />
     <Compile Include="Services\GifTagInferenceService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\MoodCategoryService.cs" />
@@ -105,6 +110,10 @@
     <Compile Include="Utils\SafeJson.cs" />
     <Compile Include="Views\MoodWindow.xaml.cs">
       <DependentUpon>MoodWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\PlaylistWindow.xaml.cs">
+      <DependentUpon>PlaylistWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\SettingsWindow.xaml.cs">

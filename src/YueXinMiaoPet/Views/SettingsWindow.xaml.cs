@@ -22,6 +22,7 @@ namespace YueXinMiaoPet.Views
         private readonly Action _onConfigChanged;
         private readonly Action _onRescan;
         private readonly Action _onRefreshWeather;
+        private readonly Action _onOpenPlaylistSettings;
 
         private bool _loading;
         private int _originalScalePercent;
@@ -37,7 +38,8 @@ namespace YueXinMiaoPet.Views
             Action onCancelPreview,
             Action onConfigChanged,
             Action onRescan,
-            Action onRefreshWeather)
+            Action onRefreshWeather,
+            Action onOpenPlaylistSettings)
         {
             InitializeComponent();
             _configService = configService;
@@ -50,6 +52,7 @@ namespace YueXinMiaoPet.Views
             _onConfigChanged = onConfigChanged;
             _onRescan = onRescan;
             _onRefreshWeather = onRefreshWeather;
+            _onOpenPlaylistSettings = onOpenPlaylistSettings;
 
             LoadFromConfig();
             RefreshDebug();
@@ -66,7 +69,8 @@ namespace YueXinMiaoPet.Views
             SelectProvinceAndCity(config.Province, config.City);
 
             EnableWeatherBox.IsChecked = config.WeatherEnabled;
-            WeatherBubbleBox.IsChecked = config.WeatherBubbleEnabled;
+            WeatherBubbleBox.IsChecked = config.WeatherEnabled;
+            WeatherAffectsGifBox.IsChecked = config.WeatherAffectsGif;
             WeatherIntervalBox.Text = Math.Max(1, config.WeatherUpdateIntervalMinutes).ToString(CultureInfo.InvariantCulture);
             LatitudeBox.Text = config.Latitude.ToString(CultureInfo.InvariantCulture);
             LongitudeBox.Text = config.Longitude.ToString(CultureInfo.InvariantCulture);
@@ -95,6 +99,7 @@ namespace YueXinMiaoPet.Views
             _loading = false;
             UpdateAppearanceText();
             UpdateResourceFields();
+            UpdateWeatherFields();
             UpdateWeatherInfoText();
         }
 
@@ -171,6 +176,7 @@ namespace YueXinMiaoPet.Views
             double oldLatitude = oldConfig.Latitude;
             double oldLongitude = oldConfig.Longitude;
             bool oldWeatherEnabled = oldConfig.WeatherEnabled;
+            bool oldWeatherAffectsGif = oldConfig.WeatherAffectsGif;
             int oldWeatherInterval = oldConfig.WeatherUpdateIntervalMinutes;
 
             CityInfo city = CityCombo.SelectedItem as CityInfo;
@@ -180,6 +186,8 @@ namespace YueXinMiaoPet.Views
             int scalePercent = (int)Math.Round(ScaleSlider.Value);
             int opacityPercent = (int)Math.Round(OpacitySlider.Value);
             string selectedMode = mode;
+            bool weatherEnabled = EnableWeatherBox.IsChecked == true;
+            bool weatherAffectsGif = WeatherAffectsGifBox.IsChecked == true;
 
             _configService.Update(config =>
             {
@@ -190,9 +198,10 @@ namespace YueXinMiaoPet.Views
                 config.CustomGifDirectory = string.Equals(selectedMode, "Custom", StringComparison.OrdinalIgnoreCase) ? customDirectory : string.Empty;
                 config.GifDirectory = GetDirectoryForMode(selectedMode, config.CustomGifDirectory);
 
-                config.WeatherEnabled = EnableWeatherBox.IsChecked == true;
-                config.EnableWeather = config.WeatherEnabled;
-                config.WeatherBubbleEnabled = WeatherBubbleBox.IsChecked == true;
+                config.WeatherEnabled = weatherEnabled;
+                config.EnableWeather = weatherEnabled;
+                config.WeatherBubbleEnabled = weatherEnabled;
+                config.WeatherAffectsGif = weatherAffectsGif;
                 config.WeatherUpdateIntervalMinutes = weatherInterval;
                 config.Province = string.IsNullOrWhiteSpace(provinceName) ? "上海市" : provinceName;
                 config.City = string.IsNullOrWhiteSpace(cityName) ? "上海市" : cityName;
@@ -222,6 +231,7 @@ namespace YueXinMiaoPet.Views
 
             bool weatherChanged =
                 oldWeatherEnabled != _configService.Current.WeatherEnabled ||
+                oldWeatherAffectsGif != _configService.Current.WeatherAffectsGif ||
                 oldWeatherInterval != _configService.Current.WeatherUpdateIntervalMinutes ||
                 !string.Equals(oldProvince, _configService.Current.Province, StringComparison.OrdinalIgnoreCase) ||
                 !string.Equals(oldCity, _configService.Current.City, StringComparison.OrdinalIgnoreCase) ||
@@ -238,13 +248,14 @@ namespace YueXinMiaoPet.Views
                 _onRescan();
             }
 
-            if (weatherChanged && _onRefreshWeather != null)
+            if (_configService.Current.WeatherEnabled && weatherChanged && _onRefreshWeather != null)
             {
                 _onRefreshWeather();
             }
 
             RefreshDebug();
             UpdateResourceFields();
+            UpdateWeatherFields();
             UpdateWeatherInfoText();
 
             if (showMessage)
@@ -303,16 +314,24 @@ namespace YueXinMiaoPet.Views
             text += "当前 GIF 资源模式: " + config.GifSourceMode + Environment.NewLine;
             text += "当前 GIF 目录: " + _assetService.CurrentGifDirectory + Environment.NewLine;
             text += "当前分类数量: " + _assetService.CategoryCount + Environment.NewLine;
-            text += "点击候选分类: " + MoodCategoryService.FormatCategories(clickCategories) + Environment.NewLine;
-            text += "点击候选 GIF 数量: " + CountAssetsInCategories(clickCategories) + Environment.NewLine;
+            text += "当前 MoodTag 对应分类: " + MoodCategoryService.FormatCategories(clickCategories) + Environment.NewLine;
+            text += "当前心情分类 GIF 数量: " + CountAssetsInCategories(clickCategories) + Environment.NewLine;
             text += "当前使用的资源索引来源: " + _assetService.LastSource + Environment.NewLine;
             text += "当前使用的标签来源: " + _assetService.LastTagSource + Environment.NewLine;
             text += "GIF 总数量: " + _assetService.Assets.Count + Environment.NewLine;
             text += "enabled GIF 数量: " + CountEnabledAssets() + Environment.NewLine;
             text += "当前城市: " + config.Province + " / " + config.City + Environment.NewLine;
             text += "当前经纬度: " + config.Latitude.ToString(CultureInfo.InvariantCulture) + ", " + config.Longitude.ToString(CultureInfo.InvariantCulture) + Environment.NewLine;
+            text += "WeatherEnabled: " + config.WeatherEnabled + Environment.NewLine;
+            text += "WeatherAffectsGif: " + config.WeatherAffectsGif + Environment.NewLine;
+            text += "WeatherBadgeText: " + (snapshot == null ? string.Empty : snapshot.WeatherBadgeText) + Environment.NewLine;
+            text += "当前播放模式: " + (snapshot == null ? string.Empty : snapshot.CurrentPlaybackMode) + Environment.NewLine;
+            text += "当前播放列表来源: " + (snapshot == null ? string.Empty : snapshot.CurrentPlaylistSource) + Environment.NewLine;
+            text += "当前播放列表数量: " + (snapshot == null ? 0 : snapshot.CurrentPlaylistCount) + Environment.NewLine;
+            text += "当前播放索引: " + (snapshot == null ? 0 : snapshot.CurrentPlaylistIndex) + Environment.NewLine;
+            text += "当前心情自定义轮播数量: " + (snapshot == null ? 0 : snapshot.CurrentMoodCustomPlaylistCount) + Environment.NewLine;
+            text += "全局自定义轮播数量: " + (snapshot == null ? 0 : snapshot.GlobalCustomPlaylistCount) + Environment.NewLine;
             text += "天气刷新间隔: " + config.WeatherUpdateIntervalMinutes + " 分钟" + Environment.NewLine;
-            text += "天气气泡: " + (config.WeatherBubbleEnabled ? "开启" : "关闭") + Environment.NewLine;
             text += "当前缩放比例: " + config.ScalePercent + "%" + Environment.NewLine;
             text += "当前透明度: " + config.OpacityPercent + "%" + Environment.NewLine;
             text += "当前配置文件: " + FilePathHelper.ConfigPath + Environment.NewLine;
@@ -435,6 +454,19 @@ namespace YueXinMiaoPet.Views
                 "，更新时间：" + FormatTime(info.UpdatedAtUtc);
         }
 
+        private void UpdateWeatherFields()
+        {
+            bool enabled = EnableWeatherBox.IsChecked == true;
+            WeatherBubbleBox.IsChecked = enabled;
+            WeatherAffectsGifBox.IsEnabled = enabled;
+            WeatherIntervalBox.IsEnabled = enabled;
+            RefreshWeatherButton.IsEnabled = enabled;
+            ProvinceCombo.IsEnabled = enabled;
+            CityCombo.IsEnabled = enabled;
+            LatitudeBox.IsEnabled = enabled;
+            LongitudeBox.IsEnabled = enabled;
+        }
+
         private string FormatTime(string utcText)
         {
             DateTime time;
@@ -504,6 +536,16 @@ namespace YueXinMiaoPet.Views
             UpdateResourceFields();
         }
 
+        private void OnWeatherEnabledChanged(object sender, RoutedEventArgs e)
+        {
+            if (_loading)
+            {
+                return;
+            }
+
+            UpdateWeatherFields();
+        }
+
         private void OnBrowseGifDirectoryClick(object sender, RoutedEventArgs e)
         {
             using (Forms.FolderBrowserDialog dialog = new Forms.FolderBrowserDialog())
@@ -539,6 +581,14 @@ namespace YueXinMiaoPet.Views
             Process.Start(new ProcessStartInfo("explorer.exe", "\"" + directory + "\""));
         }
 
+        private void OnOpenPlaylistSettingsClick(object sender, RoutedEventArgs e)
+        {
+            if (_onOpenPlaylistSettings != null)
+            {
+                _onOpenPlaylistSettings();
+            }
+        }
+
         private void OnRestoreDefaultsClick(object sender, RoutedEventArgs e)
         {
             _loading = true;
@@ -546,9 +596,10 @@ namespace YueXinMiaoPet.Views
             BuiltInRadio.IsChecked = false;
             CustomRadio.IsChecked = false;
             CustomGifDirectoryBox.Text = string.Empty;
-            EnableWeatherBox.IsChecked = true;
-            WeatherBubbleBox.IsChecked = true;
-            WeatherIntervalBox.Text = "10";
+            EnableWeatherBox.IsChecked = false;
+            WeatherBubbleBox.IsChecked = false;
+            WeatherAffectsGifBox.IsChecked = false;
+            WeatherIntervalBox.Text = "30";
             SelectProvinceAndCity("上海市", "上海市");
             LatitudeBox.Text = "31.2304";
             LongitudeBox.Text = "121.4737";
@@ -565,6 +616,7 @@ namespace YueXinMiaoPet.Views
             _loading = false;
             UpdateAppearanceText();
             UpdateResourceFields();
+            UpdateWeatherFields();
             if (_onPreviewAppearance != null)
             {
                 _onPreviewAppearance(1.0, 1.0);
@@ -579,6 +631,12 @@ namespace YueXinMiaoPet.Views
 
         private void OnRefreshWeatherClick(object sender, RoutedEventArgs e)
         {
+            if (EnableWeatherBox.IsChecked != true)
+            {
+                MessageBox.Show("请先开启“显示天气挂件”。", "月薪喵设置", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             if (_onRefreshWeather != null)
             {
                 _onRefreshWeather();

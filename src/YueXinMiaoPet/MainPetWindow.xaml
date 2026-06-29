@@ -19,29 +19,36 @@
         MouseRightButtonUp="OnMouseRightButtonUp"
         StateChanged="OnStateChanged">
     <Grid Background="Transparent">
-        <controls:AnimatedGifImage x:Name="PetImage"
-                                   Stretch="Uniform"
-                                   HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch"
-                                   RenderOptions.BitmapScalingMode="HighQuality" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <Border x:Name="WeatherBubble"
+        <Border x:Name="WeatherBadge"
+                Grid.Row="0"
                 Visibility="Collapsed"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                MaxWidth="210"
-                Margin="4,0,4,0"
-                Padding="10,6"
+                MaxWidth="240"
+                Margin="4,0,4,6"
+                Padding="10,5"
                 CornerRadius="12"
-                Background="#EFFFFFFF"
-                BorderBrush="#CC7A5A42"
+                Background="#DFFFFFFF"
+                BorderBrush="#AA7A5A42"
                 BorderThickness="1">
-            <TextBlock x:Name="WeatherBubbleText"
-                       Text="天气更新"
+            <TextBlock x:Name="WeatherBadgeText"
+                       Text="天气不可用"
                        FontSize="12"
                        Foreground="#5B3B2E"
-                       TextWrapping="Wrap"
+                       TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis"
                        TextAlignment="Center" />
         </Border>
+
+        <controls:AnimatedGifImage x:Name="PetImage"
+                                   Grid.Row="1"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
     </Grid>
 </Window>
