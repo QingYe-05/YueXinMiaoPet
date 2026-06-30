@@ -35,6 +35,7 @@ namespace YueXinMiaoPet.Services
         public List<GifAsset> LoadAssets(AppConfig config)
         {
             string gifDirectory = GetEffectiveGifDirectory(config);
+            LogService.Info("准备加载 GIF 资源。模式=" + GetSourceMode(config, gifDirectory) + "，目录=" + gifDirectory);
             LoadAssetsFromDirectory(gifDirectory, GetSourceMode(config, gifDirectory));
 
             if (Assets.Count == 0 && IsUsingCustomDirectory(config, gifDirectory))
@@ -46,6 +47,21 @@ namespace YueXinMiaoPet.Services
             if (Assets.Count == 0 && !string.Equals(gifDirectory, FilePathHelper.DefaultGifDirectory, StringComparison.OrdinalIgnoreCase))
             {
                 LogService.Warn("首选内置分类资源为空，继续回退到原始 PetAssets/Gifs。");
+                LoadAssetsFromDirectory(FilePathHelper.DefaultGifDirectory, "BuiltIn");
+            }
+
+            return Assets;
+        }
+
+        public List<GifAsset> LoadSafeBuiltInAssets()
+        {
+            LogService.Warn("SafeMode=true，跳过自定义 GIF 目录，使用内置月薪喵分类资源。");
+            string directory = FilePathHelper.GetPreferredBuiltInGifDirectory();
+            LoadAssetsFromDirectory(directory, IsClassifiedDirectory(directory) ? "BuiltInClassified" : "BuiltIn");
+
+            if (Assets.Count == 0 && !string.Equals(directory, FilePathHelper.DefaultGifDirectory, StringComparison.OrdinalIgnoreCase))
+            {
+                LogService.Warn("安全模式内置分类资源为空，回退到 PetAssets/Gifs。");
                 LoadAssetsFromDirectory(FilePathHelper.DefaultGifDirectory, "BuiltIn");
             }
 

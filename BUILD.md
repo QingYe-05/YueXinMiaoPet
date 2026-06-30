@@ -122,3 +122,11 @@ installer/redist/NDP48-x86-x64-AllOS-ENU.exe
 - 默认天气关闭：`WeatherEnabled=false`、`WeatherAffectsGif=false`。
 - 打包命令固定使用 `D:\Setting\InnoSetup\Inno Setup 6\ISCC.exe`。
 - 最终输出应为 `E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe`。
+
+## v2.0.1 Hotfix 验证重点
+
+- 托盘菜单应包含“显示月薪喵”和“重置位置到屏幕中央”。
+- `YueXinMiaoPet.exe --reset-window` 应把窗口恢复到主屏幕中央。
+- `YueXinMiaoPet.exe --safe-mode` 应启用软件渲染、禁用天气刷新、使用内置 GIF。
+- `YueXinMiaoPet.exe --force-software-render` 应启用 WPF 软件渲染。
+- 日志应写入 `%AppData%\YueXinMiaoPet\logs\app.log`，并包含启动诊断、屏幕信息、GIF 资源数量和当前播放路径。

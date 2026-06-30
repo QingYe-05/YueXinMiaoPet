@@ -1,5 +1,7 @@
 using System;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using YueXinMiaoPet.Models;
 using YueXinMiaoPet.Services;
 using YueXinMiaoPet.Views;
@@ -27,11 +29,15 @@ namespace YueXinMiaoPet
         public StartupService StartupService { get; private set; }
         public DebugStateService DebugStateService { get; private set; }
         public CityCatalogService CityCatalogService { get; private set; }
+        public StartupDiagnosticsService StartupDiagnosticsService { get; private set; }
+        public StartupOptions StartupOptions { get; private set; }
         public TrayService TrayService { get; private set; }
         public MainPetWindow PetWindow { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            StartupOptions = StartupOptions.FromArgs(e.Args);
+            ApplyRenderMode(StartupOptions);
             base.OnStartup(e);
 
             try
@@ -52,8 +58,25 @@ namespace YueXinMiaoPet
 
                 LogService.Info("月薪喵桌宠启动。");
                 BuildServices();
+                StartupDiagnosticsService.LogStartup(StartupOptions, ConfigService.Current);
 
-                GifAssetService.LoadAssets(ConfigService.Current);
+                if (StartupOptions.ResetWindow || StartupOptions.SafeMode)
+                {
+                    WindowPlacementService.CenterConfigOnPrimary(ConfigService.Current, 220, 220);
+                    ConfigService.Save();
+                    LogService.Warn("启动参数要求重置窗口位置。SafeMode=" + StartupOptions.SafeMode + "，ResetWindow=" + StartupOptions.ResetWindow);
+                }
+
+                if (StartupOptions.SafeMode)
+                {
+                    GifAssetService.LoadSafeBuiltInAssets();
+                }
+                else
+                {
+                    GifAssetService.LoadAssets(ConfigService.Current);
+                }
+
+                StartupDiagnosticsService.LogAssets(ConfigService.Current, GifAssetService, MoodService);
 
                 PetWindow = new MainPetWindow(
                     ConfigService,
@@ -62,7 +85,8 @@ namespace YueXinMiaoPet
                     WeatherService,
                     TimeStateService,
                     MoodService,
-                    DebugStateService);
+                    DebugStateService,
+                    StartupOptions);
 
                 TrayService = new TrayService(
                     PetWindow,
@@ -73,7 +97,7 @@ namespace YueXinMiaoPet
                     ExitApplication);
 
                 PetWindow.AttachTrayService(TrayService);
-                PetWindow.Show();
+                PetWindow.ShowPet();
 
                 if (HasArgument(e.Args, "--ui-smoke-test"))
                 {
@@ -100,6 +124,29 @@ namespace YueXinMiaoPet
             StartupService = new StartupService();
             DebugStateService = new DebugStateService();
             CityCatalogService = new CityCatalogService();
+            StartupDiagnosticsService = new StartupDiagnosticsService();
+        }
+
+        private void ApplyRenderMode(StartupOptions options)
+        {
+            try
+            {
+                if (options != null && options.UseSoftwareRender)
+                {
+                    RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+                    LogService.Warn("已启用 WPF 软件渲染。IsWindows7=" + options.IsWindows7 +
+                        "，SafeMode=" + options.SafeMode +
+                        "，ForceSoftwareRender=" + options.ForceSoftwareRender);
+                }
+                else
+                {
+                    LogService.Info("使用默认 WPF 渲染模式。");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error("设置 WPF 渲染模式失败。", ex);
+            }
         }
 
         private bool IsSmokeTest(string[] args)

@@ -50,5 +50,23 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    RenderOptions.BitmapScalingMode="HighQuality" />
+        <Border x:Name="FallbackPanel"
+                Grid.Row="1"
+                Visibility="Collapsed"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                MaxWidth="220"
+                Padding="12"
+                CornerRadius="14"
+                Background="#EFFFFFFF"
+                BorderBrush="#AA7A5A42"
+                BorderThickness="1">
+            <TextBlock x:Name="FallbackText"
+                       Text="没有可用 GIF&#x0a;请右键托盘重新扫描"
+                       FontSize="13"
+                       Foreground="#5B3B2E"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+        </Border>
     </Grid>
 </Window>

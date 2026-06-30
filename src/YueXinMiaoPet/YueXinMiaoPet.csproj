@@ -103,9 +103,11 @@
     <Compile Include="Services\MoodCategoryService.cs" />
     <Compile Include="Services\MoodService.cs" />
     <Compile Include="Services\StartupService.cs" />
+    <Compile Include="Services\StartupDiagnosticsService.cs" />
     <Compile Include="Services\TimeStateService.cs" />
     <Compile Include="Services\TrayService.cs" />
     <Compile Include="Services\WeatherService.cs" />
+    <Compile Include="Services\WindowPlacementService.cs" />
     <Compile Include="Utils\FilePathHelper.cs" />
     <Compile Include="Utils\SafeJson.cs" />
     <Compile Include="Views\MoodWindow.xaml.cs">

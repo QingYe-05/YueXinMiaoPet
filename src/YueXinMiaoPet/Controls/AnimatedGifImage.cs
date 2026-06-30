@@ -23,6 +23,8 @@ namespace YueXinMiaoPet.Controls
         private int _frameIndex;
 
         public event EventHandler AnimationCycleCompleted;
+        public event EventHandler GifLoaded;
+        public event EventHandler<GifLoadFailedEventArgs> GifLoadFailed;
 
         public string GifPath
         {
@@ -60,6 +62,7 @@ namespace YueXinMiaoPet.Controls
 
             if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
             {
+                RaiseGifLoadFailed(path, new FileNotFoundException("GIF 文件不存在。", path));
                 return;
             }
 
@@ -98,12 +101,27 @@ namespace YueXinMiaoPet.Controls
                 {
                     Source = _frames[0].Source;
                     StartAnimation();
+                    EventHandler loaded = GifLoaded;
+                    if (loaded != null)
+                    {
+                        loaded(this, EventArgs.Empty);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Services.LogService.Error("加载 GIF 失败：" + path, ex);
                 Source = null;
+                RaiseGifLoadFailed(path, ex);
+            }
+        }
+
+        private void RaiseGifLoadFailed(string path, Exception ex)
+        {
+            EventHandler<GifLoadFailedEventArgs> handler = GifLoadFailed;
+            if (handler != null)
+            {
+                handler(this, new GifLoadFailedEventArgs(path, ex));
             }
         }
 
@@ -205,6 +223,18 @@ namespace YueXinMiaoPet.Controls
                 Source = source;
                 Delay = delay;
             }
+        }
+    }
+
+    public class GifLoadFailedEventArgs : EventArgs
+    {
+        public string Path { get; private set; }
+        public Exception Exception { get; private set; }
+
+        public GifLoadFailedEventArgs(string path, Exception exception)
+        {
+            Path = path ?? string.Empty;
+            Exception = exception;
         }
     }
 }

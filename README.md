@@ -14,7 +14,7 @@
 - 支持 `assets.json` 人工标签和 `assets.tags.override.json` 覆盖标签
 - 默认按当前心情分类顺序轮播，支持当前心情自定义轮播和全局自定义轮播
 - 单击互动、双击打开心情窗口、右键快捷菜单、拖动保存位置
-- 托盘菜单：显示/隐藏、今日心情、设置、重新扫描 GIF、退出
+- 托盘菜单：显示/隐藏、显示月薪喵、重置位置到屏幕中央、今日心情、设置、重新扫描 GIF、退出
 - 设置窗口：省市选择、天气经纬度、天气挂件开关、GIF 轮播设置、缩放 Slider、透明度 Slider、开机启动、置顶、时间段、调试面板
 - 心情窗口：心情、有效期、保存、取消；保存后立即切换 GIF
 - 配置保存到 `%AppData%\YueXinMiaoPet\config.json`
@@ -226,6 +226,19 @@ src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe
 src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe --mood-click-test
 ```
 
+兼容性/修复启动参数：
+
+```powershell
+# 安全模式：强制软件渲染、禁用天气刷新、使用内置 GIF、重置窗口到屏幕中央
+src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe --safe-mode
+
+# 只重置窗口位置到主屏幕中央
+src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe --reset-window
+
+# 强制 WPF 软件渲染，适合老显卡、Win7 或透明窗口异常排查
+src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe --force-software-render
+```
+
 ## 生成安装包
 
 ```powershell
@@ -246,10 +259,48 @@ E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe
 
 - 使用 WPF + .NET Framework 4.8，不依赖 Electron、Tauri、WinUI 3、WebView2 或 .NET 6+
 - Windows 7 必须是 SP1，并安装 .NET Framework 4.8
+- Windows 7 会默认启用 WPF 软件渲染，降低老显卡黑屏、透明窗口异常或驱动不稳定风险
 - 安装包内置检测 .NET 4.8 Release Key，最低值为 `528040`
 - 缺少 .NET 4.8 时，会调用 `installer/redist/NDP48-x86-x64-AllOS-ENU.exe`
 - 用户配置、日志、天气缓存都写入 AppData，不写入安装目录
 - 断网、GIF 缺失、配置损坏、`assets.json` 格式错误都会安全回退
+
+## 桌宠不显示怎么办
+
+如果右下角托盘有月薪喵图标，但桌面上看不到 GIF：
+
+1. 右键托盘图标，点击“显示月薪喵”。
+2. 如果仍不可见，右键托盘图标，点击“重置位置到屏幕中央”。
+3. 仍异常时，备份或删除配置文件后重启：
+
+```text
+%AppData%\YueXinMiaoPet\config.json
+```
+
+4. 使用重置窗口参数启动：
+
+```powershell
+YueXinMiaoPet.exe --reset-window
+```
+
+5. 老电脑、Win7 或透明窗口/GIF 显示异常时，使用安全模式启动：
+
+```powershell
+YueXinMiaoPet.exe --safe-mode
+```
+
+6. 查看并提供日志：
+
+```text
+%AppData%\YueXinMiaoPet\logs\app.log
+```
+
+Win7 老电脑建议确认：
+
+- 已安装 Windows 7 SP1
+- 已安装 .NET Framework 4.8
+- 显卡驱动尽量更新到可用的稳定版本
+- 优先用 `--safe-mode` 启动排查
 
 ## 贡献说明
 

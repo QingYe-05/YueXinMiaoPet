@@ -45,6 +45,16 @@ namespace YueXinMiaoPet.Services
             _showHideItem.Click += delegate { TogglePetVisibility(); };
             menu.Items.Add(_showHideItem);
 
+            Forms.ToolStripMenuItem showPetItem = new Forms.ToolStripMenuItem("显示月薪喵");
+            showPetItem.Click += delegate { _petWindow.ShowPet(); };
+            menu.Items.Add(showPetItem);
+
+            Forms.ToolStripMenuItem resetPositionItem = new Forms.ToolStripMenuItem("重置位置到屏幕中央");
+            resetPositionItem.Click += delegate { _petWindow.ResetPositionToScreenCenter(); };
+            menu.Items.Add(resetPositionItem);
+
+            menu.Items.Add(new Forms.ToolStripSeparator());
+
             Forms.ToolStripMenuItem moodMenu = new Forms.ToolStripMenuItem("今日心情");
             foreach (KeyValuePair<string, string> item in _moodService.GetMoodOptions())
             {
