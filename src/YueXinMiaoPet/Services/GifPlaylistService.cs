@@ -37,6 +37,7 @@ namespace YueXinMiaoPet.Services
         public const string SourceMoodCustomPlaylist = "MoodCustomPlaylist";
         public const string SourceGlobalCustomPlaylist = "GlobalCustomPlaylist";
         public const string SourceMoodDefaultSequential = "MoodDefaultSequential";
+        public const string SourceCodexStatusSuggestion = "CodexStatusSuggestion";
         public const string SourceNeutralFallback = "NeutralFallback";
         public const string SourceAllFallback = "AllFallback";
 
@@ -53,7 +54,7 @@ namespace YueXinMiaoPet.Services
         public GifPlaylistResult NextGif(PetState state, IList<GifAsset> allAssets, AppConfig config, bool resetIndex)
         {
             string mood = NormalizeMood(state == null ? null : state.MoodTag);
-            GifPlaylistResult result = GetPlaylistForMood(mood, allAssets, config);
+            GifPlaylistResult result = GetPlaylistForMood(mood, allAssets, config, state);
             if (result.Playlist == null || result.Playlist.Count == 0)
             {
                 LastResult = result;
@@ -89,6 +90,11 @@ namespace YueXinMiaoPet.Services
         }
 
         public GifPlaylistResult GetPlaylistForMood(string moodTag, IList<GifAsset> allAssets, AppConfig config)
+        {
+            return GetPlaylistForMood(moodTag, allAssets, config, null);
+        }
+
+        private GifPlaylistResult GetPlaylistForMood(string moodTag, IList<GifAsset> allAssets, AppConfig config, PetState state)
         {
             string mood = NormalizeMood(moodTag);
             List<GifAsset> enabled = SortAssets(FilterEnabled(allAssets));
@@ -138,6 +144,26 @@ namespace YueXinMiaoPet.Services
                 result.PlaylistCount = moodDefault.Count;
                 result.TopCandidates = BuildSequentialCandidates(moodDefault, 0);
                 return result;
+            }
+
+            if (config != null && config.CodexStatusAffectsGif && state != null)
+            {
+                string suggestedMood = CodexStatusService.MapStatusToMoodSuggestion(state.CodexStatusTag);
+                if (!string.IsNullOrWhiteSpace(suggestedMood) &&
+                    !string.Equals(suggestedMood, mood, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(suggestedMood, "neutral", StringComparison.OrdinalIgnoreCase))
+                {
+                    List<GifAsset> codexSuggested = FilterByCategories(enabled, MoodCategoryService.GetPrimaryCategories(suggestedMood));
+                    if (codexSuggested.Count > 0)
+                    {
+                        result.Source = SourceCodexStatusSuggestion;
+                        result.Playlist = codexSuggested;
+                        result.PlaylistCount = codexSuggested.Count;
+                        result.MoodCategorySummary = MoodCategoryService.FormatCategories(MoodCategoryService.GetPrimaryCategories(suggestedMood));
+                        result.TopCandidates = BuildSequentialCandidates(codexSuggested, 0);
+                        return result;
+                    }
+                }
             }
 
             List<GifAsset> neutral = FilterByCategories(enabled, MoodCategoryService.GetPrimaryCategories("neutral"));

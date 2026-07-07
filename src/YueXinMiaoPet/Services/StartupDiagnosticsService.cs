@@ -82,6 +82,10 @@ namespace YueXinMiaoPet.Services
                     builder.AppendLine("CustomGifDirectory=" + config.CustomGifDirectory);
                     builder.AppendLine("WeatherEnabled=" + config.WeatherEnabled);
                     builder.AppendLine("WeatherAffectsGif=" + config.WeatherAffectsGif);
+                    builder.AppendLine("CodexStatusEnabled=" + config.CodexStatusEnabled);
+                    builder.AppendLine("CodexStatusBubbleEnabled=" + config.CodexStatusBubbleEnabled);
+                    builder.AppendLine("CodexStatusAffectsGif=" + config.CodexStatusAffectsGif);
+                    builder.AppendLine("CodexStatusFilePath=" + config.CodexStatusFilePath);
                     builder.AppendLine("WindowLeft=" + NullableDoubleToString(config.WindowPositionX));
                     builder.AppendLine("WindowTop=" + NullableDoubleToString(config.WindowPositionY));
                     builder.AppendLine("ScalePercent=" + config.ScalePercent);

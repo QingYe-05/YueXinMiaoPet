@@ -22,10 +22,10 @@ cd /d E:\Tool\codex\YueXinMiaoPet
 msbuild YueXinMiaoPet.sln /p:Configuration=Release /p:Platform="Any CPU"
 ```
 
-如果系统找不到 `msbuild`，可以使用：
+如果系统找不到 `msbuild`，可以使用本机 Visual Studio 的实际路径，例如：
 
 ```powershell
-& "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" YueXinMiaoPet.sln /p:Configuration=Release /p:Platform="Any CPU"
+& "D:\Tool\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" YueXinMiaoPet.sln /p:Configuration=Release /p:Platform="Any CPU"
 ```
 
 输出：
@@ -54,15 +54,27 @@ Release 输出目录必须包含：
 src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe --smoke-test
 ```
 
-smoke test 会扫描 GIF、生成/更新资源索引，并验证规则引擎能选出 GIF。新用户默认应扫描 `PetAssets/classified_gifs`，日志中应显示 `资源数：186，分类数：13`。
-
 心情点击分类自测：
 
 ```powershell
 src/YueXinMiaoPet/bin/Release/YueXinMiaoPet.exe --mood-click-test
 ```
 
-该自测会验证 `angry / happy / hungry / sleepy / neutral` 各点击 10 次均只命中当前心情对应分类，并验证心情过期后恢复 `neutral`。
+## Codex 状态脚本测试
+
+开发环境中可以直接运行：
+
+```powershell
+.\tools\codex-status.ps1 -Status coding -Title "Codex 正在写代码" -Message "正在测试月薪喵状态气泡" -Progress 45
+```
+
+脚本会写入：
+
+```text
+%AppData%\YueXinMiaoPet\codex_status.json
+```
+
+月薪喵设置里启用“Codex 状态显示”后，应能在 GIF 上方看到 Codex 状态气泡。
 
 ## 生成安装包
 
@@ -85,6 +97,17 @@ cd /d E:\Tool\codex\YueXinMiaoPet\installer
 E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe
 ```
 
+安装包应包含：
+
+- 主程序 exe
+- 必要 DLL / WPF 编译资源
+- `PetAssets`
+- `Assets`
+- `Data`
+- `tools/codex-status.ps1`
+- `tools/codex-status-example.bat`
+- `.NET Framework 4.8` 离线安装包（安装时复制到临时目录）
+
 ## .NET Framework 4.8 检测
 
 安装脚本通过注册表检测：
@@ -99,34 +122,32 @@ HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Release >= 528040
 installer/redist/NDP48-x86-x64-AllOS-ENU.exe
 ```
 
-如果目标机器缺少 .NET Framework 4.8，安装程序会提示并调用这个离线安装包。这个运行时安装器本身可能触发管理员权限或重启提示。
+如果目标机器缺少 .NET Framework 4.8，安装程序会提示并调用该离线安装包。该运行时安装器本身可能触发管理员权限或重启提示。
 
-## 验收建议
+## v2.1.0 验收重点
 
-1. Release 构建成功
-2. `YueXinMiaoPet.exe --smoke-test` 成功
-3. 直接启动 exe 能看到桌宠和托盘图标
-4. 设置窗口能打开，缩放/透明度 Slider 可实时预览
-5. 心情窗口保存后立即切换 GIF
-6. 单击桌宠时不会跳出当前 MoodTag 对应分类
-7. 自定义 GIF 目录为空时能回退内置分类资源
-8. `assets.generated.json` 中中文文件名正常
-9. Inno Setup 打包成功
-10. 安装包包含主程序、PetAssets、Assets、Data、.NET 4.8 redist
-11. 安装和卸载正常
+- Release 构建成功。
+- Inno Setup 打包成功。
+- 设置窗口包含“Codex 状态”区域。
+- 默认 `CodexStatusEnabled=false`。
+- 点击“测试状态”后，启用 Codex 状态显示并写入 `codex_status.json`。
+- 状态气泡显示在天气气泡和月薪喵 GIF 上方，不遮挡 GIF。
+- 托盘菜单包含“Codex 状态”子菜单。
+- `tools/codex-status.ps1` 可以写入中文 JSON。
+- Codex 状态默认不影响当前心情 GIF 轮播。
+- JSON 损坏、文件缺失、未知状态都不会导致应用崩溃。
 
-## v2.0.0 构建验证重点
+## 不要提交的文件
 
-- Release 构建后请运行 `YueXinMiaoPet.exe --smoke-test`，验证 GIF 扫描与顺序轮播能选出 GIF。
-- 运行 `YueXinMiaoPet.exe --mood-click-test`，验证 13 类心情目录顺序轮播不越界。
-- 默认天气关闭：`WeatherEnabled=false`、`WeatherAffectsGif=false`。
-- 打包命令固定使用 `D:\Setting\InnoSetup\Inno Setup 6\ISCC.exe`。
-- 最终输出应为 `E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe`。
-
-## v2.0.1 Hotfix 验证重点
-
-- 托盘菜单应包含“显示月薪喵”和“重置位置到屏幕中央”。
-- `YueXinMiaoPet.exe --reset-window` 应把窗口恢复到主屏幕中央。
-- `YueXinMiaoPet.exe --safe-mode` 应启用软件渲染、禁用天气刷新、使用内置 GIF。
-- `YueXinMiaoPet.exe --force-software-render` 应启用 WPF 软件渲染。
-- 日志应写入 `%AppData%\YueXinMiaoPet\logs\app.log`，并包含启动诊断、屏幕信息、GIF 资源数量和当前播放路径。
+- `installer/output/`
+- `installer/redist/*.exe`
+- `bin/`
+- `obj/`
+- `.vs/`
+- `config.json`
+- `logs/`
+- `*.log`
+- `*.tmp`
+- `*.bak`
+- `YueXinMiaoPet_Setup.exe`
+- `YueXinMiaoPet_Setup.zip`

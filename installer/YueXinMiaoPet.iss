@@ -1,5 +1,5 @@
 #define MyAppName "月薪喵桌宠"
-#define MyAppVersion "2.0.1"
+#define MyAppVersion "2.1.0"
 #define MyAppPublisher "YueXinMiao"
 #define MyAppExeName "YueXinMiaoPet.exe"
 #define DotNet48Installer "redist\NDP48-x86-x64-AllOS-ENU.exe"
@@ -34,6 +34,8 @@ Source: "..\src\YueXinMiaoPet\bin\Release\{#MyAppExeName}"; DestDir: "{app}"; Fl
 Source: "..\src\YueXinMiaoPet\bin\Release\PetAssets\*"; DestDir: "{app}\PetAssets"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\src\YueXinMiaoPet\bin\Release\Assets\*"; DestDir: "{app}\Assets"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\src\YueXinMiaoPet\bin\Release\Data\*"; DestDir: "{app}\Data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\tools\codex-status.ps1"; DestDir: "{app}\tools"; Flags: ignoreversion
+Source: "..\tools\codex-status-example.bat"; DestDir: "{app}\tools"; Flags: ignoreversion
 Source: "{#DotNet48Installer}"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]

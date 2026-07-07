@@ -17,6 +17,12 @@ namespace YueXinMiaoPet.Models
         public bool WeatherEnabled { get; set; }
         public bool WeatherAffectsGif { get; set; }
         public string WeatherBadgeText { get; set; }
+        public bool CodexStatusEnabled { get; set; }
+        public bool CodexStatusBubbleEnabled { get; set; }
+        public bool CodexStatusAffectsGif { get; set; }
+        public string CodexStatusFilePath { get; set; }
+        public string CodexStatusTag { get; set; }
+        public string CodexStatusBadgeText { get; set; }
         public List<GifPickCandidate> TopCandidates { get; set; }
 
         public DebugSnapshot()
@@ -28,6 +34,9 @@ namespace YueXinMiaoPet.Models
             CurrentPlaylistSource = string.Empty;
             CurrentMoodCategory = string.Empty;
             WeatherBadgeText = string.Empty;
+            CodexStatusFilePath = string.Empty;
+            CodexStatusTag = "unknown";
+            CodexStatusBadgeText = string.Empty;
             TopCandidates = new List<GifPickCandidate>();
         }
     }

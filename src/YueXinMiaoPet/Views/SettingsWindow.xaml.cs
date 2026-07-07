@@ -17,6 +17,7 @@ namespace YueXinMiaoPet.Views
         private readonly StartupService _startupService;
         private readonly DebugStateService _debugStateService;
         private readonly CityCatalogService _cityCatalogService;
+        private readonly CodexStatusService _codexStatusService;
         private readonly Action<double, double> _onPreviewAppearance;
         private readonly Action _onCancelPreview;
         private readonly Action _onConfigChanged;
@@ -34,6 +35,7 @@ namespace YueXinMiaoPet.Views
             StartupService startupService,
             DebugStateService debugStateService,
             CityCatalogService cityCatalogService,
+            CodexStatusService codexStatusService,
             Action<double, double> onPreviewAppearance,
             Action onCancelPreview,
             Action onConfigChanged,
@@ -47,6 +49,7 @@ namespace YueXinMiaoPet.Views
             _startupService = startupService;
             _debugStateService = debugStateService;
             _cityCatalogService = cityCatalogService;
+            _codexStatusService = codexStatusService;
             _onPreviewAppearance = onPreviewAppearance;
             _onCancelPreview = onCancelPreview;
             _onConfigChanged = onConfigChanged;
@@ -74,6 +77,11 @@ namespace YueXinMiaoPet.Views
             WeatherIntervalBox.Text = Math.Max(1, config.WeatherUpdateIntervalMinutes).ToString(CultureInfo.InvariantCulture);
             LatitudeBox.Text = config.Latitude.ToString(CultureInfo.InvariantCulture);
             LongitudeBox.Text = config.Longitude.ToString(CultureInfo.InvariantCulture);
+            CodexStatusEnabledBox.IsChecked = config.CodexStatusEnabled;
+            CodexStatusBubbleBox.IsChecked = config.CodexStatusBubbleEnabled;
+            CodexStatusAffectsGifBox.IsChecked = config.CodexStatusAffectsGif;
+            CodexStatusFilePathBox.Text = string.IsNullOrWhiteSpace(config.CodexStatusFilePath) ? FilePathHelper.CodexStatusPath : config.CodexStatusFilePath;
+            CodexStatusIntervalBox.Text = Math.Max(1, config.CodexStatusRefreshIntervalSeconds).ToString(CultureInfo.InvariantCulture);
             AlwaysOnTopBox.IsChecked = config.AlwaysOnTop;
             StartupBox.IsChecked = _startupService.IsEnabled();
             ScaleSlider.Value = config.ScalePercent <= 0 ? 100 : config.ScalePercent;
@@ -101,6 +109,7 @@ namespace YueXinMiaoPet.Views
             UpdateResourceFields();
             UpdateWeatherFields();
             UpdateWeatherInfoText();
+            UpdateCodexStatusInfoText();
         }
 
         private void SelectProvinceAndCity(string province, string city)
@@ -134,6 +143,7 @@ namespace YueXinMiaoPet.Views
             double latitude;
             double longitude;
             int weatherInterval;
+            int codexInterval;
 
             if (!double.TryParse(LatitudeBox.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out latitude) ||
                 !double.TryParse(LongitudeBox.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out longitude))
@@ -149,6 +159,14 @@ namespace YueXinMiaoPet.Views
             }
 
             weatherInterval = Math.Max(1, Math.Min(120, weatherInterval));
+
+            if (!int.TryParse(CodexStatusIntervalBox.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out codexInterval))
+            {
+                MessageBox.Show("Codex 状态刷新间隔必须是整数秒。", "月薪喵设置", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            codexInterval = Math.Max(1, Math.Min(60, codexInterval));
 
             if (!IsTime(WorkStartBox.Text) || !IsTime(WorkEndBox.Text) || !IsTime(LunchStartBox.Text) ||
                 !IsTime(LunchEndBox.Text) || !IsTime(EveningStartBox.Text) || !IsTime(SleepTimeBox.Text))
@@ -178,6 +196,11 @@ namespace YueXinMiaoPet.Views
             bool oldWeatherEnabled = oldConfig.WeatherEnabled;
             bool oldWeatherAffectsGif = oldConfig.WeatherAffectsGif;
             int oldWeatherInterval = oldConfig.WeatherUpdateIntervalMinutes;
+            bool oldCodexEnabled = oldConfig.CodexStatusEnabled;
+            bool oldCodexBubble = oldConfig.CodexStatusBubbleEnabled;
+            bool oldCodexAffectsGif = oldConfig.CodexStatusAffectsGif;
+            string oldCodexPath = oldConfig.CodexStatusFilePath;
+            int oldCodexInterval = oldConfig.CodexStatusRefreshIntervalSeconds;
 
             CityInfo city = CityCombo.SelectedItem as CityInfo;
             string provinceName = ProvinceCombo.SelectedItem as string;
@@ -188,6 +211,14 @@ namespace YueXinMiaoPet.Views
             string selectedMode = mode;
             bool weatherEnabled = EnableWeatherBox.IsChecked == true;
             bool weatherAffectsGif = WeatherAffectsGifBox.IsChecked == true;
+            bool codexEnabled = CodexStatusEnabledBox.IsChecked == true;
+            bool codexBubble = CodexStatusBubbleBox.IsChecked == true;
+            bool codexAffectsGif = CodexStatusAffectsGifBox.IsChecked == true;
+            string codexStatusPath = (CodexStatusFilePathBox.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(codexStatusPath))
+            {
+                codexStatusPath = FilePathHelper.CodexStatusPath;
+            }
 
             _configService.Update(config =>
             {
@@ -203,6 +234,11 @@ namespace YueXinMiaoPet.Views
                 config.WeatherBubbleEnabled = weatherEnabled;
                 config.WeatherAffectsGif = weatherAffectsGif;
                 config.WeatherUpdateIntervalMinutes = weatherInterval;
+                config.CodexStatusEnabled = codexEnabled;
+                config.CodexStatusBubbleEnabled = codexBubble;
+                config.CodexStatusAffectsGif = codexAffectsGif;
+                config.CodexStatusFilePath = codexStatusPath;
+                config.CodexStatusRefreshIntervalSeconds = codexInterval;
                 config.Province = string.IsNullOrWhiteSpace(provinceName) ? "上海市" : provinceName;
                 config.City = string.IsNullOrWhiteSpace(cityName) ? "上海市" : cityName;
                 config.LegacyCity = config.City;
@@ -238,6 +274,22 @@ namespace YueXinMiaoPet.Views
                 Math.Abs(oldLatitude - _configService.Current.Latitude) > 0.000001 ||
                 Math.Abs(oldLongitude - _configService.Current.Longitude) > 0.000001;
 
+            bool codexChanged =
+                oldCodexEnabled != _configService.Current.CodexStatusEnabled ||
+                oldCodexBubble != _configService.Current.CodexStatusBubbleEnabled ||
+                oldCodexAffectsGif != _configService.Current.CodexStatusAffectsGif ||
+                oldCodexInterval != _configService.Current.CodexStatusRefreshIntervalSeconds ||
+                !string.Equals(oldCodexPath ?? string.Empty, _configService.Current.CodexStatusFilePath ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+
+            if (_configService.Current.CodexStatusEnabled && _codexStatusService != null)
+            {
+                _codexStatusService.EnsureDefaultStatusFile(_configService.Current);
+                if (codexChanged)
+                {
+                    _codexStatusService.RefreshNow();
+                }
+            }
+
             if (_onConfigChanged != null)
             {
                 _onConfigChanged();
@@ -257,6 +309,7 @@ namespace YueXinMiaoPet.Views
             UpdateResourceFields();
             UpdateWeatherFields();
             UpdateWeatherInfoText();
+            UpdateCodexStatusInfoText();
 
             if (showMessage)
             {
@@ -325,6 +378,12 @@ namespace YueXinMiaoPet.Views
             text += "WeatherEnabled: " + config.WeatherEnabled + Environment.NewLine;
             text += "WeatherAffectsGif: " + config.WeatherAffectsGif + Environment.NewLine;
             text += "WeatherBadgeText: " + (snapshot == null ? string.Empty : snapshot.WeatherBadgeText) + Environment.NewLine;
+            text += "CodexStatusEnabled: " + config.CodexStatusEnabled + Environment.NewLine;
+            text += "CodexStatusBubbleEnabled: " + config.CodexStatusBubbleEnabled + Environment.NewLine;
+            text += "CodexStatusAffectsGif: " + config.CodexStatusAffectsGif + Environment.NewLine;
+            text += "CodexStatusFilePath: " + config.CodexStatusFilePath + Environment.NewLine;
+            text += "CodexStatusTag: " + (snapshot == null ? string.Empty : snapshot.CodexStatusTag) + Environment.NewLine;
+            text += "CodexStatusBadgeText: " + (snapshot == null ? string.Empty : snapshot.CodexStatusBadgeText) + Environment.NewLine;
             text += "当前播放模式: " + (snapshot == null ? string.Empty : snapshot.CurrentPlaybackMode) + Environment.NewLine;
             text += "当前播放列表来源: " + (snapshot == null ? string.Empty : snapshot.CurrentPlaylistSource) + Environment.NewLine;
             text += "当前播放列表数量: " + (snapshot == null ? 0 : snapshot.CurrentPlaylistCount) + Environment.NewLine;
@@ -452,6 +511,25 @@ namespace YueXinMiaoPet.Views
                 "，温度：" + info.Temperature.ToString("0.#", CultureInfo.InvariantCulture) + "℃" +
                 "，天气码：" + info.WeatherCode +
                 "，更新时间：" + FormatTime(info.UpdatedAtUtc);
+        }
+
+        private void UpdateCodexStatusInfoText()
+        {
+            if (CurrentCodexStatusInfoText == null)
+            {
+                return;
+            }
+
+            AppConfig config = _configService.Current;
+            string path = _codexStatusService == null ? (config.CodexStatusFilePath ?? string.Empty) : _codexStatusService.GetStatusFilePath(config);
+            CodexStatus status = _codexStatusService == null ? null : _codexStatusService.CurrentStatus;
+            string statusText = status == null ? "unknown" : status.Status;
+            string display = _codexStatusService == null ? string.Empty : _codexStatusService.CurrentDisplayText;
+
+            CurrentCodexStatusInfoText.Text =
+                "当前状态文件：" + path + Environment.NewLine +
+                "当前 Codex status：" + statusText + Environment.NewLine +
+                "当前气泡：" + (string.IsNullOrWhiteSpace(display) ? "未显示" : display.Replace(Environment.NewLine, " / "));
         }
 
         private void UpdateWeatherFields()
@@ -589,6 +667,89 @@ namespace YueXinMiaoPet.Views
             }
         }
 
+        private void OnBrowseCodexStatusFileClick(object sender, RoutedEventArgs e)
+        {
+            using (Forms.OpenFileDialog dialog = new Forms.OpenFileDialog())
+            {
+                dialog.Title = "选择 Codex 状态文件";
+                dialog.Filter = "JSON 文件 (*.json)|*.json|所有文件 (*.*)|*.*";
+                dialog.CheckFileExists = false;
+                dialog.FileName = Path.GetFileName(string.IsNullOrWhiteSpace(CodexStatusFilePathBox.Text) ? FilePathHelper.CodexStatusPath : CodexStatusFilePathBox.Text);
+                string currentPath = _codexStatusService == null ? CodexStatusFilePathBox.Text : _codexStatusService.ResolveStatusFilePath(CodexStatusFilePathBox.Text);
+                string dir = Path.GetDirectoryName(currentPath);
+                if (!string.IsNullOrWhiteSpace(dir) && Directory.Exists(dir))
+                {
+                    dialog.InitialDirectory = dir;
+                }
+
+                if (dialog.ShowDialog() == Forms.DialogResult.OK)
+                {
+                    CodexStatusFilePathBox.Text = dialog.FileName;
+                    UpdateCodexStatusInfoText();
+                }
+            }
+        }
+
+        private void OnOpenCodexStatusDirectoryClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string path = _codexStatusService == null ? CodexStatusFilePathBox.Text : _codexStatusService.ResolveStatusFilePath(CodexStatusFilePathBox.Text);
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    path = FilePathHelper.CodexStatusPath;
+                }
+
+                string dir = Path.GetDirectoryName(path);
+                if (!string.IsNullOrWhiteSpace(dir))
+                {
+                    FilePathHelper.EnsureDirectory(dir);
+                    Process.Start(new ProcessStartInfo("explorer.exe", "\"" + dir + "\""));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error("打开 Codex 状态文件目录失败。", ex);
+                MessageBox.Show("打开目录失败，请查看日志。", "月薪喵设置", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void OnCreateDefaultCodexStatusClick(object sender, RoutedEventArgs e)
+        {
+            if (_codexStatusService == null)
+            {
+                return;
+            }
+
+            string path = string.IsNullOrWhiteSpace(CodexStatusFilePathBox.Text) ? FilePathHelper.CodexStatusPath : CodexStatusFilePathBox.Text;
+            _codexStatusService.WriteStatusFile(path, CodexStatusService.CreateDefaultStatus("settings"));
+            UpdateCodexStatusInfoText();
+            MessageBox.Show("默认 Codex 状态文件已创建。", "月薪喵设置", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void OnTestCodexStatusClick(object sender, RoutedEventArgs e)
+        {
+            CodexStatusEnabledBox.IsChecked = true;
+            CodexStatusBubbleBox.IsChecked = true;
+            if (!SaveSettings(false, false))
+            {
+                return;
+            }
+
+            if (_codexStatusService != null)
+            {
+                _codexStatusService.WriteTestStatus(_configService.Current);
+            }
+
+            if (_onConfigChanged != null)
+            {
+                _onConfigChanged();
+            }
+
+            UpdateCodexStatusInfoText();
+            RefreshDebug();
+        }
+
         private void OnRestoreDefaultsClick(object sender, RoutedEventArgs e)
         {
             _loading = true;
@@ -600,6 +761,11 @@ namespace YueXinMiaoPet.Views
             WeatherBubbleBox.IsChecked = false;
             WeatherAffectsGifBox.IsChecked = false;
             WeatherIntervalBox.Text = "30";
+            CodexStatusEnabledBox.IsChecked = false;
+            CodexStatusBubbleBox.IsChecked = true;
+            CodexStatusAffectsGifBox.IsChecked = false;
+            CodexStatusFilePathBox.Text = FilePathHelper.CodexStatusPath;
+            CodexStatusIntervalBox.Text = "2";
             SelectProvinceAndCity("上海市", "上海市");
             LatitudeBox.Text = "31.2304";
             LongitudeBox.Text = "121.4737";
@@ -617,6 +783,7 @@ namespace YueXinMiaoPet.Views
             UpdateAppearanceText();
             UpdateResourceFields();
             UpdateWeatherFields();
+            UpdateCodexStatusInfoText();
             if (_onPreviewAppearance != null)
             {
                 _onPreviewAppearance(1.0, 1.0);
@@ -626,6 +793,7 @@ namespace YueXinMiaoPet.Views
         private void OnRefreshDebugClick(object sender, RoutedEventArgs e)
         {
             UpdateWeatherInfoText();
+            UpdateCodexStatusInfoText();
             RefreshDebug();
         }
 

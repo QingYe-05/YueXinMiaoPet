@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using Forms = System.Windows.Forms;
@@ -10,6 +11,8 @@ namespace YueXinMiaoPet.Services
     public class TrayService : IDisposable
     {
         private readonly MainPetWindow _petWindow;
+        private readonly ConfigService _configService;
+        private readonly CodexStatusService _codexStatusService;
         private readonly MoodService _moodService;
         private readonly Action _showSettings;
         private readonly Action _showMood;
@@ -17,10 +20,13 @@ namespace YueXinMiaoPet.Services
         private readonly Action _exit;
         private readonly Forms.NotifyIcon _notifyIcon;
         private readonly Forms.ToolStripMenuItem _showHideItem;
+        private readonly Forms.ToolStripMenuItem _codexEnabledItem;
         private readonly Dictionary<string, Forms.ToolStripMenuItem> _moodItems = new Dictionary<string, Forms.ToolStripMenuItem>(StringComparer.OrdinalIgnoreCase);
 
         public TrayService(
             MainPetWindow petWindow,
+            ConfigService configService,
+            CodexStatusService codexStatusService,
             MoodService moodService,
             Action showSettings,
             Action showMood,
@@ -28,6 +34,8 @@ namespace YueXinMiaoPet.Services
             Action exit)
         {
             _petWindow = petWindow;
+            _configService = configService;
+            _codexStatusService = codexStatusService;
             _moodService = moodService;
             _showSettings = showSettings;
             _showMood = showMood;
@@ -52,6 +60,29 @@ namespace YueXinMiaoPet.Services
             Forms.ToolStripMenuItem resetPositionItem = new Forms.ToolStripMenuItem("重置位置到屏幕中央");
             resetPositionItem.Click += delegate { _petWindow.ResetPositionToScreenCenter(); };
             menu.Items.Add(resetPositionItem);
+
+            menu.Items.Add(new Forms.ToolStripSeparator());
+
+            Forms.ToolStripMenuItem codexMenu = new Forms.ToolStripMenuItem("Codex 状态");
+            _codexEnabledItem = new Forms.ToolStripMenuItem("启用 Codex 状态显示");
+            _codexEnabledItem.CheckOnClick = true;
+            _codexEnabledItem.Checked = _configService != null && _configService.Current != null && _configService.Current.CodexStatusEnabled;
+            _codexEnabledItem.Click += delegate { ToggleCodexStatus(); };
+            codexMenu.DropDownItems.Add(_codexEnabledItem);
+
+            Forms.ToolStripMenuItem showCodexItem = new Forms.ToolStripMenuItem("显示 Codex 状态");
+            showCodexItem.Click += delegate { _petWindow.ShowCodexStatusNow(); };
+            codexMenu.DropDownItems.Add(showCodexItem);
+
+            Forms.ToolStripMenuItem openCodexFileItem = new Forms.ToolStripMenuItem("打开 Codex 状态文件");
+            openCodexFileItem.Click += delegate { OpenCodexStatusFile(); };
+            codexMenu.DropDownItems.Add(openCodexFileItem);
+
+            Forms.ToolStripMenuItem resetCodexItem = new Forms.ToolStripMenuItem("重置 Codex 状态为空闲");
+            resetCodexItem.Click += delegate { ResetCodexStatusToIdle(); };
+            codexMenu.DropDownItems.Add(resetCodexItem);
+
+            menu.Items.Add(codexMenu);
 
             menu.Items.Add(new Forms.ToolStripSeparator());
 
@@ -138,6 +169,73 @@ namespace YueXinMiaoPet.Services
             {
                 _petWindow.ShowPet();
             }
+        }
+
+        private void ToggleCodexStatus()
+        {
+            if (_configService == null || _configService.Current == null)
+            {
+                return;
+            }
+
+            bool enabled = _codexEnabledItem != null && _codexEnabledItem.Checked;
+            _configService.Update(config =>
+            {
+                config.CodexStatusEnabled = enabled;
+                if (enabled)
+                {
+                    config.CodexStatusBubbleEnabled = true;
+                }
+            });
+
+            if (_codexStatusService != null && enabled)
+            {
+                _codexStatusService.EnsureDefaultStatusFile(_configService.Current);
+            }
+
+            _petWindow.ApplyConfig();
+            _petWindow.RefreshCodexStatusNow();
+        }
+
+        private void OpenCodexStatusFile()
+        {
+            try
+            {
+                if (_codexStatusService == null || _configService == null)
+                {
+                    return;
+                }
+
+                _codexStatusService.EnsureDefaultStatusFile(_configService.Current);
+                string path = _codexStatusService.GetStatusFilePath(_configService.Current);
+                if (File.Exists(path))
+                {
+                    Process.Start("explorer.exe", "/select,\"" + path + "\"");
+                }
+                else
+                {
+                    string dir = Path.GetDirectoryName(path);
+                    if (!string.IsNullOrWhiteSpace(dir))
+                    {
+                        Process.Start("explorer.exe", "\"" + dir + "\"");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error("打开 Codex 状态文件失败。", ex);
+            }
+        }
+
+        private void ResetCodexStatusToIdle()
+        {
+            if (_codexStatusService == null || _configService == null)
+            {
+                return;
+            }
+
+            _codexStatusService.WriteIdleStatus(_configService.Current, "tray");
+            _petWindow.RefreshCodexStatusNow();
         }
 
         public void Dispose()

@@ -114,6 +114,43 @@
                                             IsSnapToTickEnabled="True" SmallChange="5" LargeChange="5" ValueChanged="OnAppearanceSliderChanged" Margin="0,6" />
                                     <TextBlock x:Name="OpacityValueText" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" Margin="8,6,0,6" />
                                 </Grid>
+                                <GroupBox Header="Codex 状态" Margin="0,12,0,0">
+                                    <StackPanel Margin="10">
+                                        <CheckBox x:Name="CodexStatusEnabledBox"
+                                                  Content="启用 Codex 状态显示"
+                                                  Margin="0,0,0,6" />
+                                        <CheckBox x:Name="CodexStatusBubbleBox"
+                                                  Content="显示 Codex 状态气泡"
+                                                  Margin="0,0,0,6" />
+                                        <CheckBox x:Name="CodexStatusAffectsGifBox"
+                                                  Content="Codex 状态影响 GIF（默认关闭，只作为轻量兜底建议）"
+                                                  Margin="0,0,0,8" />
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="84" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="状态文件路径" Margin="0,3" />
+                                            <TextBox x:Name="CodexStatusFilePathBox" Grid.Row="0" Grid.Column="1" Margin="0,3,8,3" />
+                                            <Button Grid.Row="0" Grid.Column="2" Content="浏览..." Margin="0,3" Click="OnBrowseCodexStatusFileClick" />
+                                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="刷新间隔（秒）" Margin="0,3" />
+                                            <TextBox x:Name="CodexStatusIntervalBox" Grid.Row="1" Grid.Column="1" Width="80" HorizontalAlignment="Left" Margin="0,3" />
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <Button Content="打开状态文件目录" Margin="0,0,8,0" Click="OnOpenCodexStatusDirectoryClick" />
+                                            <Button Content="创建默认状态文件" Margin="0,0,8,0" Click="OnCreateDefaultCodexStatusClick" />
+                                            <Button Content="测试状态" Click="OnTestCodexStatusClick" />
+                                        </StackPanel>
+                                        <TextBlock x:Name="CurrentCodexStatusInfoText"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="#555" />
+                                    </StackPanel>
+                                </GroupBox>
                                 <TextBlock Text="拖动滑块会实时预览；点击取消会恢复打开设置前的缩放和透明度。"
                                            TextWrapping="Wrap"
                                            Foreground="#666"

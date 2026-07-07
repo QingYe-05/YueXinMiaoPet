@@ -79,6 +79,11 @@ namespace YueXinMiaoPet.Services
             config.WeatherUpdateIntervalMinutes = 30;
             config.WeatherBubbleEnabled = false;
             config.WeatherAffectsGif = false;
+            config.CodexStatusEnabled = false;
+            config.CodexStatusFilePath = FilePathHelper.CodexStatusPath;
+            config.CodexStatusAffectsGif = false;
+            config.CodexStatusBubbleEnabled = true;
+            config.CodexStatusRefreshIntervalSeconds = 2;
             config.UseGlobalCustomPlaylist = false;
             config.GlobalCustomPlaylist = new System.Collections.Generic.List<string>();
             config.MoodCustomPlaylists = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<string>>(StringComparer.OrdinalIgnoreCase);

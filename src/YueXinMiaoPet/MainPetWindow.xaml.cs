@@ -18,6 +18,7 @@ namespace YueXinMiaoPet
         private readonly ConfigService _configService;
         private readonly GifAssetService _assetService;
         private readonly GifPlaylistService _playlistService;
+        private readonly CodexStatusService _codexStatusService;
         private readonly WeatherService _weatherService;
         private readonly TimeStateService _timeStateService;
         private readonly MoodService _moodService;
@@ -34,6 +35,7 @@ namespace YueXinMiaoPet
         private DateTime _lastGifChange;
         private string _currentGifPath;
         private string _weatherBadgeText;
+        private string _codexStatusBadgeText;
         private bool _allowClose;
         private bool _mouseDown;
         private bool _isDragging;
@@ -47,6 +49,7 @@ namespace YueXinMiaoPet
             ConfigService configService,
             GifAssetService assetService,
             GifPlaylistService playlistService,
+            CodexStatusService codexStatusService,
             WeatherService weatherService,
             TimeStateService timeStateService,
             MoodService moodService,
@@ -58,6 +61,7 @@ namespace YueXinMiaoPet
             _configService = configService;
             _assetService = assetService;
             _playlistService = playlistService;
+            _codexStatusService = codexStatusService;
             _weatherService = weatherService;
             _timeStateService = timeStateService;
             _moodService = moodService;
@@ -66,6 +70,7 @@ namespace YueXinMiaoPet
             _state = new PetState();
             _currentGifPath = string.Empty;
             _weatherBadgeText = string.Empty;
+            _codexStatusBadgeText = string.Empty;
             _actionLockUntil = DateTime.MinValue;
             _lastGifChange = DateTime.MinValue;
             _startupWindowResetPending = _startupOptions.SafeMode || _startupOptions.ResetWindow;
@@ -88,6 +93,10 @@ namespace YueXinMiaoPet
             _positionSaveTimer.Tick += OnPositionSaveTimerTick;
 
             BuildPetContextMenu();
+            if (_codexStatusService != null)
+            {
+                _codexStatusService.StatusChanged += OnCodexStatusChanged;
+            }
             PetImage.GifLoadFailed += OnPetGifLoadFailed;
             PetImage.GifLoaded += delegate { _consecutiveGifLoadFailures = 0; };
             ApplyConfig();
@@ -142,6 +151,8 @@ namespace YueXinMiaoPet
                 UpdateWeatherBadge(null, false);
             }
 
+            ApplyCodexStatusConfig();
+
             double? left = config.WindowPositionX.HasValue ? config.WindowPositionX : config.WindowLeft;
             double? top = config.WindowPositionY.HasValue ? config.WindowPositionY : config.WindowTop;
             if (left.HasValue && top.HasValue && WindowPlacementService.IsRectVisible(left.Value, top.Value, Width, Height))
@@ -192,6 +203,39 @@ namespace YueXinMiaoPet
             {
                 await RefreshWeatherAsync(true);
             }));
+        }
+
+        public void RefreshCodexStatusNow()
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(RefreshCodexStatusNow));
+                return;
+            }
+
+            if (_codexStatusService != null)
+            {
+                _codexStatusService.RefreshNow();
+                UpdateCodexStatusBadge(_codexStatusService.CurrentStatus, _codexStatusService.CurrentDisplayText);
+                UpdateState();
+                UpdateDebugFromLastResult();
+            }
+        }
+
+        public void ShowCodexStatusNow()
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(ShowCodexStatusNow));
+                return;
+            }
+
+            ShowPet();
+            RefreshCodexStatusNow();
+            if (IsCodexStatusBadgeEnabled())
+            {
+                CodexStatusBadge.Visibility = Visibility.Visible;
+            }
         }
 
         public void RefreshNow(bool force)
@@ -352,6 +396,11 @@ namespace YueXinMiaoPet
                 return;
             }
 
+            if (IsCodexStatusBadgeEnabled())
+            {
+                RefreshCodexStatusNow();
+            }
+
             RefreshNow(true, false);
             double milliseconds = Math.Max(1800, Math.Min(8000, PetImage.CurrentCycleDuration.TotalMilliseconds));
             _actionLockUntil = DateTime.Now.AddMilliseconds(milliseconds);
@@ -446,11 +495,71 @@ namespace YueXinMiaoPet
             double safeScale = Math.Max(0.5, Math.Min(2.0, scale));
             double gifSize = Math.Max(80, 220 * safeScale);
             bool showWeather = IsWeatherEnabled();
+            bool showCodex = IsCodexStatusBadgeEnabled();
             PetImage.Width = gifSize;
             PetImage.Height = gifSize;
             Width = gifSize;
-            Height = gifSize + (showWeather ? 34 : 0);
+            Height = gifSize + (showWeather ? 34 : 0) + (showCodex ? 58 : 0);
             Opacity = Math.Max(0.3, Math.Min(1.0, opacity));
+        }
+
+        private void ApplyCodexStatusConfig()
+        {
+            if (_codexStatusService == null)
+            {
+                UpdateCodexStatusBadge(null, string.Empty);
+                return;
+            }
+
+            AppConfig config = _configService.Current;
+            if (config != null && config.CodexStatusEnabled)
+            {
+                _codexStatusService.Start(config);
+                UpdateCodexStatusBadge(_codexStatusService.CurrentStatus, _codexStatusService.CurrentDisplayText);
+            }
+            else
+            {
+                _codexStatusService.Stop();
+                UpdateCodexStatusBadge(null, string.Empty);
+            }
+        }
+
+        private void OnCodexStatusChanged(object sender, CodexStatusChangedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                UpdateCodexStatusBadge(e == null ? null : e.Status, e == null ? string.Empty : e.DisplayText);
+                UpdateState();
+                UpdateDebugFromLastResult();
+            }));
+        }
+
+        private void UpdateCodexStatusBadge(CodexStatus status, string displayText)
+        {
+            if (!IsCodexStatusBadgeEnabled() || status == null || !status.Enabled)
+            {
+                _codexStatusBadgeText = string.Empty;
+                CodexStatusBadge.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            string text = string.IsNullOrWhiteSpace(displayText)
+                ? _codexStatusService.GetDisplayText(status)
+                : displayText;
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                _codexStatusBadgeText = string.Empty;
+                CodexStatusBadge.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            string[] parts = text.Replace("\r\n", "\n").Split(new[] { '\n' }, 2);
+            CodexStatusTitleText.Text = parts.Length > 0 ? parts[0] : "Codex：" + CodexStatusService.GetStatusDisplayName(status.Status);
+            CodexStatusMessageText.Text = parts.Length > 1 ? parts[1] : string.Empty;
+            CodexStatusMessageText.Visibility = string.IsNullOrWhiteSpace(CodexStatusMessageText.Text) ? Visibility.Collapsed : Visibility.Visible;
+            _codexStatusBadgeText = text;
+            CodexStatusBadge.Visibility = Visibility.Visible;
         }
 
         private async System.Threading.Tasks.Task RefreshWeatherAsync(bool userRequested)
@@ -552,6 +661,11 @@ namespace YueXinMiaoPet
                 _state.LastMoodChangedAt != DateTime.MinValue &&
                 DateTime.UtcNow - _state.LastMoodChangedAt.ToUniversalTime() < TimeSpan.FromSeconds(60);
             _state.IsWeatherReactionActive = weatherEnabled && config.WeatherAffectsGif;
+            bool codexEnabled = IsCodexStatusEnabled();
+            _state.CodexStatusTag = codexEnabled && _codexStatusService != null && _codexStatusService.CurrentStatus != null
+                ? CodexStatusService.NormalizeStatusTag(_codexStatusService.CurrentStatus.Status)
+                : "unknown";
+            _state.IsCodexStatusReactionActive = codexEnabled && config.CodexStatusAffectsGif;
 
             if (DateTime.Now >= _actionLockUntil)
             {
@@ -576,6 +690,7 @@ namespace YueXinMiaoPet
                 result,
                 _configService.Current,
                 _weatherBadgeText,
+                _codexStatusBadgeText,
                 _playlistService.GetMoodCustomPlaylistCount(_configService.Current, mood),
                 _playlistService.GetGlobalCustomPlaylistCount(_configService.Current));
         }
@@ -608,6 +723,19 @@ namespace YueXinMiaoPet
                 _configService != null &&
                 _configService.Current != null &&
                 _configService.Current.WeatherEnabled;
+        }
+
+        private bool IsCodexStatusEnabled()
+        {
+            return _configService != null &&
+                _configService.Current != null &&
+                _configService.Current.CodexStatusEnabled;
+        }
+
+        private bool IsCodexStatusBadgeEnabled()
+        {
+            return IsCodexStatusEnabled() &&
+                _configService.Current.CodexStatusBubbleEnabled;
         }
 
         private void EnsureVisibleOnScreen(string reason)

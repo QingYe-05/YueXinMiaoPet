@@ -18,6 +18,11 @@ namespace YueXinMiaoPet.Utils
             get { return Path.Combine(AppDataDir, "config.json"); }
         }
 
+        public static string CodexStatusPath
+        {
+            get { return Path.Combine(AppDataDir, "codex_status.json"); }
+        }
+
         public static string LogsDir
         {
             get { return Path.Combine(AppDataDir, "logs"); }
@@ -127,6 +132,18 @@ namespace YueXinMiaoPet.Utils
             }
 
             return fromApp;
+        }
+
+        public static string ExpandEnvironmentPath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return string.Empty;
+            }
+
+            string expanded = path.Replace("%AppData%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            expanded = expanded.Replace("%APPDATA%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            return Environment.ExpandEnvironmentVariables(expanded);
         }
 
         public static void EnsureDirectory(string dir)
