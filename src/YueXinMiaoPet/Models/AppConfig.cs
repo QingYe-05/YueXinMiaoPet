@@ -49,21 +49,6 @@ namespace YueXinMiaoPet.Models
         [DataMember(Name = "WeatherAffectsGif")]
         public bool WeatherAffectsGif { get; set; }
 
-        [DataMember(Name = "CodexStatusEnabled")]
-        public bool CodexStatusEnabled { get; set; }
-
-        [DataMember(Name = "CodexStatusFilePath")]
-        public string CodexStatusFilePath { get; set; }
-
-        [DataMember(Name = "CodexStatusAffectsGif")]
-        public bool CodexStatusAffectsGif { get; set; }
-
-        [DataMember(Name = "CodexStatusBubbleEnabled")]
-        public bool CodexStatusBubbleEnabled { get; set; }
-
-        [DataMember(Name = "CodexStatusRefreshIntervalSeconds")]
-        public int CodexStatusRefreshIntervalSeconds { get; set; }
-
         [DataMember(Name = "LastWeatherTag")]
         public string LastWeatherTag { get; set; }
 
@@ -172,11 +157,6 @@ namespace YueXinMiaoPet.Models
             WeatherUpdateIntervalMinutes = 30;
             WeatherBubbleEnabled = false;
             WeatherAffectsGif = false;
-            CodexStatusEnabled = false;
-            CodexStatusFilePath = YueXinMiaoPet.Utils.FilePathHelper.CodexStatusPath;
-            CodexStatusAffectsGif = false;
-            CodexStatusBubbleEnabled = true;
-            CodexStatusRefreshIntervalSeconds = 2;
             UseBuiltInGifLibrary = true;
             PreferClassifiedGifs = true;
             UseGlobalCustomPlaylist = false;
@@ -208,7 +188,6 @@ namespace YueXinMiaoPet.Models
             SyncAppearance();
             SyncMood();
             SyncWeather();
-            SyncCodexStatus();
             SyncLocation();
             SyncGifSource();
             SyncPlaylists();
@@ -287,21 +266,6 @@ namespace YueXinMiaoPet.Models
             if (string.IsNullOrWhiteSpace(LastWeatherTag)) LastWeatherTag = LastWeatherCache.WeatherTag;
             if (Math.Abs(LastTemperature) < 0.000001) LastTemperature = LastWeatherCache.Temperature;
             if (string.IsNullOrWhiteSpace(LastWeatherUpdateAt)) LastWeatherUpdateAt = LastWeatherCache.UpdatedAtUtc;
-        }
-
-        private void SyncCodexStatus()
-        {
-            if (string.IsNullOrWhiteSpace(CodexStatusFilePath))
-            {
-                CodexStatusFilePath = YueXinMiaoPet.Utils.FilePathHelper.CodexStatusPath;
-            }
-
-            if (CodexStatusRefreshIntervalSeconds <= 0)
-            {
-                CodexStatusRefreshIntervalSeconds = 2;
-            }
-
-            CodexStatusRefreshIntervalSeconds = Clamp(CodexStatusRefreshIntervalSeconds, 1, 60);
         }
 
         private void SyncLocation()

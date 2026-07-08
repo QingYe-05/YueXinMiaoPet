@@ -16,8 +16,6 @@ namespace YueXinMiaoPet.Models
         public DateTime LastMoodChangedAt { get; set; }
         public bool IsMoodLocked { get; set; }
         public bool IsWeatherReactionActive { get; set; }
-        public string CodexStatusTag { get; set; }
-        public bool IsCodexStatusReactionActive { get; set; }
 
         public PetState()
         {
@@ -31,8 +29,6 @@ namespace YueXinMiaoPet.Models
             LastMoodChangedAt = DateTime.MinValue;
             IsMoodLocked = false;
             IsWeatherReactionActive = false;
-            CodexStatusTag = "unknown";
-            IsCodexStatusReactionActive = false;
         }
 
         public PetState Clone()

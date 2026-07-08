@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=月薪喵桌宠 Linux
+Comment=YueXinMiao desktop pet for Linux
+Exec=__PROJECT_DIR__/run.sh
+Path=__PROJECT_DIR__
+Terminal=false
+Categories=Utility;

@@ -23,7 +23,6 @@ namespace YueXinMiaoPet
         public GifTagInferenceService GifTagInferenceService { get; private set; }
         public GifAssetService GifAssetService { get; private set; }
         public GifPlaylistService GifPlaylistService { get; private set; }
-        public CodexStatusService CodexStatusService { get; private set; }
         public WeatherService WeatherService { get; private set; }
         public TimeStateService TimeStateService { get; private set; }
         public MoodService MoodService { get; private set; }
@@ -83,7 +82,6 @@ namespace YueXinMiaoPet
                     ConfigService,
                     GifAssetService,
                     GifPlaylistService,
-                    CodexStatusService,
                     WeatherService,
                     TimeStateService,
                     MoodService,
@@ -92,8 +90,6 @@ namespace YueXinMiaoPet
 
                 TrayService = new TrayService(
                     PetWindow,
-                    ConfigService,
-                    CodexStatusService,
                     MoodService,
                     ShowSettingsWindow,
                     ShowMoodWindow,
@@ -122,7 +118,6 @@ namespace YueXinMiaoPet
             GifTagInferenceService = new GifTagInferenceService();
             GifAssetService = new GifAssetService(GifTagInferenceService);
             GifPlaylistService = new GifPlaylistService();
-            CodexStatusService = new CodexStatusService();
             WeatherService = new WeatherService();
             TimeStateService = new TimeStateService();
             MoodService = new MoodService(ConfigService);
@@ -331,7 +326,6 @@ namespace YueXinMiaoPet
                 StartupService,
                 DebugStateService,
                 CityCatalogService,
-                CodexStatusService,
                 delegate(double scale, double opacity)
                 {
                     if (PetWindow != null)
@@ -438,11 +432,6 @@ namespace YueXinMiaoPet
                     TrayService.Dispose();
                 }
 
-                if (CodexStatusService != null)
-                {
-                    CodexStatusService.Dispose();
-                }
-
                 ConfigService.Save();
             }
             catch (Exception ex)
@@ -461,11 +450,6 @@ namespace YueXinMiaoPet
             }
 
             LogService.Info("月薪喵桌宠退出。");
-            if (CodexStatusService != null)
-            {
-                CodexStatusService.Dispose();
-            }
-
             base.OnExit(e);
         }
     }

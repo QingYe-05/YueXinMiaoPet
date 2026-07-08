@@ -29,7 +29,6 @@ namespace YueXinMiaoPet.Services
             GifPlaylistResult playlistResult,
             AppConfig config,
             string weatherBadgeText,
-            string codexStatusBadgeText,
             int moodCustomPlaylistCount,
             int globalCustomPlaylistCount)
         {
@@ -50,12 +49,6 @@ namespace YueXinMiaoPet.Services
                     WeatherEnabled = config != null && config.WeatherEnabled,
                     WeatherAffectsGif = config != null && config.WeatherAffectsGif,
                     WeatherBadgeText = weatherBadgeText ?? string.Empty,
-                    CodexStatusEnabled = config != null && config.CodexStatusEnabled,
-                    CodexStatusBubbleEnabled = config != null && config.CodexStatusBubbleEnabled,
-                    CodexStatusAffectsGif = config != null && config.CodexStatusAffectsGif,
-                    CodexStatusFilePath = config == null ? string.Empty : config.CodexStatusFilePath,
-                    CodexStatusTag = state == null ? "unknown" : state.CodexStatusTag,
-                    CodexStatusBadgeText = codexStatusBadgeText ?? string.Empty,
                     TopCandidates = playlistResult == null ? new System.Collections.Generic.List<GifPickCandidate>() : playlistResult.TopCandidates
                 };
             }
@@ -96,12 +89,6 @@ namespace YueXinMiaoPet.Services
             builder.AppendLine("WeatherEnabled: " + (snapshot.WeatherEnabled ? "true" : "false"));
             builder.AppendLine("WeatherAffectsGif: " + (snapshot.WeatherAffectsGif ? "true" : "false"));
             builder.AppendLine("WeatherBadgeText: " + snapshot.WeatherBadgeText);
-            builder.AppendLine("CodexStatusEnabled: " + (snapshot.CodexStatusEnabled ? "true" : "false"));
-            builder.AppendLine("CodexStatusBubbleEnabled: " + (snapshot.CodexStatusBubbleEnabled ? "true" : "false"));
-            builder.AppendLine("CodexStatusAffectsGif: " + (snapshot.CodexStatusAffectsGif ? "true" : "false"));
-            builder.AppendLine("CodexStatusFilePath: " + snapshot.CodexStatusFilePath);
-            builder.AppendLine("CodexStatusTag: " + snapshot.CodexStatusTag);
-            builder.AppendLine("CodexStatusBadgeText: " + snapshot.CodexStatusBadgeText);
             builder.AppendLine();
             builder.AppendLine("当前播放列表前 5 项");
 

@@ -2,36 +2,25 @@
 
 所有重要变更都会记录在这里。
 
-## [v2.1.0] - 2026-07-07
+## [Unreleased]
 
 ### 新增
 
-- 新增 Codex 工作状态显示模块。
-- 新增本地 `%AppData%\YueXinMiaoPet\codex_status.json` 状态桥接文件。
-- 新增 `CodexStatusService`，支持 FileSystemWatcher 监听和定时轮询兜底。
-- 新增 Codex 状态气泡，显示在天气气泡和月薪喵 GIF 上方。
-- 新增设置项：
-  - `CodexStatusEnabled`
-  - `CodexStatusFilePath`
-  - `CodexStatusAffectsGif`
-  - `CodexStatusBubbleEnabled`
-  - `CodexStatusRefreshIntervalSeconds`
-- 设置窗口新增“Codex 状态”区域，可启用显示、设置路径、创建默认文件和写入测试状态。
-- 托盘菜单新增“Codex 状态”子菜单，可启用显示、显示状态、打开状态文件、重置为空闲。
-- 新增 `tools/codex-status.ps1` 和 `tools/codex-status-example.bat`，方便本地脚本写入 Codex 状态。
+- 新增 Linux 实验版桌宠项目：`linux/yuexinmiao-pet-linux`。
+- Linux 版采用 Python 3 + PyQt6 独立实现，不影响 Windows WPF 主项目。
+- Linux 版支持透明无边框窗口、GIF 播放、拖动、托盘、心情分类和当前心情 GIF 顺序轮播。
+- 新增 Linux 版资源同步脚本，可从 Windows 项目的 `PetAssets/classified_gifs` 复制 GIF 到 Linux 项目目录。
 
-### 说明
+### 改进
 
-- 默认不启用 Codex 状态显示。
-- 默认 Codex 状态不影响 GIF 轮播。
-- 未知状态、状态文件缺失、JSON 损坏或文件监听异常不会导致桌宠崩溃。
-- 状态超过 10 分钟未更新且不为 `idle` 时，会显示“Codex：状态可能已过期”。
+- 更新跨平台项目结构和文档说明。
+- 整理 Windows 版正式功能范围，保持 v2.0.1 稳定功能。
 
 ## [v2.0.1] - 2026-06-30
 
 ### 修复
 
-- 修复部分 Win11 环境托盘图标存在但桌宠窗口不可见的问题。
+- 修复部分 Win11 环境托盘图标存在但桌宠窗口不可见时缺少自动恢复的问题。
 - 修复窗口坐标异常、多显示器变化或配置损坏导致桌宠显示到屏幕外的问题。
 - 托盘菜单新增“显示月薪喵”和“重置位置到屏幕中央”，便于用户自助恢复。
 - 增强 GIF 加载失败 fallback：资源为空时显示诊断提示，单张 GIF 解码失败时记录日志并尝试下一张。
@@ -46,41 +35,54 @@
 
 ## [v2.0.0] - 2026-06-29
 
-### 新增
+### Added
 
 - 新增“GIF 轮播设置”窗口，可从“当前心情 GIF”或“全部 GIF”中多选 GIF。
 - 新增当前心情自定义轮播与全局自定义轮播配置。
 - 新增 `GifPlaylistService`，统一管理心情默认顺序轮播、自定义轮播和兜底播放列表。
 - 新增天气弱干扰开关：`WeatherEnabled` 与 `WeatherAffectsGif`，默认均为 `false`。
 - 新增 GIF 正上方天气气泡，开启后仅显示天气状况和温度。
-- 调试面板增加播放模式、播放列表来源、播放列表数量、播放索引、天气开关和天气气泡文本等信息。
+- 调试面板增加当前播放模式、播放列表来源、播放列表数量、播放索引、天气开关和天气气泡文本等信息。
 
-### 变更
+### Changed
 
-- 默认播放逻辑由随机 / 权重 / 偏好 GIF 改为当前心情分类中 enabled GIF 按顺序循环播放。
+- 默认播放逻辑由随机 / 权重 / 偏好 GIF 改为当前心情分类下 enabled GIF 按顺序循环播放。
 - 单击桌宠不再跳回普通 GIF，而是推进当前播放列表的下一张。
 - 心情切换后立即切换到新心情对应播放列表。
 - 天气默认不显示、不主动刷新、不影响 GIF；开启天气挂件后也不会打断当前心情或用户自定义轮播。
-- 天气气泡内容精简为“天气状况 + 温度”。
+- 天气气泡内容精简为“天气状况 + 温度”，例如 `晴 28℃`。
 - 配置文件兼容旧版本，缺失新增字段时自动补默认值。
 
-### 修复
+### Fixed
 
 - 修复天气刷新、点击互动等入口可能抢回普通 GIF 的体验问题。
 - 修复用户自定义轮播中 GIF 后续缺失或禁用时可能影响播放的问题，改为自动跳过并安全回退。
 - 修复发布文档中仍描述旧随机播放逻辑的问题。
 
+### Build
+
+- Release 构建通过。
+- Inno Setup 打包通过。
+- 安装包输出路径：`E:\Tool\codex\YueXinMiaoPet\installer\output\YueXinMiaoPet_Setup.exe`。
+
 ## [v1.0.0] - 2026-06-28
 
-### 新增
+### Added
 
 - 基于 C# / WPF / .NET Framework 4.8 的 Windows 桌宠应用。
 - 兼容目标：Windows 7 SP1、Windows 10、Windows 11。
-- 透明、无边框、可拖动、可置顶的桌宠窗口。
-- 内置 13 类月薪喵 GIF 资源。
+- 透明、无边框、可拖动、默认置顶的桌宠窗口。
+- 内置 13 类月薪喵 GIF 资源，共 186 个 GIF。
 - 支持中文路径、中文 GIF 文件名扫描和 `assets.generated.json` 生成。
 - 心情窗口支持有效期：30 分钟、1 小时、2 小时、今天有效、一直有效。
-- 天气服务、城市选择、经纬度高级选项、断网安全回退。
-- 设置窗口、托盘菜单、调试面板。
+- 天气服务：Open-Meteo、省市选择、经纬度高级选项、断网安全回退。
+- 设置窗口：GIF 来源、缩放、透明度、置顶、开机启动、上下班时间、调试面板。
+- 托盘菜单：显示 / 隐藏、今日心情、设置、重新扫描 GIF、退出。
 - Inno Setup 安装脚本，包含 .NET Framework 4.8 Runtime 检测与离线安装包接入。
 - 应用图标、托盘图标、快捷方式图标和安装包图标。
+
+### Known limitations
+
+- Windows 7 SP1 需要 .NET Framework 4.8，且仍需在真实 Win7 环境补充安装测试。
+- 自定义 GIF 目录只扫描本地 GIF 文件，不会自动修复损坏 GIF。
+- GitHub Release 附件需要通过 GitHub Releases 分发，不应提交到源码仓库。

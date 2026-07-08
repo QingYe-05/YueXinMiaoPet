@@ -22,45 +22,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border x:Name="CodexStatusBadge"
+        <Border x:Name="WeatherBadge"
                 Grid.Row="0"
                 Visibility="Collapsed"
-                IsHitTestVisible="False"
-                HorizontalAlignment="Center"
-                MaxWidth="260"
-                Margin="4,0,4,6"
-                Padding="10,6"
-                CornerRadius="12"
-                Background="#EAF5F3FF"
-                BorderBrush="#AA7C88C8"
-                BorderThickness="1">
-            <StackPanel>
-                <TextBlock x:Name="CodexStatusTitleText"
-                           Text="Codex：空闲"
-                           FontSize="12"
-                           FontWeight="SemiBold"
-                           Foreground="#3B3F75"
-                           TextWrapping="NoWrap"
-                           TextTrimming="CharacterEllipsis"
-                           TextAlignment="Center" />
-                <TextBlock x:Name="CodexStatusMessageText"
-                           Text=""
-                           FontSize="11"
-                           Foreground="#4E527F"
-                           MaxWidth="240"
-                           TextWrapping="Wrap"
-                           TextTrimming="CharacterEllipsis"
-                           TextAlignment="Center" />
-            </StackPanel>
-        </Border>
-
-        <Border x:Name="WeatherBadge"
-                Grid.Row="1"
-                Visibility="Collapsed"
-                IsHitTestVisible="False"
                 HorizontalAlignment="Center"
                 MaxWidth="240"
                 Margin="4,0,4,6"
@@ -79,13 +45,13 @@
         </Border>
 
         <controls:AnimatedGifImage x:Name="PetImage"
-                                   Grid.Row="2"
+                                   Grid.Row="1"
                                    Stretch="Uniform"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    RenderOptions.BitmapScalingMode="HighQuality" />
         <Border x:Name="FallbackPanel"
-                Grid.Row="2"
+                Grid.Row="1"
                 Visibility="Collapsed"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

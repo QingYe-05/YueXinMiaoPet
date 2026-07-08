@@ -66,6 +66,25 @@ installer/*.bak
 # Local test classified output at repo root
 classified_gifs/
 
+# Keep Linux experimental project resource folder skeleton, but do not require copied GIFs.
+!linux/
+!linux/yuexinmiao-pet-linux/
+!linux/yuexinmiao-pet-linux/assets/
+!linux/yuexinmiao-pet-linux/assets/classified_gifs/
+linux/yuexinmiao-pet-linux/assets/classified_gifs/**/*.gif
+!linux/yuexinmiao-pet-linux/assets/classified_gifs/.gitkeep
+!linux/yuexinmiao-pet-linux/assets/icons/
+!linux/yuexinmiao-pet-linux/assets/icons/.gitkeep
+
+# Linux preview local runtime
+linux/yuexinmiao-pet-linux/.venv/
+linux/yuexinmiao-pet-linux/venv/
+linux/yuexinmiao-pet-linux/**/__pycache__/
+linux/yuexinmiao-pet-linux/**/*.pyc
+linux/yuexinmiao-pet-linux/logs/
+linux/yuexinmiao-pet-linux/config.json
+yuexinmiao-pet-linux.zip
+
 # Do not ignore source assets
 !src/YueXinMiaoPet/PetAssets/
 !src/YueXinMiaoPet/PetAssets/classified_gifs/
