@@ -17,7 +17,7 @@
 - 默认按当前心情分类顺序轮播，支持当前心情自定义轮播和全局自定义轮播
 - 单击互动、双击打开心情窗口、右键快捷菜单、拖动保存位置
 - 托盘菜单：显示/隐藏、显示月薪喵、重置位置到屏幕中央、今日心情、设置、重新扫描 GIF、退出
-- 设置窗口：省市选择、天气经纬度、天气挂件开关、GIF 轮播设置、缩放 Slider、透明度 Slider、开机启动、置顶、时间段、调试面板
+- 设置窗口：省/市/县区三级选择、地区搜索、天气挂件开关、GIF 轮播设置、缩放 Slider、透明度 Slider、开机启动、置顶、时间段、调试面板
 - 心情窗口：心情、有效期、保存、取消；保存后立即切换 GIF
 - 配置保存到 `%AppData%\YueXinMiaoPet\config.json`
 - 日志保存到 `%AppData%\YueXinMiaoPet\logs\app.log`
@@ -44,7 +44,7 @@ linux/yuexinmiao-pet-linux
 - PyQt6
 - QMovie 播放 GIF
 
-Linux 版目前是实验版 / 预览版，目标支持 Ubuntu、Debian、Linux Mint、Fedora 以及 KDE / GNOME / XFCE 等常见桌面环境。X11 下透明窗口、置顶和托盘通常更稳定；Wayland 下可能受桌面环境限制。
+Linux 版目前是实验版 / 预览版，已支持与 Windows 版一致的可选天气气泡、全国省市县区三级选择、风向风力轮换和雨量细分。目标支持 Ubuntu、Debian、Linux Mint、Fedora 以及 KDE / GNOME / XFCE 等常见桌面环境。X11 下透明窗口、置顶和托盘通常更稳定；Wayland 下可能受桌面环境限制。
 
 安装依赖：
 
@@ -163,11 +163,11 @@ src/YueXinMiaoPet/PetAssets/classified_gifs/
 
 ## 天气功能
 
-天气服务使用 Open-Meteo 免费公开接口，通过设置窗口选择省市或手动填写经纬度后刷新天气。v2.0.0 起天气是可选弱干扰模块：
+天气服务使用 Open-Meteo 免费公开接口。设置窗口通过“省/直辖市 → 市/州/盟 → 县/区”三级行政区选择天气地区，不再提供手动经纬度输入。天气查询优先使用县区行政代码解析位置，并按行政区代码缓存定位和天气，避免同名区县或跨城市缓存混用。天气仍是可选弱干扰模块：
 
 - `WeatherEnabled=false`：默认不显示天气挂件、不主动刷新天气、不影响 GIF。
 - `WeatherAffectsGif=false`：即使显示天气挂件，默认也只作为提示，不参与主 GIF 轮播。
-- 天气挂件显示在 GIF 正上方，只显示天气状况和温度，例如 `晴 28℃`。
+- 天气挂件显示在 GIF 正上方，第一屏仅显示天气和温度，例如 `小雨 26℃`；第二屏仅显示风向风力，例如 `东北风 3级`。完整行政区路径只在设置窗口显示。
 
 内部天气标签包括：
 
@@ -180,7 +180,7 @@ src/YueXinMiaoPet/PetAssets/classified_gifs/
 - `cold`
 - `unknown`
 
-网络失败、断网或城市信息不可用时不会导致程序崩溃，程序会使用上一次天气缓存或回退到 `unknown`。
+网络失败、断网或地区信息不可用时不会导致程序崩溃。程序只使用当前行政区对应的缓存；没有当前地区缓存时回退到 `unknown`，不会借用其他城市天气。
 
 ## 设置窗口
 
@@ -188,7 +188,7 @@ src/YueXinMiaoPet/PetAssets/classified_gifs/
 
 - GIF 来源选择：内置分类 GIF、原始内置 GIF、自定义 GIF 目录
 - 一键切回内置月薪喵分类 GIF
-- 省份 / 城市选择与经纬度高级选项
+- 省 / 市 / 县区三级联动与中文地区搜索
 - 上下班时间、午休、晚间和睡觉时间配置
 - 开机启动、始终置顶
 - 缩放比例 Slider、透明度 Slider
@@ -388,7 +388,7 @@ Win7 老电脑建议确认：
 - 13 类扫描计数
 - 当前标签来源
 - 当前候选 GIF 前 5 名及分数
-- 当前省市、经纬度、缩放、透明度
+- 当前省市县区、行政区代码、缩放、透明度
 - 当前播放模式、播放列表来源、播放列表数量、播放索引
 - WeatherEnabled、WeatherAffectsGif、WeatherBadgeText
 

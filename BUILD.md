@@ -18,7 +18,7 @@
 在项目根目录执行：
 
 ```powershell
-cd /d E:\Tool\codex\YueXinMiaoPet
+cd E:\Tool\codex\YueXinMiaoPet
 msbuild YueXinMiaoPet.sln /p:Configuration=Release /p:Platform="Any CPU"
 ```
 
@@ -46,7 +46,7 @@ Release 输出目录必须包含：
 - `Assets/Icons/app.ico`
 - `Assets/Icons/tray.ico`
 - `Assets/Icons/app.png`
-- `Data/china_cities.json`
+- `Data/china_administrative_divisions.json`
 
 ## Smoke test
 
@@ -75,7 +75,7 @@ D:\Setting\InnoSetup\Inno Setup 6\ISCC.exe
 执行：
 
 ```powershell
-cd /d E:\Tool\codex\YueXinMiaoPet\installer
+cd E:\Tool\codex\YueXinMiaoPet\installer
 & "D:\Setting\InnoSetup\Inno Setup 6\ISCC.exe" YueXinMiaoPet.iss
 ```
 

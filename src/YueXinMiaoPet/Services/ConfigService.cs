@@ -72,8 +72,8 @@ namespace YueXinMiaoPet.Services
             config.Province = "上海市";
             config.City = "上海市";
             config.LegacyCity = "上海市";
-            config.Latitude = 31.2304;
-            config.Longitude = 121.4737;
+            config.ProvinceName = "上海市";
+            config.CityName = "上海市";
             config.WeatherEnabled = false;
             config.EnableWeather = false;
             config.WeatherUpdateIntervalMinutes = 30;

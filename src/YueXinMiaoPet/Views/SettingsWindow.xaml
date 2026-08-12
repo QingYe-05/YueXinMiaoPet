@@ -63,6 +63,16 @@
                                     <Button x:Name="RefreshWeatherButton" Content="立即刷新天气" Margin="12,0,0,0" Click="OnRefreshWeatherClick" />
                                 </StackPanel>
                                 <TextBlock x:Name="CurrentWeatherInfoText" TextWrapping="Wrap" Foreground="#555" Margin="0,0,0,8" />
+                                <TextBox x:Name="RegionSearchBox"
+                                         Margin="0,0,0,4"
+                                         ToolTip="搜索省、市、县区"
+                                         TextChanged="OnRegionSearchTextChanged" />
+                                <ListBox x:Name="RegionSearchResults"
+                                         MaxHeight="130"
+                                         Margin="0,0,0,6"
+                                         Visibility="Collapsed"
+                                         MouseDoubleClick="OnRegionSearchResultDoubleClick" />
+                                <TextBlock x:Name="SelectedRegionPathText" Foreground="#555" Margin="0,0,0,6" />
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="110" />
@@ -72,18 +82,15 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="省份" Margin="0,3" />
-                                    <ComboBox x:Name="ProvinceCombo" Grid.Row="0" Grid.Column="1" DisplayMemberPath="." SelectionChanged="OnProvinceChanged" Margin="0,3" />
-                                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="城市" Margin="0,3" />
-                                    <ComboBox x:Name="CityCombo" Grid.Row="1" Grid.Column="1" DisplayMemberPath="City" SelectedValuePath="City" SelectionChanged="OnCityChanged" Margin="0,3" />
-                                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="纬度（高级）" Margin="0,3" />
-                                    <TextBox x:Name="LatitudeBox" Grid.Row="2" Grid.Column="1" Margin="0,3" />
-                                    <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="经度（高级）" Margin="0,3" />
-                                    <TextBox x:Name="LongitudeBox" Grid.Row="3" Grid.Column="1" Margin="0,3" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="省 / 直辖市" Margin="0,3" />
+                                    <ComboBox x:Name="ProvinceCombo" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Name" SelectionChanged="OnProvinceChanged" Margin="0,3" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="市 / 州 / 盟" Margin="0,3" />
+                                    <ComboBox x:Name="CityCombo" Grid.Row="1" Grid.Column="1" DisplayMemberPath="Name" SelectionChanged="OnCityChanged" Margin="0,3" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="县 / 区" Margin="0,3" />
+                                    <ComboBox x:Name="CountyCombo" Grid.Row="2" Grid.Column="1" DisplayMemberPath="Name" SelectionChanged="OnCountyChanged" Margin="0,3" />
                                 </Grid>
-                                <TextBlock Text="关闭天气挂件时不会主动刷新天气，也不会影响 GIF。开启后可选择城市或手动输入经纬度。"
+                                <TextBlock Text="关闭天气挂件时不会主动刷新天气，也不会影响 GIF。天气定位按县区行政代码优先查询。"
                                            TextWrapping="Wrap"
                                            Foreground="#666"
                                            Margin="0,8,0,0" />

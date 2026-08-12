@@ -84,6 +84,9 @@ linux/yuexinmiao-pet-linux/**/*.pyc
 linux/yuexinmiao-pet-linux/logs/
 linux/yuexinmiao-pet-linux/config.json
 yuexinmiao-pet-linux.zip
+linux/yuexinmiao-pet-linux/output/
+linux/yuexinmiao-pet-linux/*.tar.gz
+linux/v*/
 
 # Do not ignore source assets
 !src/YueXinMiaoPet/PetAssets/

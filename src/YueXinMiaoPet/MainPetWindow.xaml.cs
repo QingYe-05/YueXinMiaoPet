@@ -25,6 +25,7 @@ namespace YueXinMiaoPet
         private readonly StartupOptions _startupOptions;
         private readonly DispatcherTimer _stateTimer;
         private readonly DispatcherTimer _weatherTimer;
+        private readonly DispatcherTimer _weatherBadgeRotateTimer;
         private readonly DispatcherTimer _singleClickTimer;
         private readonly DispatcherTimer _positionSaveTimer;
 
@@ -34,6 +35,9 @@ namespace YueXinMiaoPet
         private DateTime _lastGifChange;
         private string _currentGifPath;
         private string _weatherBadgeText;
+        private string _weatherTemperatureText;
+        private string _weatherWindText;
+        private int _weatherBadgePage;
         private bool _allowClose;
         private bool _mouseDown;
         private bool _isDragging;
@@ -66,6 +70,9 @@ namespace YueXinMiaoPet
             _state = new PetState();
             _currentGifPath = string.Empty;
             _weatherBadgeText = string.Empty;
+            _weatherTemperatureText = string.Empty;
+            _weatherWindText = string.Empty;
+            _weatherBadgePage = 0;
             _actionLockUntil = DateTime.MinValue;
             _lastGifChange = DateTime.MinValue;
             _startupWindowResetPending = _startupOptions.SafeMode || _startupOptions.ResetWindow;
@@ -78,6 +85,10 @@ namespace YueXinMiaoPet
             _weatherTimer = new DispatcherTimer();
             _weatherTimer.Interval = TimeSpan.FromMinutes(10);
             _weatherTimer.Tick += async delegate { await RefreshWeatherAsync(false); };
+
+            _weatherBadgeRotateTimer = new DispatcherTimer();
+            _weatherBadgeRotateTimer.Interval = TimeSpan.FromSeconds(4);
+            _weatherBadgeRotateTimer.Tick += delegate { RotateWeatherBadgeText(); };
 
             _singleClickTimer = new DispatcherTimer();
             _singleClickTimer.Interval = TimeSpan.FromMilliseconds(260);
@@ -139,6 +150,7 @@ namespace YueXinMiaoPet
             else
             {
                 _weatherTimer.Stop();
+                StopWeatherBadgeRotateTimer();
                 UpdateWeatherBadge(null, false);
             }
 
@@ -441,6 +453,12 @@ namespace YueXinMiaoPet
             base.OnClosing(e);
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            _weatherBadgeRotateTimer.Stop();
+            base.OnClosed(e);
+        }
+
         private void ApplyAppearance(double scale, double opacity)
         {
             double safeScale = Math.Max(0.5, Math.Min(2.0, scale));
@@ -502,23 +520,99 @@ namespace YueXinMiaoPet
             if (config == null || !IsWeatherEnabled())
             {
                 _weatherBadgeText = string.Empty;
+                _weatherTemperatureText = string.Empty;
+                _weatherWindText = string.Empty;
+                StopWeatherBadgeRotateTimer();
                 WeatherBadge.Visibility = Visibility.Collapsed;
                 return;
             }
 
             info = info ?? WeatherInfo.Unknown();
-            string weatherName = GetWeatherDisplayName(info.WeatherTag);
+            _weatherTemperatureText = BuildWeatherTemperatureText(info);
+            _weatherWindText = BuildWeatherWindText(info);
+            _weatherBadgePage = 0;
             if (string.Equals(info.WeatherTag, "unknown", StringComparison.OrdinalIgnoreCase))
             {
-                _weatherBadgeText = "天气不可用";
+                _weatherTemperatureText = "天气不可用";
+            }
+
+            UpdateWeatherBadgeText();
+            WeatherBadge.Visibility = Visibility.Visible;
+            if (!string.IsNullOrWhiteSpace(_weatherTemperatureText) && !string.IsNullOrWhiteSpace(_weatherWindText))
+            {
+                StartWeatherBadgeRotateTimer();
             }
             else
             {
-                _weatherBadgeText = weatherName + " " + info.Temperature.ToString("0.#", CultureInfo.InvariantCulture) + "℃";
+                StopWeatherBadgeRotateTimer();
             }
 
+            LogService.Info("天气气泡已更新：温度页=" + _weatherTemperatureText + "，风力页=" +
+                (string.IsNullOrWhiteSpace(_weatherWindText) ? "无" : _weatherWindText));
+        }
+
+        private string BuildWeatherTemperatureText(WeatherInfo info)
+        {
+            string weatherName = !string.IsNullOrWhiteSpace(info.WeatherText)
+                ? info.WeatherText.Trim()
+                : GetWeatherDisplayName(info.WeatherTag);
+            if (string.Equals(weatherName, "未知", StringComparison.OrdinalIgnoreCase)) return weatherName;
+
+            // 桌面气泡按任务文档只显示“天气 温度”，完整行政区路径仅在设置窗口显示。
+            // 旧缓存没有 WeatherText，但只要天气码有效，温度仍视为可用。
+            if (info.WeatherCode >= 0 || Math.Abs(info.Temperature) > double.Epsilon)
+            {
+                return weatherName + " " + info.Temperature.ToString("0.#", CultureInfo.InvariantCulture) + "℃";
+            }
+
+            return weatherName;
+        }
+
+        private string BuildWeatherWindText(WeatherInfo info)
+        {
+            string direction = string.IsNullOrWhiteSpace(info.WindDirection) ? string.Empty : info.WindDirection.Trim();
+            string level = string.IsNullOrWhiteSpace(info.WindLevel) ? string.Empty : info.WindLevel.Trim();
+            if (!string.IsNullOrWhiteSpace(direction) && !string.IsNullOrWhiteSpace(level)) return direction + " " + level;
+            if (!string.IsNullOrWhiteSpace(direction) && info.WindSpeed.HasValue)
+            {
+                return direction + " " + info.WindSpeed.Value.ToString("0.#", CultureInfo.InvariantCulture) + "km/h";
+            }
+            if (!string.IsNullOrWhiteSpace(direction)) return direction;
+            if (!string.IsNullOrWhiteSpace(level)) return level + "风";
+            if (info.WindSpeed.HasValue) return info.WindSpeed.Value.ToString("0.#", CultureInfo.InvariantCulture) + "km/h风";
+            return string.Empty;
+        }
+
+        private void StartWeatherBadgeRotateTimer()
+        {
+            _weatherBadgeRotateTimer.Stop();
+            _weatherBadgeRotateTimer.Start();
+        }
+
+        private void StopWeatherBadgeRotateTimer()
+        {
+            _weatherBadgeRotateTimer.Stop();
+            _weatherBadgePage = 0;
+        }
+
+        private void RotateWeatherBadgeText()
+        {
+            if (!IsWeatherEnabled() || string.IsNullOrWhiteSpace(_weatherTemperatureText) || string.IsNullOrWhiteSpace(_weatherWindText))
+            {
+                StopWeatherBadgeRotateTimer();
+                return;
+            }
+
+            _weatherBadgePage = _weatherBadgePage == 0 ? 1 : 0;
+            UpdateWeatherBadgeText();
+        }
+
+        private void UpdateWeatherBadgeText()
+        {
+            _weatherBadgeText = _weatherBadgePage == 1 && !string.IsNullOrWhiteSpace(_weatherWindText)
+                ? _weatherWindText
+                : _weatherTemperatureText;
             WeatherBadgeText.Text = _weatherBadgeText;
-            WeatherBadge.Visibility = Visibility.Visible;
         }
 
         private string GetWeatherDisplayName(string weatherTag)
@@ -651,8 +745,12 @@ namespace YueXinMiaoPet
         private void BuildPetContextMenu()
         {
             ContextMenu menu = new ContextMenu();
-            MenuItem show = new MenuItem { Header = "显示月薪喵" };
-            show.Click += delegate { ShowPet(); };
+            MenuItem hide = new MenuItem { Header = "隐藏桌宠" };
+            hide.Click += delegate
+            {
+                LogService.Info("Hide pet from context menu");
+                HidePet();
+            };
             MenuItem resetPosition = new MenuItem { Header = "重置位置到屏幕中央" };
             resetPosition.Click += delegate { ResetPositionToScreenCenter(); };
             MenuItem mood = new MenuItem { Header = "今日心情" };
@@ -665,7 +763,7 @@ namespace YueXinMiaoPet
             rescan.Click += delegate { App.Instance.RescanAssets(); };
             MenuItem exit = new MenuItem { Header = "退出" };
             exit.Click += delegate { App.Instance.ExitApplication(); };
-            menu.Items.Add(show);
+            menu.Items.Add(hide);
             menu.Items.Add(resetPosition);
             menu.Items.Add(new Separator());
             menu.Items.Add(mood);

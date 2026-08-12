@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using Forms = System.Windows.Forms;
 using YueXinMiaoPet.Models;
 using YueXinMiaoPet.Services;
@@ -27,6 +28,7 @@ namespace YueXinMiaoPet.Views
         private bool _loading;
         private int _originalScalePercent;
         private int _originalOpacityPercent;
+        private readonly DispatcherTimer _regionSearchTimer;
 
         public SettingsWindow(
             ConfigService configService,
@@ -54,6 +56,10 @@ namespace YueXinMiaoPet.Views
             _onRefreshWeather = onRefreshWeather;
             _onOpenPlaylistSettings = onOpenPlaylistSettings;
 
+            _regionSearchTimer = new DispatcherTimer();
+            _regionSearchTimer.Interval = TimeSpan.FromMilliseconds(250);
+            _regionSearchTimer.Tick += OnRegionSearchTimerTick;
+
             LoadFromConfig();
             RefreshDebug();
         }
@@ -66,14 +72,12 @@ namespace YueXinMiaoPet.Views
             _originalOpacityPercent = config.OpacityPercent;
 
             ProvinceCombo.ItemsSource = _cityCatalogService.GetProvinces();
-            SelectProvinceAndCity(config.Province, config.City);
+            SelectRegion(config.ProvinceCode, config.CityCode, config.CountyCode);
 
             EnableWeatherBox.IsChecked = config.WeatherEnabled;
             WeatherBubbleBox.IsChecked = config.WeatherEnabled;
             WeatherAffectsGifBox.IsChecked = config.WeatherAffectsGif;
             WeatherIntervalBox.Text = Math.Max(1, config.WeatherUpdateIntervalMinutes).ToString(CultureInfo.InvariantCulture);
-            LatitudeBox.Text = config.Latitude.ToString(CultureInfo.InvariantCulture);
-            LongitudeBox.Text = config.Longitude.ToString(CultureInfo.InvariantCulture);
             AlwaysOnTopBox.IsChecked = config.AlwaysOnTop;
             StartupBox.IsChecked = _startupService.IsEnabled();
             ScaleSlider.Value = config.ScalePercent <= 0 ? 100 : config.ScalePercent;
@@ -103,44 +107,55 @@ namespace YueXinMiaoPet.Views
             UpdateWeatherInfoText();
         }
 
-        private void SelectProvinceAndCity(string province, string city)
+        private void SelectRegion(string provinceCode, string cityCode, string countyCode)
         {
-            ProvinceCombo.SelectedItem = province;
-            if (ProvinceCombo.SelectedItem == null && ProvinceCombo.Items.Count > 0)
+            ProvinceCombo.SelectedItem = _cityCatalogService.FindByCode(provinceCode);
+            if (ProvinceCombo.SelectedItem == null && ProvinceCombo.Items.Count > 0 && !string.IsNullOrWhiteSpace(provinceCode))
             {
                 ProvinceCombo.SelectedIndex = 0;
             }
 
-            PopulateCities(ProvinceCombo.SelectedItem as string, city);
+            AdministrativeDivision province = ProvinceCombo.SelectedItem as AdministrativeDivision;
+            PopulateCities(province == null ? string.Empty : province.Code, cityCode);
+            AdministrativeDivision selectedCity = CityCombo.SelectedItem as AdministrativeDivision;
+            PopulateCounties(selectedCity == null ? string.Empty : selectedCity.Code, countyCode);
+            UpdateSelectedRegionPath();
         }
 
-        private void PopulateCities(string province, string selectedCity)
+        private void PopulateCities(string provinceCode, string selectedCityCode)
         {
-            if (string.IsNullOrWhiteSpace(province))
+            if (string.IsNullOrWhiteSpace(provinceCode))
             {
+                CityCombo.ItemsSource = null;
                 return;
             }
 
-            CityCombo.ItemsSource = _cityCatalogService.GetCities(province);
-            CityCombo.SelectedValue = selectedCity;
+            System.Collections.Generic.IList<AdministrativeDivision> cities = _cityCatalogService.GetCities(provinceCode);
+            CityCombo.ItemsSource = cities;
+            CityCombo.SelectedItem = FindInListByCode(cities, selectedCityCode);
             if (CityCombo.SelectedItem == null && CityCombo.Items.Count > 0)
             {
                 CityCombo.SelectedIndex = 0;
             }
         }
 
+        private void PopulateCounties(string cityCode, string selectedCountyCode)
+        {
+            AdministrativeDivision city = _cityCatalogService.FindByCode(cityCode) ?? CityCombo.SelectedItem as AdministrativeDivision;
+            System.Collections.Generic.IList<AdministrativeDivision> counties = city == null
+                ? new System.Collections.Generic.List<AdministrativeDivision>()
+                : _cityCatalogService.GetCounties(city.Code);
+            CountyCombo.ItemsSource = counties;
+            CountyCombo.SelectedItem = FindInListByCode(counties, selectedCountyCode);
+            if (CountyCombo.SelectedItem == null && CountyCombo.Items.Count > 0 && !string.IsNullOrWhiteSpace(selectedCountyCode))
+            {
+                CountyCombo.SelectedIndex = 0;
+            }
+        }
+
         private bool SaveSettings(bool showMessage, bool forceRescan)
         {
-            double latitude;
-            double longitude;
             int weatherInterval;
-
-            if (!double.TryParse(LatitudeBox.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out latitude) ||
-                !double.TryParse(LongitudeBox.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out longitude))
-            {
-                MessageBox.Show("经纬度必须是数字，例如 31.2304 / 121.4737。", "月薪喵设置", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
 
             if (!int.TryParse(WeatherIntervalBox.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out weatherInterval))
             {
@@ -171,23 +186,28 @@ namespace YueXinMiaoPet.Views
             AppConfig oldConfig = _configService.Current;
             string oldMode = oldConfig.GifSourceMode;
             string oldCustomDirectory = oldConfig.CustomGifDirectory;
-            string oldProvince = oldConfig.Province;
-            string oldCity = oldConfig.City;
-            double oldLatitude = oldConfig.Latitude;
-            double oldLongitude = oldConfig.Longitude;
+            string oldProvinceCode = oldConfig.ProvinceCode;
+            string oldCityCode = oldConfig.CityCode;
+            string oldCountyCode = oldConfig.CountyCode;
             bool oldWeatherEnabled = oldConfig.WeatherEnabled;
             bool oldWeatherAffectsGif = oldConfig.WeatherAffectsGif;
             int oldWeatherInterval = oldConfig.WeatherUpdateIntervalMinutes;
 
-            CityInfo city = CityCombo.SelectedItem as CityInfo;
-            string provinceName = ProvinceCombo.SelectedItem as string;
-            string cityName = city == null ? oldConfig.City : city.City;
+            AdministrativeDivision province = ProvinceCombo.SelectedItem as AdministrativeDivision;
+            AdministrativeDivision city = CityCombo.SelectedItem as AdministrativeDivision;
+            AdministrativeDivision county = CountyCombo.SelectedItem as AdministrativeDivision;
 
             int scalePercent = (int)Math.Round(ScaleSlider.Value);
             int opacityPercent = (int)Math.Round(OpacitySlider.Value);
             string selectedMode = mode;
             bool weatherEnabled = EnableWeatherBox.IsChecked == true;
             bool weatherAffectsGif = WeatherAffectsGifBox.IsChecked == true;
+            string selectedProvinceCode = province == null ? string.Empty : province.Code;
+            string selectedCityCode = city == null ? string.Empty : city.Code;
+            string selectedCountyCode = county == null ? string.Empty : county.Code;
+            bool regionChanged = !string.Equals(oldProvinceCode, selectedProvinceCode, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(oldCityCode, selectedCityCode, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(oldCountyCode, selectedCountyCode, StringComparison.OrdinalIgnoreCase);
 
             _configService.Update(config =>
             {
@@ -203,11 +223,25 @@ namespace YueXinMiaoPet.Views
                 config.WeatherBubbleEnabled = weatherEnabled;
                 config.WeatherAffectsGif = weatherAffectsGif;
                 config.WeatherUpdateIntervalMinutes = weatherInterval;
-                config.Province = string.IsNullOrWhiteSpace(provinceName) ? "上海市" : provinceName;
-                config.City = string.IsNullOrWhiteSpace(cityName) ? "上海市" : cityName;
+                config.ProvinceCode = province == null ? string.Empty : province.Code;
+                config.ProvinceName = province == null ? string.Empty : province.Name;
+                config.CityCode = city == null ? string.Empty : city.Code;
+                config.CityName = city == null ? string.Empty : city.Name;
+                config.CountyCode = county == null ? string.Empty : county.Code;
+                config.CountyName = county == null ? string.Empty : county.Name;
+                config.Province = config.ProvinceName;
+                config.City = config.CityName;
                 config.LegacyCity = config.City;
-                config.Latitude = latitude;
-                config.Longitude = longitude;
+                if (regionChanged)
+                {
+                    string cacheKey = !string.IsNullOrWhiteSpace(config.CountyCode) ? config.CountyCode :
+                        (!string.IsNullOrWhiteSpace(config.CityCode) ? config.CityCode : config.ProvinceCode);
+                    WeatherInfo regionalCache;
+                    config.LastWeatherCache = !string.IsNullOrWhiteSpace(cacheKey) && config.WeatherCaches.TryGetValue(cacheKey, out regionalCache)
+                        ? regionalCache
+                        : WeatherInfo.Unknown();
+                    config.LastWeather = config.LastWeatherCache;
+                }
                 config.AlwaysOnTop = AlwaysOnTopBox.IsChecked == true;
                 config.AutoStart = StartupBox.IsChecked == true;
                 config.StartWithWindows = config.AutoStart;
@@ -225,6 +259,13 @@ namespace YueXinMiaoPet.Views
 
             _startupService.SetEnabled(StartupBox.IsChecked == true);
 
+            LogService.Info("SelectedProvince=" + _configService.Current.ProvinceName +
+                "，SelectedCity=" + _configService.Current.CityName +
+                "，SelectedCounty=" + _configService.Current.CountyName +
+                "，ProvinceCode=" + _configService.Current.ProvinceCode +
+                "，CityCode=" + _configService.Current.CityCode +
+                "，CountyCode=" + _configService.Current.CountyCode);
+
             bool gifChanged = forceRescan ||
                 !string.Equals(oldMode, _configService.Current.GifSourceMode, StringComparison.OrdinalIgnoreCase) ||
                 !string.Equals(oldCustomDirectory ?? string.Empty, _configService.Current.CustomGifDirectory ?? string.Empty, StringComparison.OrdinalIgnoreCase);
@@ -233,10 +274,9 @@ namespace YueXinMiaoPet.Views
                 oldWeatherEnabled != _configService.Current.WeatherEnabled ||
                 oldWeatherAffectsGif != _configService.Current.WeatherAffectsGif ||
                 oldWeatherInterval != _configService.Current.WeatherUpdateIntervalMinutes ||
-                !string.Equals(oldProvince, _configService.Current.Province, StringComparison.OrdinalIgnoreCase) ||
-                !string.Equals(oldCity, _configService.Current.City, StringComparison.OrdinalIgnoreCase) ||
-                Math.Abs(oldLatitude - _configService.Current.Latitude) > 0.000001 ||
-                Math.Abs(oldLongitude - _configService.Current.Longitude) > 0.000001;
+                !string.Equals(oldProvinceCode, _configService.Current.ProvinceCode, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(oldCityCode, _configService.Current.CityCode, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(oldCountyCode, _configService.Current.CountyCode, StringComparison.OrdinalIgnoreCase);
 
             if (_onConfigChanged != null)
             {
@@ -320,8 +360,8 @@ namespace YueXinMiaoPet.Views
             text += "当前使用的标签来源: " + _assetService.LastTagSource + Environment.NewLine;
             text += "GIF 总数量: " + _assetService.Assets.Count + Environment.NewLine;
             text += "enabled GIF 数量: " + CountEnabledAssets() + Environment.NewLine;
-            text += "当前城市: " + config.Province + " / " + config.City + Environment.NewLine;
-            text += "当前经纬度: " + config.Latitude.ToString(CultureInfo.InvariantCulture) + ", " + config.Longitude.ToString(CultureInfo.InvariantCulture) + Environment.NewLine;
+            text += "当前地区: " + config.ProvinceName + " / " + config.CityName + " / " + config.CountyName + Environment.NewLine;
+            text += "行政区代码: " + config.ProvinceCode + " / " + config.CityCode + " / " + config.CountyCode + Environment.NewLine;
             text += "WeatherEnabled: " + config.WeatherEnabled + Environment.NewLine;
             text += "WeatherAffectsGif: " + config.WeatherAffectsGif + Environment.NewLine;
             text += "WeatherBadgeText: " + (snapshot == null ? string.Empty : snapshot.WeatherBadgeText) + Environment.NewLine;
@@ -451,6 +491,7 @@ namespace YueXinMiaoPet.Views
             CurrentWeatherInfoText.Text = "当前天气标签：" + info.WeatherTag +
                 "，温度：" + info.Temperature.ToString("0.#", CultureInfo.InvariantCulture) + "℃" +
                 "，天气码：" + info.WeatherCode +
+                "，地区：" + (string.IsNullOrWhiteSpace(config.CountyName) ? config.CityName : config.CountyName) +
                 "，更新时间：" + FormatTime(info.UpdatedAtUtc);
         }
 
@@ -463,8 +504,8 @@ namespace YueXinMiaoPet.Views
             RefreshWeatherButton.IsEnabled = enabled;
             ProvinceCombo.IsEnabled = enabled;
             CityCombo.IsEnabled = enabled;
-            LatitudeBox.IsEnabled = enabled;
-            LongitudeBox.IsEnabled = enabled;
+            CountyCombo.IsEnabled = enabled;
+            RegionSearchBox.IsEnabled = enabled;
         }
 
         private string FormatTime(string utcText)
@@ -491,8 +532,11 @@ namespace YueXinMiaoPet.Views
                 return;
             }
 
-            PopulateCities(ProvinceCombo.SelectedItem as string, null);
-            OnCityChanged(sender, e);
+            AdministrativeDivision province = ProvinceCombo.SelectedItem as AdministrativeDivision;
+            PopulateCities(province == null ? string.Empty : province.Code, null);
+            AdministrativeDivision city = CityCombo.SelectedItem as AdministrativeDivision;
+            PopulateCounties(city == null ? string.Empty : city.Code, null);
+            UpdateSelectedRegionPath();
         }
 
         private void OnCityChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -502,14 +546,76 @@ namespace YueXinMiaoPet.Views
                 return;
             }
 
-            CityInfo city = CityCombo.SelectedItem as CityInfo;
+            AdministrativeDivision city = CityCombo.SelectedItem as AdministrativeDivision;
             if (city == null)
             {
+                CountyCombo.ItemsSource = null;
+                return;
+            }
+            PopulateCounties(city.Code, null);
+            UpdateSelectedRegionPath();
+        }
+
+        private void OnCountyChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (!_loading) UpdateSelectedRegionPath();
+        }
+
+        private void UpdateSelectedRegionPath()
+        {
+            AdministrativeDivision province = ProvinceCombo.SelectedItem as AdministrativeDivision;
+            AdministrativeDivision city = CityCombo.SelectedItem as AdministrativeDivision;
+            AdministrativeDivision county = CountyCombo.SelectedItem as AdministrativeDivision;
+            if (province == null)
+            {
+                SelectedRegionPathText.Text = "当前地区：旧设置未匹配，请重新选择天气地区";
                 return;
             }
 
-            LatitudeBox.Text = city.Latitude.ToString(CultureInfo.InvariantCulture);
-            LongitudeBox.Text = city.Longitude.ToString(CultureInfo.InvariantCulture);
+            SelectedRegionPathText.Text = "当前地区：" +
+                province.Name + " / " +
+                (city == null ? "未选择" : city.Name) + " / " +
+                (county == null ? "请选择县/区，以提高天气精度" : county.Name);
+        }
+
+        private void OnRegionSearchTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (_loading) return;
+            _regionSearchTimer.Stop();
+            _regionSearchTimer.Start();
+        }
+
+        private void OnRegionSearchTimerTick(object sender, EventArgs e)
+        {
+            _regionSearchTimer.Stop();
+            System.Collections.Generic.IList<AdministrativeRegionPath> results = _cityCatalogService.Search(RegionSearchBox.Text, 5000);
+            RegionSearchResults.ItemsSource = results;
+            RegionSearchResults.Visibility = results.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void OnRegionSearchResultDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AdministrativeRegionPath path = RegionSearchResults.SelectedItem as AdministrativeRegionPath;
+            if (path == null) return;
+            _loading = true;
+            SelectRegion(path.Province.Code, path.City.Code, path.County.Code);
+            _loading = false;
+            RegionSearchResults.Visibility = Visibility.Collapsed;
+            RegionSearchBox.Text = string.Empty;
+            UpdateSelectedRegionPath();
+        }
+
+        private AdministrativeDivision FindInListByCode(
+            System.Collections.Generic.IList<AdministrativeDivision> items,
+            string code)
+        {
+            if (items == null || string.IsNullOrWhiteSpace(code)) return null;
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (string.Equals(items[i].Code, code, StringComparison.OrdinalIgnoreCase)) return items[i];
+            }
+
+            return null;
         }
 
         private void OnAppearanceSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -600,9 +706,7 @@ namespace YueXinMiaoPet.Views
             WeatherBubbleBox.IsChecked = false;
             WeatherAffectsGifBox.IsChecked = false;
             WeatherIntervalBox.Text = "30";
-            SelectProvinceAndCity("上海市", "上海市");
-            LatitudeBox.Text = "31.2304";
-            LongitudeBox.Text = "121.4737";
+            SelectRegion("310000", "310100", string.Empty);
             AlwaysOnTopBox.IsChecked = true;
             StartupBox.IsChecked = false;
             ScaleSlider.Value = 100;

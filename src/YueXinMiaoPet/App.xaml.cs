@@ -124,6 +124,10 @@ namespace YueXinMiaoPet
             StartupService = new StartupService();
             DebugStateService = new DebugStateService();
             CityCatalogService = new CityCatalogService();
+            if (CityCatalogService.MigrateConfig(ConfigService.Current))
+            {
+                ConfigService.Save();
+            }
             StartupDiagnosticsService = new StartupDiagnosticsService();
         }
 

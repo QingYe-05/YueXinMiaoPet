@@ -28,7 +28,7 @@
                 Grid.Row="0"
                 Visibility="Collapsed"
                 HorizontalAlignment="Center"
-                MaxWidth="240"
+                MaxWidth="212"
                 Margin="4,0,4,6"
                 Padding="10,5"
                 CornerRadius="12"

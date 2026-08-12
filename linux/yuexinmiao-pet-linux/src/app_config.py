@@ -11,6 +11,7 @@ APP_NAME = "yuexinmiao-pet"
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_GIF_DIR = PROJECT_ROOT / "assets" / "classified_gifs"
 DEFAULT_MAP_PATH = PROJECT_ROOT / "config" / "mood_category_map.json"
+ADMINISTRATIVE_DATA_PATH = PROJECT_ROOT / "config" / "china_administrative_divisions.json"
 CONFIG_DIR = Path.home() / ".config" / APP_NAME
 CONFIG_PATH = CONFIG_DIR / "config.json"
 DATA_DIR = Path.home() / ".local" / "share" / APP_NAME
@@ -28,11 +29,23 @@ class AppConfig:
     mood: str = "neutral"
     gif_directory: str = str(DEFAULT_GIF_DIR)
     interval_seconds: int = 10
+    weather_enabled: bool = False
+    province_code: str = ""
+    province_name: str = ""
+    city_code: str = ""
+    city_name: str = ""
+    county_code: str = ""
+    county_name: str = ""
+    weather_refresh_minutes: int = 30
+    weather_cache: Dict[str, Any] | None = None
 
     def normalize(self) -> "AppConfig":
         self.scale_percent = max(50, min(200, int(self.scale_percent or 100)))
         self.opacity_percent = max(30, min(100, int(self.opacity_percent or 100)))
         self.interval_seconds = max(2, min(120, int(self.interval_seconds or 10)))
+        self.weather_refresh_minutes = max(10, min(120, int(self.weather_refresh_minutes or 30)))
+        if self.weather_cache is None:
+            self.weather_cache = {}
         if not self.gif_directory:
             self.gif_directory = str(DEFAULT_GIF_DIR)
         if not self.mood:

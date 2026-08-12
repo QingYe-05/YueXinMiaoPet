@@ -64,11 +64,29 @@ namespace YueXinMiaoPet.Models
         [DataMember(Name = "City")]
         public string City { get; set; }
 
-        [DataMember(Name = "Latitude")]
-        public double Latitude { get; set; }
+        [DataMember(Name = "ProvinceCode")]
+        public string ProvinceCode { get; set; }
 
-        [DataMember(Name = "Longitude")]
-        public double Longitude { get; set; }
+        [DataMember(Name = "ProvinceName")]
+        public string ProvinceName { get; set; }
+
+        [DataMember(Name = "CityCode")]
+        public string CityCode { get; set; }
+
+        [DataMember(Name = "CityName")]
+        public string CityName { get; set; }
+
+        [DataMember(Name = "CountyCode")]
+        public string CountyCode { get; set; }
+
+        [DataMember(Name = "CountyName")]
+        public string CountyName { get; set; }
+
+        [DataMember(Name = "WeatherLocationCaches")]
+        public Dictionary<string, WeatherLocationCacheEntry> WeatherLocationCaches { get; set; }
+
+        [DataMember(Name = "WeatherCaches")]
+        public Dictionary<string, WeatherInfo> WeatherCaches { get; set; }
 
         [DataMember(Name = "GifSourceMode")]
         public string GifSourceMode { get; set; }
@@ -173,8 +191,14 @@ namespace YueXinMiaoPet.Models
             Province = "上海市";
             City = "上海市";
             LegacyCity = "上海市";
-            Latitude = 31.2304;
-            Longitude = 121.4737;
+            ProvinceCode = string.Empty;
+            ProvinceName = "上海市";
+            CityCode = string.Empty;
+            CityName = "上海市";
+            CountyCode = string.Empty;
+            CountyName = string.Empty;
+            WeatherLocationCaches = new Dictionary<string, WeatherLocationCacheEntry>(StringComparer.OrdinalIgnoreCase);
+            WeatherCaches = new Dictionary<string, WeatherInfo>(StringComparer.OrdinalIgnoreCase);
             BuiltInClassifiedGifDirectory = string.Empty;
             CustomGifDirectory = string.Empty;
             LastWeatherTag = "unknown";
@@ -273,12 +297,16 @@ namespace YueXinMiaoPet.Models
             if (string.IsNullOrWhiteSpace(Province)) Province = "上海市";
             if (string.IsNullOrWhiteSpace(City)) City = string.IsNullOrWhiteSpace(LegacyCity) ? "上海市" : LegacyCity;
             LegacyCity = City;
-
-            if (Math.Abs(Latitude) < 0.000001 && Math.Abs(Longitude) < 0.000001)
-            {
-                Latitude = 31.2304;
-                Longitude = 121.4737;
-            }
+            if (string.IsNullOrWhiteSpace(ProvinceName)) ProvinceName = Province;
+            if (string.IsNullOrWhiteSpace(CityName)) CityName = City;
+            Province = ProvinceName;
+            City = CityName;
+            if (ProvinceCode == null) ProvinceCode = string.Empty;
+            if (CityCode == null) CityCode = string.Empty;
+            if (CountyCode == null) CountyCode = string.Empty;
+            if (CountyName == null) CountyName = string.Empty;
+            if (WeatherLocationCaches == null) WeatherLocationCaches = new Dictionary<string, WeatherLocationCacheEntry>(StringComparer.OrdinalIgnoreCase);
+            if (WeatherCaches == null) WeatherCaches = new Dictionary<string, WeatherInfo>(StringComparer.OrdinalIgnoreCase);
         }
 
         private void SyncGifSource()
