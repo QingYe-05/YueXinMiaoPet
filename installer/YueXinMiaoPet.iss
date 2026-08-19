@@ -1,5 +1,5 @@
 #define MyAppName "月薪喵桌宠"
-#define MyAppVersion "2.0.1"
+#define MyAppVersion "2.2.0"
 #define MyAppPublisher "YueXinMiao"
 #define MyAppExeName "YueXinMiaoPet.exe"
 #define DotNet48Installer "redist\NDP48-x86-x64-AllOS-ENU.exe"

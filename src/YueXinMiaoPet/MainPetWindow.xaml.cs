@@ -483,7 +483,9 @@ namespace YueXinMiaoPet
             }
 
             WeatherInfo info = await _weatherService.UpdateWeatherAsync(config);
-            bool success = info != null && string.Equals(info.Source, "open-meteo", StringComparison.OrdinalIgnoreCase);
+            bool success = info != null &&
+                (string.Equals(info.Source, "amap", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(info.Source, "open-meteo", StringComparison.OrdinalIgnoreCase));
             info = info ?? WeatherInfo.Unknown();
 
             _configService.Update(c =>

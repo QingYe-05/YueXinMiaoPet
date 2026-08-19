@@ -153,6 +153,9 @@
     <Content Include="PetAssets\mood_category_map.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="PetAssets\amap.key" Condition="Exists('PetAssets\amap.key')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="PetAssets\Gifs\**\*.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

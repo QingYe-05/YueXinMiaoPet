@@ -38,6 +38,7 @@ class AppConfig:
     county_name: str = ""
     weather_refresh_minutes: int = 30
     weather_cache: Dict[str, Any] | None = None
+    amap_weather_api_key: str = ""
 
     def normalize(self) -> "AppConfig":
         self.scale_percent = max(50, min(200, int(self.scale_percent or 100)))

@@ -88,6 +88,9 @@ namespace YueXinMiaoPet.Models
         [DataMember(Name = "WeatherCaches")]
         public Dictionary<string, WeatherInfo> WeatherCaches { get; set; }
 
+        [DataMember(Name = "AmapWeatherApiKey")]
+        public string AmapWeatherApiKey { get; set; }
+
         [DataMember(Name = "GifSourceMode")]
         public string GifSourceMode { get; set; }
 
@@ -199,6 +202,7 @@ namespace YueXinMiaoPet.Models
             CountyName = string.Empty;
             WeatherLocationCaches = new Dictionary<string, WeatherLocationCacheEntry>(StringComparer.OrdinalIgnoreCase);
             WeatherCaches = new Dictionary<string, WeatherInfo>(StringComparer.OrdinalIgnoreCase);
+            AmapWeatherApiKey = string.Empty;
             BuiltInClassifiedGifDirectory = string.Empty;
             CustomGifDirectory = string.Empty;
             LastWeatherTag = "unknown";
@@ -305,6 +309,7 @@ namespace YueXinMiaoPet.Models
             if (CityCode == null) CityCode = string.Empty;
             if (CountyCode == null) CountyCode = string.Empty;
             if (CountyName == null) CountyName = string.Empty;
+            if (AmapWeatherApiKey == null) AmapWeatherApiKey = string.Empty;
             if (WeatherLocationCaches == null) WeatherLocationCaches = new Dictionary<string, WeatherLocationCacheEntry>(StringComparer.OrdinalIgnoreCase);
             if (WeatherCaches == null) WeatherCaches = new Dictionary<string, WeatherInfo>(StringComparer.OrdinalIgnoreCase);
         }

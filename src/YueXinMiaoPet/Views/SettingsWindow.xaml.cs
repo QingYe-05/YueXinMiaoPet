@@ -365,6 +365,9 @@ namespace YueXinMiaoPet.Views
             text += "WeatherEnabled: " + config.WeatherEnabled + Environment.NewLine;
             text += "WeatherAffectsGif: " + config.WeatherAffectsGif + Environment.NewLine;
             text += "WeatherBadgeText: " + (snapshot == null ? string.Empty : snapshot.WeatherBadgeText) + Environment.NewLine;
+            WeatherInfo debugWeather = config.LastWeatherCache ?? config.LastWeather;
+            text += "天气数据源: " + (debugWeather == null ? string.Empty : debugWeather.Source) + Environment.NewLine;
+            text += "天气数据更新时间: " + (debugWeather == null ? string.Empty : debugWeather.UpdatedAtUtc) + Environment.NewLine;
             text += "当前播放模式: " + (snapshot == null ? string.Empty : snapshot.CurrentPlaybackMode) + Environment.NewLine;
             text += "当前播放列表来源: " + (snapshot == null ? string.Empty : snapshot.CurrentPlaylistSource) + Environment.NewLine;
             text += "当前播放列表数量: " + (snapshot == null ? 0 : snapshot.CurrentPlaylistCount) + Environment.NewLine;

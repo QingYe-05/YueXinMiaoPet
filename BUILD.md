@@ -115,6 +115,12 @@ installer/redist/NDP48-x86-x64-AllOS-ENU.exe
 10. 安装包包含主程序、PetAssets、Assets、Data、.NET 4.8 redist
 11. 安装和卸载正常
 
+### 高德天气 Key
+
+构建天气功能前，将高德 Web 服务 Key 写入 `src/YueXinMiaoPet/PetAssets/amap.key`（单行文本），或设置环境变量 `YUEXINMIAO_AMAP_KEY`。Key 文件已被 Git 忽略，但存在时会由项目复制到 `bin/Release/PetAssets/amap.key`，并随 Inno Setup 安装包进入 `PetAssets`。请勿在构建日志或公开仓库中输出 Key。
+
+用于公开分发的高德 Key 不应绑定单一出口 IP，否则其他用户会收到 `INVALID_USER_IP`，应用将自动切换到 Open-Meteo。
+
 ## v2.0.0 构建验证重点
 
 - Release 构建后请运行 `YueXinMiaoPet.exe --smoke-test`，验证 GIF 扫描与顺序轮播能选出 GIF。
