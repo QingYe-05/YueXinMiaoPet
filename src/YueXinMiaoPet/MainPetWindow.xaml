@@ -12,13 +12,14 @@
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         Topmost="True"
-        MouseLeftButtonDown="OnMouseLeftButtonDown"
-        MouseLeftButtonUp="OnMouseLeftButtonUp"
-        MouseMove="OnMouseMove"
+        PreviewMouseLeftButtonDown="OnMouseLeftButtonDown"
+        PreviewMouseLeftButtonUp="OnMouseLeftButtonUp"
+        PreviewMouseMove="OnMouseMove"
         MouseDoubleClick="OnMouseDoubleClick"
         MouseRightButtonUp="OnMouseRightButtonUp"
         StateChanged="OnStateChanged">
-    <Grid Background="Transparent">
+    <!-- 1/255 Alpha 肉眼不可见，但可避免 Win11 分层透明窗口的全透明区域偶发穿透点击。 -->
+    <Grid Background="#01000000">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -34,7 +35,8 @@
                 CornerRadius="12"
                 Background="#DFFFFFFF"
                 BorderBrush="#AA7A5A42"
-                BorderThickness="1">
+                BorderThickness="1"
+                IsHitTestVisible="False">
             <TextBlock x:Name="WeatherBadgeText"
                        Text="天气不可用"
                        FontSize="12"
@@ -49,7 +51,8 @@
                                    Stretch="Uniform"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   IsHitTestVisible="False" />
         <Border x:Name="FallbackPanel"
                 Grid.Row="1"
                 Visibility="Collapsed"
@@ -60,7 +63,8 @@
                 CornerRadius="14"
                 Background="#EFFFFFFF"
                 BorderBrush="#AA7A5A42"
-                BorderThickness="1">
+                BorderThickness="1"
+                IsHitTestVisible="False">
             <TextBlock x:Name="FallbackText"
                        Text="没有可用 GIF&#x0a;请右键托盘重新扫描"
                        FontSize="13"

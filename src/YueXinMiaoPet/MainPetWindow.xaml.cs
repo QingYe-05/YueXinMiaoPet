@@ -42,8 +42,7 @@ namespace YueXinMiaoPet
         private bool _mouseDown;
         private bool _isDragging;
         private Point _mouseDownScreen;
-        private double _windowStartLeft;
-        private double _windowStartTop;
+        private Point _mouseGrabOffset;
         private bool _startupWindowResetPending;
         private int _consecutiveGifLoadFailures;
 
@@ -779,7 +778,7 @@ namespace YueXinMiaoPet
 
         private Point GetMouseScreenPoint(MouseEventArgs e)
         {
-            return PointToScreen(e.GetPosition(this));
+            return WindowPlacementService.GetCursorPositionInDips(this);
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -787,15 +786,23 @@ namespace YueXinMiaoPet
             _mouseDown = true;
             _isDragging = false;
             _mouseDownScreen = GetMouseScreenPoint(e);
-            _windowStartLeft = Left;
-            _windowStartTop = Top;
-            CaptureMouse();
+            _mouseGrabOffset = new Point(_mouseDownScreen.X - Left, _mouseDownScreen.Y - Top);
+            if (!Mouse.Capture(this, CaptureMode.SubTree))
+            {
+                LogService.Warn("桌宠鼠标捕获失败，本次拖动可能被取消。");
+            }
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (!_mouseDown || e.LeftButton != MouseButtonState.Pressed)
             {
+                if (_mouseDown && e.LeftButton != MouseButtonState.Pressed)
+                {
+                    _mouseDown = false;
+                    _isDragging = false;
+                    if (IsMouseCaptured) ReleaseMouseCapture();
+                }
                 return;
             }
 
@@ -811,14 +818,22 @@ namespace YueXinMiaoPet
 
             if (_isDragging)
             {
-                Left = _windowStartLeft + dx;
-                Top = _windowStartTop + dy;
+                double desiredLeft = current.X - _mouseGrabOffset.X;
+                double desiredTop = current.Y - _mouseGrabOffset.Y;
+                Point clamped = WindowPlacementService.ClampToCursorScreen(this, desiredLeft, desiredTop);
+                Left = clamped.X;
+                Top = clamped.Y;
             }
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ReleaseMouseCapture();
+            if (!_mouseDown)
+            {
+                return;
+            }
+
+            if (IsMouseCaptured) ReleaseMouseCapture();
             _mouseDown = false;
             bool wasDragging = _isDragging;
             _isDragging = false;

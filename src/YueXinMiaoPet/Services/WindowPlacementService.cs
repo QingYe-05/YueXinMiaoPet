@@ -1,5 +1,7 @@
 using System;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using Forms = System.Windows.Forms;
 using YueXinMiaoPet.Models;
 
@@ -56,7 +58,9 @@ namespace YueXinMiaoPet.Services
                 return;
             }
 
-            System.Drawing.Rectangle area = Forms.Screen.PrimaryScreen.WorkingArea;
+            // SystemParameters.WorkArea 与 Window.Left/Top 都使用 WPF 逻辑单位（DIP）。
+            // 不再把 WinForms 返回的物理像素直接赋给 WPF，避免高 DPI 下居中偏向右下。
+            Rect area = SystemParameters.WorkArea;
             double safeWidth = GetSafeSize(windowWidth, 220);
             double safeHeight = GetSafeSize(windowHeight, 220);
             double left = area.Left + Math.Max(0, (area.Width - safeWidth) / 2.0);
@@ -92,7 +96,7 @@ namespace YueXinMiaoPet.Services
             }
             else
             {
-                System.Drawing.Rectangle area = Forms.Screen.PrimaryScreen.WorkingArea;
+                Rect area = SystemParameters.WorkArea;
                 window.Left = area.Left + Math.Max(0, (area.Width - width) / 2.0);
                 window.Top = area.Top + Math.Max(0, (area.Height - height) / 2.0);
             }
@@ -113,18 +117,55 @@ namespace YueXinMiaoPet.Services
             double safeWidth = GetSafeSize(width, 220);
             double safeHeight = GetSafeSize(height, 220);
             Rect windowRect = new Rect(left, top, safeWidth, safeHeight);
-            Forms.Screen[] screens = Forms.Screen.AllScreens;
-            for (int i = 0; i < screens.Length; i++)
+            Rect virtualScreen = new Rect(
+                SystemParameters.VirtualScreenLeft,
+                SystemParameters.VirtualScreenTop,
+                SystemParameters.VirtualScreenWidth,
+                SystemParameters.VirtualScreenHeight);
+            return windowRect.IntersectsWith(virtualScreen);
+        }
+
+        /// <summary>
+        /// 获取鼠标的 WPF 逻辑屏幕坐标。WinForms Cursor.Position 是物理像素，
+        /// 必须通过当前窗口的 DPI 变换后才能用于 Window.Left/Top。
+        /// </summary>
+        public static Point GetCursorPositionInDips(Window window)
+        {
+            System.Drawing.Point cursor = Forms.Cursor.Position;
+            return DevicePointToLogical(window, new Point(cursor.X, cursor.Y));
+        }
+
+        /// <summary>
+        /// 将窗口限制在鼠标当前所在显示器的工作区内，防止拖动时桌宠跑出屏幕。
+        /// </summary>
+        public static Point ClampToCursorScreen(Window window, double desiredLeft, double desiredTop)
+        {
+            if (window == null || !IsFinite(desiredLeft) || !IsFinite(desiredTop))
             {
-                System.Drawing.Rectangle working = screens[i].WorkingArea;
-                Rect area = new Rect(working.Left, working.Top, working.Width, working.Height);
-                if (windowRect.IntersectsWith(area))
-                {
-                    return true;
-                }
+                return new Point(desiredLeft, desiredTop);
             }
 
-            return false;
+            Forms.Screen screen = Forms.Screen.FromPoint(Forms.Cursor.Position);
+            System.Drawing.Rectangle physicalArea = screen.WorkingArea;
+            Point topLeft = DevicePointToLogical(window, new Point(physicalArea.Left, physicalArea.Top));
+            Point bottomRight = DevicePointToLogical(window, new Point(physicalArea.Right, physicalArea.Bottom));
+            Rect area = new Rect(topLeft, bottomRight);
+            double width = GetSafeSize(window.ActualWidth > 0 ? window.ActualWidth : window.Width, 220);
+            double height = GetSafeSize(window.ActualHeight > 0 ? window.ActualHeight : window.Height, 220);
+            double maxLeft = Math.Max(area.Left, area.Right - width);
+            double maxTop = Math.Max(area.Top, area.Bottom - height);
+            return new Point(
+                Math.Max(area.Left, Math.Min(maxLeft, desiredLeft)),
+                Math.Max(area.Top, Math.Min(maxTop, desiredTop)));
+        }
+
+        private static Point DevicePointToLogical(Window window, Point point)
+        {
+            if (window == null) return point;
+            PresentationSource source = PresentationSource.FromVisual(window);
+            if (source == null || source.CompositionTarget == null) return point;
+            Matrix transform = source.CompositionTarget.TransformFromDevice;
+            return transform.Transform(point);
         }
 
         private static double GetConfiguredLeft(AppConfig config)
