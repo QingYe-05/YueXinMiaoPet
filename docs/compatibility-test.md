@@ -157,7 +157,7 @@ src\YueXinMiaoPet\bin\Release\YueXinMiaoPet.exe --mood-click-test
 
 结果：
 
-- Open-Meteo 天气刷新成功
+- 高德地图天气实况刷新成功
 - 本机测试期间天气标签映射为 `hot`
 - 日志示例：`天气更新成功：hot 34.4℃`
 - 断网场景未在本轮实测，代码预期会回退缓存或 `unknown`

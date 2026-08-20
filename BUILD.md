@@ -119,7 +119,7 @@ installer/redist/NDP48-x86-x64-AllOS-ENU.exe
 
 构建天气功能前，将高德 Web 服务 Key 写入 `src/YueXinMiaoPet/PetAssets/amap.key`（单行文本），或设置环境变量 `YUEXINMIAO_AMAP_KEY`。Key 文件已被 Git 忽略，但存在时会由项目复制到 `bin/Release/PetAssets/amap.key`，并随 Inno Setup 安装包进入 `PetAssets`。请勿在构建日志或公开仓库中输出 Key。
 
-用于公开分发的高德 Key 不应绑定单一出口 IP，否则其他用户会收到 `INVALID_USER_IP`，应用将自动切换到 Open-Meteo。
+用于公开分发的高德 Key 不应绑定单一出口 IP，否则其他用户会收到 `INVALID_USER_IP`。高德请求失败时，应用只使用当前行政区缓存；无缓存时显示天气不可用。
 
 ## v2.0.0 构建验证重点
 
